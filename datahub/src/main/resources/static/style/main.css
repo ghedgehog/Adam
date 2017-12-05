@@ -1,0 +1,569 @@
+i {
+	font-style: initial
+}
+.login-box {
+	width: 400px;
+    margin: 10% auto;
+}
+.login-page {
+	overflow: hidden
+}
+.navbar-custom-menu>.navbar-nav>li {
+	left: -40px
+}
+#strong-case {
+}
+.navbar-static-top a {
+	color: #fff;
+    font-size: 18px;
+    line-height: 50px;
+    padding-left: 10px;
+}
+.wrapper-self {
+	padding: 5px 20px
+}
+.wrapper-self h3 {
+	padding-bottom: 8px;
+	border-bottom: 2px solid #299dd9;
+}
+.wrapper-self a.commonAset {
+	color: #333;
+	display: block;
+	font-size: 24px;
+	padding-bottom: 8px;
+	border-bottom: 2px solid #299dd9;
+}
+.form-control.group-email {
+	width:55%;
+}
+.form-group span>b {
+	font-weight: normal;
+	color: #e70033;
+	padding-left: 4px;
+}
+.tips {
+	color: #fe6f20
+}
+.submit {
+	display: inline-block;
+	margin-bottom: 20px
+}
+.main-header {
+	width: 100%;
+	position: fixed;
+}
+.content-middle {
+	margin-top: 50px
+}
+.content-wrapper {
+	border-top: 1px solid transparent;
+	width: 1170px;
+    margin: 0 auto;
+}
+.skin-blue .wrapper {
+	background-color: #ecf0f5;
+}
+#myform {
+	background-color: #fff;
+	    box-shadow: 0 2px 1px #c1c1c1;
+}
+.glyphicon-plus {
+	color: #299dd9
+}
+.glyphicon-minus {
+	color: #e70033
+}
+.selectTime {
+	display: inline-block
+}
+
+.modal-body {
+	font-size: 18px;
+}
+.content-wrapper .modal-dialog {
+    margin: 200px auto;
+	}
+
+.selectList {
+	margin-bottom: 10px;
+}
+.remove-city, .add-city {
+	cursor: pointer;
+}
+
+.selectList .form-control {
+	width: 120px;
+}
+
+.statusOn {
+	font-size: 14px;
+}
+
+.form-group.form-inline span{
+	/* display: inline-block;
+	width: 212px;
+	text-align: right; */
+}
+.max-money span{
+	display: inline-block;
+	width: 212px;
+	text-align: left;
+}
+.emailFixed {
+	display: inline-block;
+	width: 270px;
+	text-align: right;
+}
+
+
+.form-inline input.form-control {
+	width: 263px;
+}
+
+.emailCondition .form-inline input.form-control {
+	width: 363px;
+}
+label {
+	font-weight: normal;
+}
+label span {
+	padding: 0 4px;
+}
+.dataSet span{
+	width: 232px;
+}
+.dataSet{
+	display: inline-block
+}
+.slideUp, .daySlideUp {
+	margin-left: 80px;
+}
+.bottom-none {
+	margin-bottom: 0
+}
+.daySlideUp > .col-md-12 {
+	margin-bottom: 15px;
+}
+.sendEmail .col-md-12 input[type="text"], .sendEmail .col-md-12 input[type="password"] {
+	width: 363px;
+}
+.emailContent {
+	vertical-align: top;
+}
+.totalMoney {
+	width: 600px;
+}
+.maxMoney {
+	min-width: 200px;
+}
+.singleMoney {
+	width: 300px;
+	list-style: none;
+	display: inline-block;
+	margin: 0;
+	line-height: 6px;
+	padding: 0;
+}
+.totalMoney a, .singleMoney a{
+	color: #333;
+}
+#myModalSet .modal-dialog{
+	width: 800px;
+}
+#myModalSet .form-inline.form-group {
+	margin-bottom: 10px;
+}
+.removeRule, .sorting {
+	padding-left: 20px
+}
+.textTop {
+	text-align: left;
+	width: 280px;
+}
+.sorting .form-group.form-inline span {
+	text-align: left;
+	width: 280px;
+}
+.sorting .col-md-12 input[type="text"] {
+	width: 363px;
+}
+.row .form-group.form-inline .emailList{
+	width: 678px
+}
+.row .form-group.form-inline .cityList{
+	width: 534px;
+}
+.labelPwd {
+	position: relative
+}
+#removeCity, #chooseCity {
+	display: inline-block
+}
+#removeCity .error, #chooseCity .error {
+	left: 114px;
+    top: 28px;
+}
+.textTop, .textTop+i.add-city {
+	vertical-align: top;
+	margin-top: 5px;
+}
+.totalList {
+	display: table;
+    margin-left:128px;
+}
+.totalList td {
+	min-width: 200px;
+}
+.totalInline {
+	display: inline-block;
+	vertical-align: top;
+}
+.totalInline table {
+	width:496px
+}
+.bodyLeft {
+	max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.modalMoney {
+	background-color: #ecf0f5;
+	width: 70%;
+	padding: 15px;
+}
+.refresh {
+	margin-left: 60px;
+}
+.validRequired label {
+	position: relative;
+}
+i.error {
+	position: absolute;
+    top: 34px;
+    left: 0;
+    color: red;
+    font-size: 12px;
+    font-style: initial;
+}
+.icon-left {
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	background: url('../image/left.png') no-repeat center center;
+	transform: rotate(90deg);
+	transition: transform .3s;
+	margin-right: 10px;
+}
+.icon-bottom {
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	background: url('../image/left.png') no-repeat center center;
+	transition: transform .3s;
+	margin-right: 10px;
+}
+.annex-common {
+	margin: 10px 0;
+}
+.annex-common label {
+	position: relative
+}
+.fixedWidth .col-md-8 span{
+	width: 112px
+}
+.fixedWidth .col-md-8 input.edit-width {
+	width: 120px;
+	margin: 0 10px
+}
+i.psdShow {
+	width: 25px;
+	height: 25px;
+	display: inline-block;
+	position: absolute;
+	
+	right: 6px;
+    top: 4px;
+    cursor: pointer;
+}
+i.psdClose {
+	background: url('../image/close.png') no-repeat center center;
+	background-size: 22px;
+}
+i.psdOpen {
+	background: url('../image/open.png') no-repeat center center;
+	background-size: 22px;
+}
+.fixedWidth i.error {
+    left: 12px;
+}
+.cuishouGroup .form-group.form-inline span {
+	width: 90px;
+}
+.cuishouGroup> h4>label {
+	padding-left: 20px;
+}
+.emailSuccess {
+	padding-left: 14px;
+    color: #299dd9;
+}
+.emailError {
+	padding-left: 14px;
+    color: red;
+}
+.fileType {
+	font-size: 16px;
+}
+.loadEffect{
+            width: 100px;
+            height: 100px;
+            position: relative;
+            margin: 0 auto;
+            margin-top:100px;
+        }
+        .loadEffect span{
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #299dd9;
+            position: absolute;
+            -webkit-animation: load 1.04s ease infinite;
+        }
+        @-webkit-keyframes load{
+            0%{
+                opacity: 1;
+            }
+            100%{
+                opacity: 0.2;
+            }
+        }
+        .loadEffect span:nth-child(1){
+            left: 0;
+            top: 50%;
+            margin-top:-8px;
+            -webkit-animation-delay:0.13s;
+        }
+        .loadEffect span:nth-child(2){
+            left: 14px;
+            top: 14px;
+            -webkit-animation-delay:0.26s;
+        }
+        .loadEffect span:nth-child(3){
+            left: 50%;
+            top: 0;
+            margin-left: -8px;
+            -webkit-animation-delay:0.39s;
+        }
+        .loadEffect span:nth-child(4){
+            top: 14px;
+            right:14px;
+            -webkit-animation-delay:0.52s;
+        }
+        .loadEffect span:nth-child(5){
+            right: 0;
+            top: 50%;
+            margin-top:-8px;
+            -webkit-animation-delay:0.65s;
+        }
+        .loadEffect span:nth-child(6){
+            right: 14px;
+            bottom:14px;
+            -webkit-animation-delay:0.78s;
+        }
+        .loadEffect span:nth-child(7){
+            bottom: 0;
+            left: 50%;
+            margin-left: -8px;
+            -webkit-animation-delay:0.91s;
+        }
+        .loadEffect span:nth-child(8){
+            bottom: 14px;
+            left: 14px;
+            -webkit-animation-delay:1.04s;
+        }
+.file {
+    position: relative;
+    display: inline-block;
+    background: #299dd9;
+    border: 1px solid #0099cc;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #fff;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+    cursor: pointer
+}
+.file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.file:hover {
+    background: #0099cc;
+    border-color: #0099cc;
+    color: #fff;
+    text-decoration: none;
+}
+.uploadLabel{
+	width: 98px;
+}
+.cityTitle {
+	border-bottom: 2px solid #299dd9;
+}
+.cityTitle > a, .cityContent a{
+	display: inline-block;
+	padding: 4px 12px;
+	color: #333;
+	cursor:pointer;
+	margin: 4px;
+	white-space: nowrap;
+}
+.cityTitle > a:hover, .cityTitle > a.focus, .cityContent a:hover, .cityContent a.focus{
+	color: #fff;
+	background-color: #56b4f8;
+}
+.cityTitle > a {
+	margin: 0 4px;
+}
+.cityContent a {
+	padding: 2px 8px;
+	margin: 4px;
+}
+.cityContent a.dblFocus {
+	background-color: orange;
+	color: #fff;
+}
+.cityHtml {
+	margin-top: 20px;
+	min-height: 100px;
+}
+.cityHtml > div > div {
+	margin-bottom: 4px;
+}
+.cityHtml span{
+	display: inline-block;
+	margin-right: 4px;
+}
+i.next {
+	color: #299dd9;
+	cursor:pointer;
+}
+.label {
+	font-weight: normal;
+}
+#removeCity > div > div {
+	margin-bottom: 4px;
+}
+#removeCity {
+	display: none;
+}
+.cityHtml > div > div {
+	display: inline-block;
+}
+.cityHtml > div > div.cityBlock {
+	display: block;
+}
+small.tips {
+	display: block;
+	margin-left: 270px;
+}
+.cityContent .row .col-md-2 {
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.removeCity {
+	position: relative;
+	display: inline-block;
+	min-width: 200px;
+}
+.removeCity i.error {
+	top: 12px;
+	right: 0
+}
+#btn-cont1{
+        width: 64px;
+        height: 32px;
+        border-radius: 16px;
+        position: relative;
+        display: inline-block;
+   }
+    #btn-cont2{
+        width: 28px;
+        height: 28px;
+        border-radius: 14px;
+        position: absolute;
+        background: white;
+        box-shadow: 0px 2px 4px rgba(0,0,0,0.4);
+    }
+    .open1{
+        background: rgba(0,184,0,0.8);
+    }
+    .open2{
+        top: 2px;
+        right: 1px;
+    }
+    .close1{
+        background: rgba(255,255,255,0.4);
+        border:3px solid rgba(0,0,0,0.15);
+        border-left: transparent;
+    }
+    .close2{
+        left: 1px;
+        top: -2px;
+        border:2px solid rgba(0,0,0,0.1);
+    }
+    .status {
+	    position: absolute;
+	    font-size: 16px;
+	    top: 6px;
+        left: 90px;
+	    font-weight: bold;
+    }
+    .on.status {
+    	color: rgba(0,184,0,0.8);
+    }
+    .downloadSample {
+    	font-size: 16px;
+    	padding-left: 10px
+    }
+    .downloadStyle {
+    	display: inline-block
+    }
+    .downloadStyle label{
+    	vertical-align: middle
+    }
+    body.dragging, body.dragging * {
+  cursor: move !important;
+}
+.dragged {
+  position: absolute;
+  opacity: 0.5;
+  z-index: 2000;
+}
+ol.annex li.placeholder {
+  position: relative;
+  /** More li styles **/
+}
+ol.annex li.placeholder:before {
+  position: absolute;
+  /** Define arrowhead **/
+}
+ol.annex {
+	font-size: 14px;
+	    line-height: 30px;
+}
+.annex-content {
+	display: inline-block;
+    width: 112px;
+}
+.annex-edit0 {
+	    margin-left: 38px;
+	    margin-bottom: 10px;
+}
+.valid-annex {
+	position: relative
+}
