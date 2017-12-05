@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunway.mapper.IUserMapper">
+
+	<select id="queryUser" resultType="com.sunway.model.User">
+		select name, pwd, email, permiz from sys_users where name = #{arg0} and pwd = #{arg1}
+	</select>
+
+</mapper>

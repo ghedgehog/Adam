@@ -1,11 +1,11 @@
 package com.sunway.mapper;
 
-import com.sunway.model.IoDriverTypes;
+import com.sunway.model.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Repository
-public interface IIoDriverTypesMapper {
-    IoDriverTypes queryDriverTypes();
+public interface IUserMapper {
+    User queryUser(String name, String pwd);
 }

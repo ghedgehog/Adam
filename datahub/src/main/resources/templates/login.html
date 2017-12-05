@@ -1,71 +1,70 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta content="text/html;charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>PspaceX Web Server</title>
-<meta
-	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-	name="viewport" />
-<link rel="stylesheet"
-	th:href="@{AdminLTE-2.3.11/bootstrap/css/bootstrap.min.css}" />
-<link rel="stylesheet"
-	th:href="@{AdminLTE-2.3.11/dist/css/AdminLTE.min.css}" />
+    <meta content="text/html;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>Adam</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+          name="viewport"/>
+    <link rel="stylesheet"
+          th:href="@{AdminLTE-2.3.11/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet"
+          th:href="@{AdminLTE-2.3.11/dist/css/AdminLTE.min.css}"/>
 </head>
 <body class="hold-transition login-page">
-	<div id="aa">
-		<div class="login-box">
-			<div class="login-logo">
-				<b>DataHub Adam</b>
-			</div>
-			<div class="login-box-body">
-				<p class="login-box-msg"></p>
+<div id="aa">
+    <div class="login-box">
+        <div class="login-logo">
+            <b>DataHub Adam</b>
+        </div>
+        <div class="login-box-body">
+            <p class="login-box-msg"></p>
 
-				<form id="login" name="login" action="menu" method="post" onsubmit="return submitUser();">
-					<div class="form-group has-feedback">
-						<input type="email" class="form-control" name="userName" placeholder="用户名"></input>
-						<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-					</div>
-					<div class="form-group has-feedback">
-						<input type="password" class="form-control" name="passWord" placeholder="密码"></input>
-						<span class="glyphicon glyphicon-lock form-control-feedback"></span>
-					</div>
-					<div class="row">
-						<div class="col-xs-8">
-							
-						</div>
-						<div class="col-xs-4 text-right">
-							 <input type="submit" value="登录" class="btn btn-primary submit btn-block btn-flat"/> 
-						</div>
-					</div>
-					 <span style="color:red" th:text="${login}"></span>
-				</form>
+            <form id="login" name="login" action="menu" method="post" onsubmit="return submitUser();">
+                <div class="form-group has-feedback">
+                    <input type="text" class="form-control" name="userName" placeholder="用户名"></input>
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input type="password" class="form-control" name="passWord" placeholder="密码"></input>
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8">
 
-			</div>
-		</div>
-	</div>
-	<script th:src="@{AdminLTE-2.3.11/plugins/jQuery/jquery-2.2.3.min.js}"></script>
-	<script th:src="@{AdminLTE-2.3.11/bootstrap/js/bootstrap.min.js}"></script>
-	<script th:src="@{AdminLTE-2.3.11/plugins/iCheck/icheck.min.js}"></script>
-	<link rel="stylesheet" th:href="@{style/main.css}" />
-	<script>
-		$(function () {
-			/*  xujia@promisechina','123456' */
-			function submitUser(){
-				   var userName = $('input[name="userName"]').val();
-				   var passWord = $('input[name="passWord"]').val();
+                    </div>
+                    <div class="col-xs-4 text-right">
+                        <input type="submit" value="登录" class="btn btn-primary submit btn-block btn-flat"/>
+                    </div>
+                </div>
+                <span style="color:red" th:text="${login}"></span>
+            </form>
 
-				   if(userName == ""  ){
-				     alert("用户名不能为空");
-				     return false;
-				   }
-				   if(passWord == ""  ){
-				    alert("密码不能为空");
-				     return false;
-				   }
-				  document.getElementById("login").submit();
-				}
-		})
-	</script>
+        </div>
+    </div>
+</div>
+<script th:src="@{AdminLTE-2.3.11/plugins/jQuery/jquery-2.2.3.min.js}"></script>
+<script th:src="@{AdminLTE-2.3.11/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{AdminLTE-2.3.11/plugins/iCheck/icheck.min.js}"></script>
+<link rel="stylesheet" th:href="@{style/main.css}"/>
+<script>
+    $(function () {
+        /*  xujia@promisechina','123456' */
+        function submitUser() {
+            var userName = $('input[name="userName"]').val();
+            var passWord = $('input[name="passWord"]').val();
+
+            if (userName == "") {
+                alert("用户名不能为空");
+                return false;
+            }
+            if (passWord == "") {
+                alert("密码不能为空");
+                return false;
+            }
+            document.getElementById("login").submit();
+        }
+    })
+</script>
 </body>
 </html>

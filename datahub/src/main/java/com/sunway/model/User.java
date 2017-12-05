@@ -1,15 +1,25 @@
 package com.sunway.model;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 /***
  * 系统用户
  */
-public class SysUsers {
+public class User {
+
+    @NotEmpty(message="用户名不能为空")
     private String name;
+
+    @NotEmpty(message="密码不能为空")
+    @Length(min=6, message="密码长度不能少于六位")
     private String pwd;
+
     private String email;
+
     private int  permiz;
 
-    public SysUsers(String name, String pwd, String email, int permiz) {
+    public User(String name, String pwd, String email, int permiz) {
         this.name = name;
         this.pwd = pwd;
         this.email = email;

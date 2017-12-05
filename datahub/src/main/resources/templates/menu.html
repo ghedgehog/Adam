@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta content="text/html;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>Adam</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+          name="viewport"/>
+    <link rel="stylesheet"
+          th:href="@{AdminLTE-2.3.11/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet"
+          th:href="@{AdminLTE-2.3.11/dist/css/AdminLTE.min.css}"/>
+</head>
+<body class="hold-transition login-page">
+<div id="aa">
+    <div class="login-box">
+        <div class="login-logo">
+            <div th:if="${result}" >
+                <b><sapn th:text="'Welcome to Adam! ' +${name}"></sapn> </b>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

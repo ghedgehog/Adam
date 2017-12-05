@@ -9,20 +9,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-public class RealData {
+public class RealDataController {
     @Resource(name = "redisTemplate")
     ValueOperations<Object, Object> valOpsObj;
 
-    @RequestMapping("/login")
-    public String login(){
-        return "login";
-    }
-
-    @RequestMapping("/menu")
-    public String menu(HttpServletRequest request, Model model){
-        String usrName = request.getParameter("userName");
-        System.out.print("UsrName:" + usrName);
-        model.addAttribute("key", "value");
-        return "menu";
-    }
 }
