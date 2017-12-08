@@ -4,8 +4,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sunway.mapper.IIoDriverTypesMapper">
 
-	<select id="queryDriverTypes" resultType="com.sunway.model.IoDriverTypes" >
-		select name, description, category,communicationtype, mark from io_driver_types
+	<select id="queryDriverTypes" resultMap="ioDriverTypeMap" >
+		SELECT name, description, communication_type FROM io_driver_types
 	</select>
 
+	<resultMap id="ioDriverTypeMap" type="com.sunway.model.IoDriverType">
+		<id property="name" column="name" />
+		<result property="description" column="description"/>
+		<result property="communicationType" column="communication_type"/>
+		<!--<result property="mark" column="mark"/>-->
+	</resultMap>
 </mapper>

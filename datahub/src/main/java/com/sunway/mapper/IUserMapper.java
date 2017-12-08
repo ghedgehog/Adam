@@ -7,5 +7,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Repository
 public interface IUserMapper {
-    User queryUser(String name, String pwd);
+    public User queryUser(String name, String pwd);
 }

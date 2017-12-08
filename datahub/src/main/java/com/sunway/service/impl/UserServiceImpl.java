@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkUser(String name, String pwd){
-        System.out.println("queryUser: " + usersMapper.queryUser(name, pwd));
+        //System.out.println("queryUser: " + usersMapper.queryUser(name, pwd));
         return usersMapper.queryUser(name, pwd) == null ? false : true;
     }
 }

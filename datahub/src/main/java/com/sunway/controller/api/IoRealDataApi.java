@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/datahub")
-public class RealDataApi {
+public class IoRealDataApi {
 
-    @RequestMapping("/login")
-    public String login(){
-        return "glogin text";
+    @RequestMapping("/conf-event")
+    public String setRealData(){
+        return "JSON...";
     }
 }
