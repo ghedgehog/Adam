@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="driver-api")
+@RequestMapping(value="api-driver")
 public class IoDriverApi {
 
     @Autowired

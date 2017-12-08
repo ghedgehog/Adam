@@ -11,5 +11,4 @@ import java.util.List;
 public interface IIoDriverTypesMapper {
 
     public List<IoDriverType> queryDriverTypes();
-
 }
