@@ -1,7 +1,7 @@
 package com.sunway.controller;
 
+import com.sunway.mapper.IIoDriverMapper;
 import com.sunway.model.IoDriver;
-import com.sunway.service.impl.IoDriverServiceImpl;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,11 +15,11 @@ import java.util.List;
 public class IoDriverController {
 
     @Autowired
-    private IoDriverServiceImpl ioDriverService;
+    private IIoDriverMapper ioDriverMapper;
 
     @RequestMapping(value="/drivers")
     public void addIoDrivers(String uaServer, List<IoDriver> drivers){
-        ioDriverService.addIoDrivers(uaServer, drivers);
+        ioDriverMapper.addIoDrivers(uaServer, drivers);
     }
 
     @RequestMapping(value="/drivers-test")

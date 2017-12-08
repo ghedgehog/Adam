@@ -1,21 +1,21 @@
-package com.sunway.service.impl;
+package com.sunway.api;
 
 import com.sunway.mapper.IIoDriverTypesMapper;
 import com.sunway.model.IoDriverType;
-import com.sunway.service.IoDriverTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Service("ioDriverTypeServiceImpl")
-public class IoDriverTypeServiceImpl implements IoDriverTypeService{
+@RestController
+public class IoDriverTypesApi {
 
     @Autowired
     private IIoDriverTypesMapper ioDriverTypesMapper;
 
-    @Override
-    public List<IoDriverType> queryDriverTypes() {
+    @RequestMapping(value="/api-get-drivers-type")
+    public List<IoDriverType> getDriverAllTypes(){
         return ioDriverTypesMapper.queryDriverTypes();
     }
 }

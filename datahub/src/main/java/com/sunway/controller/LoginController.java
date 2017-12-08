@@ -1,6 +1,6 @@
 package com.sunway.controller;
 
-import com.sunway.service.impl.UserServiceImpl;
+import com.sunway.mapper.IUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,8 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class LoginController {
 
+    /*@Autowired
+    private UserServiceImpl userService;*/
+
     @Autowired
-    private UserServiceImpl userService;
+    IUserMapper usersMapper;
 
     @RequestMapping(value="/index")
     public String index(){
@@ -24,10 +27,10 @@ public class LoginController {
     }
 
     @RequestMapping(value="/menu")
-    public String menu(HttpServletRequest request, Model model){
+    public String login(HttpServletRequest request, Model model){
         String userName = request.getParameter("userName");
         String passWord = request.getParameter("passWord");
-        if (userService.checkUser(userName, passWord))
+        if (usersMapper.queryUser(userName, passWord) != null)
         {
             model.addAttribute("name", userName);
             model.addAttribute("result", "true");
@@ -35,3 +38,4 @@ public class LoginController {
         return  null;
     }
 }
+

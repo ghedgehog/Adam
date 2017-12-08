@@ -12,7 +12,7 @@
     </insert>
 
     <select id="queryIoDrivers" resultType="com.sunway.model.IoDriver" >
-        SELECT name FROM io_drivers where server_pid = (SELECT id FROM io_uaservers where name = #{uaServer});
+        SELECT name FROM io_drivers where server_pid = (SELECT id FROM io_uaservers where name = #{uaServer} and mark=1);
     </select>
 
 </mapper>
