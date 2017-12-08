@@ -11,7 +11,18 @@ import java.util.List;
 @Repository
 public interface IIoDriverMapper {
 
-    public void addIoDrivers(@Param("uaServer") String uaServer, @Param("list")List<IoDriver> drivers);
+    public void addIoDrivers(@Param("server") String uaServer,
+                             @Param("list") List<IoDriver> drivers);
 
-    public List<IoDriver> queryIoDrivers(@Param("uaServer") String uaServer);
+    public void deleteIoDrivers(@Param("server") String uaServer,
+                                @Param("list") List<IoDriver> drivers);
+
+    public List<IoDriver> queryIoDrivers(@Param("server") String uaServer,
+                                         @Param("mark") int mark);
+
+    public void setMark(@Param("list") List<IoDriver> drivers,
+                        @Param("mark") int mark);
+
+    //TODO
+    public void updateIoDrivers();
 }

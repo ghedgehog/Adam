@@ -1,7 +1,5 @@
 package com.sunway.model;
 
-import com.sunway.utils.Utils;
-
 /**
  * 驱动类型
  */
@@ -10,7 +8,6 @@ public class IoDriverType {
     private String name;
     private String description;
     private String communicationType;
-    private Utils.Mark mark;
 
     public String getName() {
         return name;
@@ -26,14 +23,6 @@ public class IoDriverType {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Utils.Mark getMark() {
-        return mark;
-    }
-
-    public void setMark(Utils.Mark mark) {
-        this.mark = mark;
     }
 
     public String getCommunication_type() {

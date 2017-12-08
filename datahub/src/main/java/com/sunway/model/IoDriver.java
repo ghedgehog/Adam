@@ -1,6 +1,7 @@
 package com.sunway.model;
 
 public class IoDriver {
+
     private String name ;
 
     public IoDriver(String name) {
