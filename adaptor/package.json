@@ -1,0 +1,23 @@
+{
+  "name": "adapter",
+  "version": "1.0.0",
+  "description": "适配uaserver和datahub",
+  "main": "index.js",
+  "scripts": {
+    "test": "debug"
+  },
+  "repository": {
+    "type": "git",
+    "url": "aa"
+  },
+  "dependencies": {
+    "async": "^2.6.0",
+    "express": "^4.16.2",
+    "express-generator": "^4.15.5",
+    "fs": "^0.0.1-security",
+    "node-opcua": "^0.1.0-13",
+    "node-rest-client": "^3.1.0"
+  },
+  "author": "wzj",
+  "license": "ISC"
+}
