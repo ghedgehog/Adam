@@ -1,7 +1,7 @@
 ﻿var opcua = require('node-opcua');
 var async = require("async");
 
-/* var options = {
+var options = {
     securityMode: opcua.MessageSecurityMode.SIGNANDENCRYPT,
     securityPolicy: opcua.SecurityPolicy.Basic128Rsa15,
     connectionStrategy: {
@@ -9,10 +9,9 @@ var async = require("async");
         initialDelay: 2000,
         maxDelay: 10 * 1000
     }
-}; */
-
+}; 
 //建立连接并创建会话
-exports.createConnection = (ip, port,user,password,options, callback) => {
+exports.createConnection = (ip, port,user,password,callback) => {
     var endpointUrl = "opc.tcp://" + ip + ":" + port;//服务器地址
     var client = new opcua.OPCUAClient(options);
     client.connect(endpointUrl, function (err) {
@@ -30,35 +29,52 @@ exports.createConnection = (ip, port,user,password,options, callback) => {
     });
 };
 
-/* var InputArguments = [
-    { ParentNodeId: new opcua.NodeId(opcua.NodeIdType.NUMERIC,400001010,2)},
-    { NodeId: new opcua.NodeId(opcua.NodeIdType.NUMERIC,33335,2)},
-    { TypeDefinitionId:new opcua.NodeId(opcua.NodeIdType.NUMERIC,400000301,2)},
-    { BrowseName: "wzj_BrowseName" },
-    { DisplayName: "wzj_displayname" },
-    { Description: "wzj_description" }]; */
-//创建对象
-exports.AddObject = (session, InputArguments,callback) => {
+/* var AddObjectArgs = {
+    ParentNodeId: new opcua.NodeId(opcua.NodeIdType.NUMERIC,400001010,2),
+    NodeId: new opcua.NodeId(opcua.NodeIdType.NUMERIC,33335,2)
+    TypeDefinitionId:new opcua.NodeId(opcua.NodeIdType.NUMERIC,400000301,2),
+    BrowseName: "wzj_BrowseName",
+    DisplayName: "wzj_displayname",
+    Description: "wzj_description"
+};*/
+//添加对象
+exports.AddObject = (session, AddObjectArgs,callback) => {
     var methodsToCall = [];
     methodsToCall.push(new opcua.call_service.CallMethodRequest({
         objectId: "ns=2;i=400001511",
         methodId: "ns=2;s=400001511.AddObject",
         inputArguments: [
-            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: new opcua.NodeId(opcua.NodeIdType.NUMERIC,400001010,2) }),
-            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: new opcua.NodeId(opcua.NodeIdType.NUMERIC,33335,2) }),
-            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: new opcua.NodeId(opcua.NodeIdType.NUMERIC,400000301,2) }),
-            new opcua.Variant({ dataType: opcua.DataType.String, value: "wzj_BrowseName" }),
-            new opcua.Variant({ dataType: opcua.DataType.String, value: "wzj_BrowseName" }),
-            new opcua.Variant({ dataType: opcua.DataType.String, value: "wzj_BrowseName" })]
+            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: AddObjectArgs.ParentNodeId}),
+            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: AddObjectArgs.NodeId}),
+            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: AddObjectArgs.TypeDefinitionId}),
+            new opcua.Variant({ dataType: opcua.DataType.String, value: AddObjectArgs.BrowseName}),
+            new opcua.Variant({ dataType: opcua.DataType.String, value: AddObjectArgs.DisplayName}),
+            new opcua.Variant({ dataType: opcua.DataType.String, value: AddObjectArgs.Description})]
     }));
-
     session.call(methodsToCall, function (err, result) {
         if (err) {
             callback("err:" + err);
         } else {
-            callback(null,"call result:" + result);
+            callback(null,result);
         }
     });
 }
 
+//获取服务端未被占用的NodeId
+exports.GetFreeNodeIds = (session,GetFreeNodeIdsArgs,callback)=>{
+    var methodsToCall = [];
+    methodsToCall.push(new opcua.call_service.CallMethodRequest({
+        objectId: "ns=2;i=400001511",
+        methodId: "ns=2;s=400001511.GetFreeNodeIds",
+        inputArguments: [
+            new opcua.Variant({ dataType: opcua.DataType.UInt32, value:GetFreeNodeIdsArgs})]
+    }));
+    session.call(methodsToCall, function (err, result) {
+        if (err) {
+            callback("err:" + err);
+        } else {
+            callback(null,result[0].outputArguments[0].value);
+        }
+    });
+}
 
