@@ -4,11 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/datahub")
-public class IoRealDataApi {
+@RequestMapping(value="real")
+public class RealDataApi {
 
-    @RequestMapping("/conf-event")
-    public String setRealData(){
-        return "JSON...";
-    }
 }

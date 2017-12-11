@@ -1,12 +1,36 @@
 package com.sunway.model;
 
-public class IoUaServer {
+public class IoUaServer extends IoBaseEntity{
 
-    private String name;
-    private String description;
     private String ip;
     private String port;
     private boolean status;
-    private int mark;  //1-insert 2-update 3-delete 4-done(采集服务处理完毕)
-    private String reserved;
+
+    public IoUaServer(String name) {
+        super(name);
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public String getPort() {
+        return port;
+    }
+
+    public void setPort(String port) {
+        this.port = port;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
 }

@@ -3,33 +3,20 @@ package com.sunway.model;
 /**
  * 驱动类型
  */
-public class IoDriverType {
+public class IoDriverType extends IoBaseEntity{
 
-    private String name;
-    private String description;
     private String communicationType;
 
-    public String getName() {
-        return name;
+    public IoDriverType(String name, String communicationType) {
+        super(name);
+        this.communicationType = communicationType;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getCommunication_type() {
+    public String getCommunicationType() {
         return communicationType;
     }
 
-    public void setCommunication_type(String communication_type) {
+    public void setCommunicationType(String communicationType) {
         this.communicationType = communicationType;
     }
 }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunway.mapper.IIoExtendMapper">
+
+	<!--DriverType-->
+	<resultMap id="ioDriverTypeMap" type="com.sunway.model.IoDriverType">
+		<id property="name" column="name" />
+		<result property="description" column="description"/>
+		<!--<result property="communicationType" column="communication_type"/>-->
+	</resultMap>
+
+	<select id="queryDriverType" resultMap="ioDriverTypeMap" >
+		SELECT name, description/*, communication_type*/
+		FROM ${table}
+		where mark=1
+	</select>
+
+
+	<!--Alarm-->
+	<select id="queryAlarm" resultType="java.util.List" >
+		SELECT start_time AS startTime,
+		end_time AS endTime,
+		severity,
+		device_id AS deviceId,
+		source_name AS sourceName,
+		message,
+		condition_name AS conditionName,
+		active
+		FROM ${table}
+		WHERE
+		<![CDATA[ start_time >= #{start_time} AND end_time <= #{end_time}  ]]>
+	</select>
+
+	<insert id="addAlarms" parameterType="java.util.List">
+		INSERT INTO ${table} (start_time, end_time/*, severity,
+		device_id, source_name, message, condition_name, active*/)
+		VALUES ('2017-12-12 1:00:00','2017-12-12 2:00:00')
+		<!--<foreach collection="list" item="item" index="index" separator=",">
+			/*
+			(#{item.startTime,jdbcType=TIMESTAMP},
+			#{item.endTime,jdbcType=TIMESTAMP}
+			#{item.severity},
+			#{item.deviceId},
+			#{item.sourceName},
+			#{item.message},
+			#{item.conditionName},
+			#{item.active})*/
+		</foreach>&ndash;&gt;-->
+	</insert>
+
+</mapper>

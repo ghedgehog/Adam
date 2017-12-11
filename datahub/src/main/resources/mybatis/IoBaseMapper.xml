@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sunway.mapper.IIoBaseMapper">
+
+	<!--addSysBaseList-->
+	<insert id="addSysBaseList" parameterType="java.util.List">
+		INSERT INTO ${table} (name, mark) VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.name}, 1)
+		</foreach>
+	</insert>
+
+	<!--deleteSysBaseList-->
+	<delete id="deleteSysBaseList" parameterType="java.util.List">
+		DELETE FROM ${table}
+		WHERE
+		name IN
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+			#{item.name}
+		</foreach>
+	</delete>
+
+	<!--addBaseList-->
+	<insert id="addBaseList" parameterType="java.util.List">
+		INSERT INTO ${table} (name, pid, mark) VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.name}, (SELECT id FROM ${ptable} WHERE name = #{parent}), 1)
+		</foreach>
+	</insert>
+
+	<!--deleteBaseList-->
+	<delete id="deleteBaseList" parameterType="java.util.List">
+		DELETE FROM ${table}
+		WHERE
+		pid = (SELECT id FROM ${ptable} where name = #{parent})
+		AND
+		name IN
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+			#{item.name}
+		</foreach>
+	</delete>
+
+	<!--queryIoBaseList-->
+	<select id="queryIoBaseList" resultType="com.sunway.model.IoBaseEntity" >
+		SELECT name FROM ${table}
+		WHERE
+		pid = (SELECT id FROM ${ptable} WHERE name = #{parent})
+		AND
+		mark = ${mark}
+	</select>
+
+	<!--setSysMark-->
+	<update id="setSysMark" parameterType="java.util.List">
+		UPDATE ${table} SET mark = ${mark}
+		WHERE name IN
+		<foreach collection="list" item="item" index="index" open="(" separator="," close=")" >
+			#{item.name}
+		</foreach>
+	</update>
+
+	<!--setMark-->
+	<update id="setMark">
+		UPDATE ${table} SET mark = ${mark}
+		WHERE
+		pid = (SELECT id FROM ${ptable} where name = #{parent})
+		AND
+		name IN
+		<foreach collection="list" item="item" index="index" open="(" separator="," close=")" >
+			#{item.name}
+		</foreach>
+	</update>
+
+	<!--Device-->
+	<insert id="addIoDevices" parameterType="java.util.List">
+		INSERT INTO ${table} (name, pid, template_id, mark) VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.name},
+			(SELECT id FROM ${ptable} WHERE name = #{parent}),
+			(SELECT id FROM ${tempTable} WHERE name = #{tempName}),
+			1)
+		</foreach>
+	</insert>
+
+</mapper>

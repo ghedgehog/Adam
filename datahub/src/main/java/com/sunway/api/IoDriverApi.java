@@ -1,13 +1,12 @@
 package com.sunway.api;
 
-import com.sunway.mapper.IIoDriverMapper;
-import com.sunway.model.IoDriver;
+import com.sunway.model.IoBaseEntity;
+import com.sunway.service.IoDriverService;
 import com.sunway.utils.Mark;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -15,21 +14,32 @@ import java.util.List;
 public class IoDriverApi {
 
     @Autowired
-    private IIoDriverMapper ioDriverMapper;
+    private IoDriverService driverService;
 
     //查询新增驱动
     @RequestMapping(value="/add")
-    public List<IoDriver> queryAddedDrivers(String uaServer){
-        List<IoDriver> drivers = ioDriverMapper.queryIoDrivers(uaServer, Mark.INSERT);
-        ioDriverMapper.setMark(drivers, Mark.DONE);
+    public List<IoBaseEntity> queryAddedDrivers(String uaServer){
+        List<IoBaseEntity> drivers = driverService.queryIoDrivers(uaServer, Mark.INSERT);
+        driverService.setMark(uaServer, drivers, Mark.DONE);
         return drivers;
     }
 
     //查询删除驱动
     @RequestMapping(value="/del")
-    public List<IoDriver> queryDeletedDrivers(String uaServer){
-        List<IoDriver> drivers = ioDriverMapper.queryIoDrivers(uaServer, Mark.DELETE);
-        ioDriverMapper.deleteIoDrivers(uaServer, drivers);
+    public List<IoBaseEntity> queryDeletedDrivers(String uaServer){
+        List<IoBaseEntity> drivers = driverService.queryIoDrivers(uaServer, Mark.DELETE);
+        driverService.deleteIoDrivers(uaServer, drivers);
         return drivers;
+    }
+
+    //GTEST
+    @RequestMapping(value="/add-test")
+    public List<IoBaseEntity> queryAddedDriversTest(){
+        return queryAddedDrivers("ioserver");
+    }
+
+    @RequestMapping(value="/del-test")
+    public List<IoBaseEntity> queryDeletedDrivers(){
+        return queryDeletedDrivers("ioserver");
     }
 }

@@ -1,29 +1,29 @@
 package com.sunway.controller;
 
-import com.sunway.mapper.IIoDriverTypesMapper;
 import com.sunway.model.IoDriverType;
+import com.sunway.service.IoDriverTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 
 @Controller
+@RequestMapping(value="drivertype")
 public class IoDriverTypesController {
 
     @Autowired
-    private IIoDriverTypesMapper ioDriverTypesMapper;
+    private IoDriverTypeService driverTypeService;
 
-    @RequestMapping(value = "/get-drivers")
+    @RequestMapping(value = "/get")
     public String getDriverAllTypes() {
-        List<IoDriverType> ioDriverTypes = ioDriverTypesMapper.queryDriverTypes();
+        List<IoDriverType> ioDriverTypes = driverTypeService.queryDriverTypes();
         //FORTEST
         for (IoDriverType driver : ioDriverTypes) {
             System.out.println("Name:" + driver.getName()
                     + ", Description" + driver.getDescription()
-                    + ", Communication:" + driver.getCommunication_type());
+                    + ", Communication:" + driver.getCommunicationType());
         }
         return "menu";
     }
