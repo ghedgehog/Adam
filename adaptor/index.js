@@ -1,13 +1,14 @@
 //用一个周期执行的函数检查pg中各张表的更新,然后触发执行创建驱动、创建通道、创建设备、创建变量、创建报警；
 var opcua = require("node-opcua");
-var uacilent = require("./db/ua_client");
-var httpclient = require('./db/http_client');
+var uaServiceMethod = require("./comm/uaServiceMethod");
+var uaBuildSpace = require("./comm/uaBuildSpace");
+var httpClient = require('./comm/httpClient');
 var async = require("async");
 
 //全局变量
 var the_session = {};
 var requestArgs = {
-    path: { "path": "localhost:8080/api-driver/add" }, //区分restful接口
+    path: { "path": "localhost:8080" }, //区分restful接口
     parameters: { uaServer: "ioserver" }, //序列化到url中的parameters
     headers: { "Content-Type": "application/json" } //request headers
 };
@@ -15,7 +16,7 @@ var requestArgs = {
 function task() {
     async.auto({
         uaConnect: function (callback) {//连接ua数据库
-            uacilent.createConnection("127.0.0.1", 4841, "admin", "admin", function (err, session) {
+            uaServiceMethod.createConnection("127.0.0.1", 4841, "admin", "admin", function (err, session) {
                 if (err) {
                     callback(err);
                 } else {
@@ -25,7 +26,7 @@ function task() {
             });
         },
         httpClient: function (callback) {
-            httpclient.getHttpClient(function (err, result) {
+            httpClient.getHttpClient(function (err, result) {
                 if (err) {
                     callback(err);
                 } else {
@@ -33,38 +34,67 @@ function task() {
                 }
             })
         },
-        getDriver: ['httpClient', function (result, callback) {//获取驱动信息
-            result.httpClient.methods.getDataHub(requestArgs, function (data, response) {
-                callback(null, data);
-            }).on('error', function (err) {
-                callback(err);
-            });
-        }],
-        addDriver: ['uaConnect', 'getDriver', function (result, callback) {//创建驱动
-            uacilent.GetFreeNodeIds(the_session, result.getDriver.length, function (err, nodesId) {
-                if (err) {
-                    callback(err);
-                } else {
-                    var AddObjectArgs = {},
-                        ioDriverRoot = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400001010, 2),
-                        ioDriverType = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000301, 2);
-                    for (var index = 0; index < result.getDriver.length; index++) {
-                        AddObjectArgs.ParentNodeId = ioDriverRoot;
-                        AddObjectArgs.NodeId = nodesId[index];
-                        AddObjectArgs.TypeDefinitionId = ioDriverType;
-                        AddObjectArgs.BrowseName = result.getDriver[index].name;
-                        AddObjectArgs.DisplayName = result.getDriver[index].name;
-                        AddObjectArgs.Description = result.getDriver[index].name;
-                        uacilent.AddObject(the_session, AddObjectArgs, function (err, result) {
-                            if (err) {
-                                callback(err);
-                            }
-                        });
-                    }
-                    callback(null, "addDriver success!");
+        addDriver: ['uaConnect', 'httpClient', function (result, callback) {//创建驱动
+            httpClient.getDriverToAdd(result.httpClient, requestArgs, function (err, result) {
+                if (err) callback(err);
+                else {
+                    uaBuildSpace.addDrivers(the_session, result, function (err1, result1) {
+                        if (err1) callback(err1);
+                        else {
+                            callback(null, result1);
+                        }
+                    });
                 }
             });
-        }]
+        },],
+        addChannel:['httpClient','addDriver',function(result,callback){
+            uaBuildSpace.browseDrivers(the_session,function(err,drivers){
+                if(err) callback(err);
+                else{
+                    var para = {};
+                    async.eachSeries(drivers, function(driver, cb) {
+                        para.driver = driver.value;
+                        requestArgs.parameters = para;
+                        httpClient.getChannelToAdd(result.httpClient,requestArgs,function(err1,channels){
+                            if(err1) cb(err1);
+                            else{
+                                uaBuildSpace.addChannels(the_session,driver,channels,function(err2,result2){
+                                    if(err2) cb(err2);
+                                    else cb();
+                                });
+                            }
+                        })
+                    },function(err){
+                        if(err) callback(err);
+                        else callback(null,"addChannel success!");
+                    }) 
+                }
+            });
+        }]/* ,
+        addDevice:['httpClient','addChannel',function(result,callback){
+            uaBuildSpace.browseDrivers(the_session,function(err,drivers){
+                if(err) callback(err);
+                else{
+                    var para = {};
+                    async.eachSeries(drivers, function(driver, cb) {
+                        para.driver = driver.name;
+                        requestArgs.parameters = para;
+                        httpClient.getChannelToAdd(result.httpClient,requestArgs,function(err1,channels){
+                            if(err1) cb(err1);
+                            else{
+                                uaBuildSpace.addChannels(the_session,driver.nodeId,channels,function(err2,result2){
+                                    if(err2) cb(err2);
+                                    else cb();
+                                });
+                            }
+                        })
+                    },function(err){
+                        if(err) callback(err);
+                        else callback(null,"addChannel success!");
+                    }) 
+                }
+            });
+        }] */
     }, function (err, results) {
         if (err) {
             console.log(err);
