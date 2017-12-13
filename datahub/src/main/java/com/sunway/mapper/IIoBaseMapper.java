@@ -1,6 +1,7 @@
 package com.sunway.mapper;
 
 import com.sunway.model.IoBaseEntity;
+import com.sunway.model.IoVariable;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,4 +49,8 @@ public interface IIoBaseMapper<T extends IoBaseEntity> {
                            @Param("parent") String parent,
                            @Param("tempName") String tempName,
                            @Param("list") List<T> baseList);
+
+    public List<IoVariable> queryVarsFromDevice(@Param("varTable") String varTable,
+                                                @Param("devTable") String devTable,
+                                                @Param("devName") String devName);
 }

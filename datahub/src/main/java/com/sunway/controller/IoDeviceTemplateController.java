@@ -38,10 +38,17 @@ public class IoDeviceTemplateController {
 
     @RequestMapping(value = "/add-test")
     public String addDeviceTempalteTest() {
+        //创建模板
         List<IoBaseEntity> entities = new ArrayList();
         IoBaseEntity entity = new IoBaseEntity("mytemplate");
         entities.add(entity);
         addDeviceTempalte(entities);
+        //创建变量
+        List<IoBaseEntity> varlist = new ArrayList();
+        varlist.add(new IoBaseEntity("pressure"));
+        varlist.add(new IoBaseEntity("temperature"));
+        varlist.add(new IoBaseEntity("water_volume"));
+        addDeviceTempalteVar("mytemplate", varlist);
         return "menu";
     }
 

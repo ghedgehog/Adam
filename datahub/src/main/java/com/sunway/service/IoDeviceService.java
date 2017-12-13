@@ -3,6 +3,7 @@ package com.sunway.service;
 import com.sunway.mapper.IIoBaseMapper;
 import com.sunway.mapper.IIoTableName;
 import com.sunway.model.IoBaseEntity;
+import com.sunway.model.IoVariable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ public class IoDeviceService {
     private String deviceTable = IIoTableName.IoDevice;
     private String channelTable = IIoTableName.IoChannel;
     private String tempTable = IIoTableName.IoDeviceTemplate;
+    private String varTable = IIoTableName.IoDeviceTemplateVar;
 
     public void addIoDevices(String channelName,
                            String templateName,
@@ -39,5 +41,9 @@ public class IoDeviceService {
 
     public void deleteIoDevices(String channelName, List<IoBaseEntity> entityList){
         baseMapper.deleteBaseList(deviceTable, channelTable, channelName, entityList);
+    }
+
+    public List<IoVariable> queryVarsFromDevice(String device){
+        return  baseMapper.queryVarsFromDevice(varTable, deviceTable, device);
     }
 }

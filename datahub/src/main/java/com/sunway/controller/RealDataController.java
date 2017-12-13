@@ -1,5 +1,7 @@
 package com.sunway.controller;
 
+import com.sunway.service.RealDataService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,8 +11,15 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
+@RequestMapping(value="real")
 public class RealDataController {
-    @Resource(name = "redisTemplate")
-    ValueOperations<Object, Object> valOpsObj;
+
+    @Autowired
+    RealDataService realDataService;
+
+    @RequestMapping("/read")
+    public String readRealData(String name){
+        return realDataService.get(name);
+    }
 
 }

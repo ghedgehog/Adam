@@ -1,6 +1,7 @@
 package com.sunway.api;
 
 import com.sunway.model.IoBaseEntity;
+import com.sunway.model.IoVariable;
 import com.sunway.service.IoDeviceService;
 import com.sunway.utils.Mark;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,18 @@ public class IoDeviceApi {
         List<IoBaseEntity> devices = deviceService.queryIoDevices(channelName, Mark.DELETE);
         deviceService.deleteIoDevices(channelName, devices);
         return devices;
+    }
+
+    //查询设备下变量
+    @RequestMapping(value="/getvars")
+    public List<IoVariable> queryVarsFromDevice(String device){
+        return deviceService.queryVarsFromDevice(device);
+    }
+
+    //GTEST
+    @RequestMapping(value="/getvars-test")
+    public List<IoVariable> queryVarsFromDeviceTest(){
+        return queryVarsFromDevice("ModbusTcpClient.channel1.Blower");
     }
 
     //GTEST

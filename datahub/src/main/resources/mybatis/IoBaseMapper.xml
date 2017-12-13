@@ -83,4 +83,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</foreach>
 	</insert>
 
+	<!--Variables-->
+	<select id="queryVarsFromDevice" resultMap="ioVarMap">
+		select name, description,
+		data_type,
+		prop_conf
+		/*prop_data_change,
+		prop_range_min,
+		prop_range_max,
+		prop_raw_min,
+		prop_raw_max*/
+		from ${varTable}
+		where
+		pid = (select template_id from ${devTable} where name= #{devName})
+	</select>
+
+	<!--DriverType-->
+	<resultMap id="ioVarMap" type="com.sunway.model.IoVariable">
+		<id property="name" column="name" />
+		<result property="description" column="description"/>
+		<result property="dataType" column="data_type"/>
+		<result property="propConf" column="prop_conf"/>
+		<!--<result property="propDataChange" column="prop_data_change"/>
+		<result property="propRangeMin" column="prop_range_min"/>
+		<result property="propRangeMax" column="prop_range_max"/>
+		<result property="propRawMin" column="prop_raw_min"/>
+		<result property="propRawMax" column="prop_raw_max"/>-->
+	</resultMap>
 </mapper>
