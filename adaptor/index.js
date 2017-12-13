@@ -1,59 +1,108 @@
 //用一个周期执行的函数检查pg中各张表的更新,然后触发执行创建驱动、创建通道、创建设备、创建变量、创建报警；
 var opcua = require("node-opcua");
-var uacilent = require("./db/ua_client");
+var uaServiceMethod = require("./comm/uaServiceMethod");
+var uaBuildSpace = require("./comm/uaBuildSpace");
+var httpClient = require('./comm/httpClient');
 var async = require("async");
-var Client = require('node-rest-client').Client;
 
 //全局变量
-var httpclient = new Client();
 var the_session = {};
-var options = {
-    securityMode: opcua.MessageSecurityMode.SIGNANDENCRYPT,
-    securityPolicy: opcua.SecurityPolicy.Basic128Rsa15,
-    connectionStrategy: {
-        maxRetry: 1,
-        initialDelay: 2000,
-        maxDelay: 10 * 1000
-    }
+var requestArgs = {
+    path: { "path": "localhost:8080" }, //区分restful接口
+    parameters: { uaServer: "ioserver" }, //序列化到url中的parameters
+    headers: { "Content-Type": "application/json" } //request headers
 };
 
-var InputArguments = [
-    { ParentNodeId: new opcua.NodeId(opcua.NodeIdType.NUMERIC,400001010,2)},
-    { NodeId: new opcua.NodeId(opcua.NodeIdType.NUMERIC,33335,2)},
-    { TypeDefinitionId:new opcua.NodeId(opcua.NodeIdType.NUMERIC,400000301,2)},
-    { BrowseName: "wzj_BrowseName" },
-    { DisplayName: "wzj_displayname" },
-    { Description: "wzj_description" }];
-
-async.auto({
-    uaconnect: function (callback) {//连接ua数据库
-        uacilent.createConnection("127.0.0.1", 4841, "admin", "admin", options, function (err, session) {
-            if (err) {
-                console.log(err);
-                //TODO:过段时间重连，不能callback
-                callback();
-            } else {
-                the_session = session;
-                callback(null,"create session success!");
-            }
-        });
-    },
-    createDriver: ['uaconnect', function (uaconnect_res,callback) {//创建驱动
-        /* httpclient.get("https://way.jd.com/he/freecity?city=beijing&appkey=600336a2ff99a20501e12644524fd576",args, function (data, response) {
-            console.log(data.result.HeWeather5); */
-            uacilent.AddObject(the_session, InputArguments, function (err, result) {
+function task() {
+    async.auto({
+        uaConnect: function (callback) {//连接ua数据库
+            uaServiceMethod.createConnection("127.0.0.1", 4841, "admin", "admin", function (err, session) {
                 if (err) {
-                    console.log(err);
-                    //TODO:过段时间再次AddObject，不能callback
-                    callback();
+                    callback(err);
                 } else {
-                    callback(null,result);
+                    the_session = session;
+                    callback(null, "create session success!");
                 }
             });
-        /* }).on('error', function (err) {
-            console.log('something went wrong on the request', err.request.options);
-        }); */
-    }]
-}, function (err, results) {
-    console.log(results);
-});
+        },
+        httpClient: function (callback) {
+            httpClient.getHttpClient(function (err, result) {
+                if (err) {
+                    callback(err);
+                } else {
+                    callback(null, result[0]);
+                }
+            })
+        },
+        addDriver: ['uaConnect', 'httpClient', function (result, callback) {//创建驱动
+            httpClient.getDriverToAdd(result.httpClient, requestArgs, function (err, result) {
+                if (err) callback(err);
+                else {
+                    uaBuildSpace.addDrivers(the_session, result, function (err1, result1) {
+                        if (err1) callback(err1);
+                        else {
+                            callback(null, result1);
+                        }
+                    });
+                }
+            });
+        },],
+        addChannel:['httpClient','addDriver',function(result,callback){
+            uaBuildSpace.browseDrivers(the_session,function(err,drivers){
+                if(err) callback(err);
+                else{
+                    var para = {};
+                    async.eachSeries(drivers, function(driver, cb) {
+                        para.driver = driver.value;
+                        requestArgs.parameters = para;
+                        httpClient.getChannelToAdd(result.httpClient,requestArgs,function(err1,channels){
+                            if(err1) cb(err1);
+                            else{
+                                uaBuildSpace.addChannels(the_session,driver,channels,function(err2,result2){
+                                    if(err2) cb(err2);
+                                    else cb();
+                                });
+                            }
+                        })
+                    },function(err){
+                        if(err) callback(err);
+                        else callback(null,"addChannel success!");
+                    }) 
+                }
+            });
+        }]/* ,
+        addDevice:['httpClient','addChannel',function(result,callback){
+            uaBuildSpace.browseDrivers(the_session,function(err,drivers){
+                if(err) callback(err);
+                else{
+                    var para = {};
+                    async.eachSeries(drivers, function(driver, cb) {
+                        para.driver = driver.name;
+                        requestArgs.parameters = para;
+                        httpClient.getChannelToAdd(result.httpClient,requestArgs,function(err1,channels){
+                            if(err1) cb(err1);
+                            else{
+                                uaBuildSpace.addChannels(the_session,driver.nodeId,channels,function(err2,result2){
+                                    if(err2) cb(err2);
+                                    else cb();
+                                });
+                            }
+                        })
+                    },function(err){
+                        if(err) callback(err);
+                        else callback(null,"addChannel success!");
+                    }) 
+                }
+            });
+        }] */
+    }, function (err, results) {
+        if (err) {
+            console.log(err);
+            setTimeout(task, 3000);
+        } else {
+            console.log(JSON.stringify(results));
+        }
+    });
+}
+
+task();

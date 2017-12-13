@@ -1,5 +1,5 @@
 /*global require,console,setTimeout */
-var opcua = require("../node-opcua");
+var opcua = require("node-opcua");
 var async = require("async");
 
 var client = new opcua.OPCUAClient();
