@@ -4,19 +4,52 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sunway.mapper.IIoHisDataMapper">
 
+	<select id="queryTemplateName" parameterType="String" resultType="String">
+		select name from ${tempTable} where id = (SELECT template_id FROM ${devTable} WHERE name = #{devName});
+	</select>
 
-	<!--建表，暂时先只创建NUMERIC，后续根据var的类型创建对应类型-->
+	<!--建表，暂时先只创建VARCHAR，后续根据var的类型创建对应类型 time暂时不带时区-->
 	<update id="crateHisTableByTemplate" parameterType="java.util.List" statementType="STATEMENT">
 		create table ${table} (
-			time TIMESTAMPTZ NOT NULL,
+			time TIMESTAMP WITHOUT TIME ZONE NOT NULL,
 			device_name VARCHAR NOT NULL,
 			location GEOMETRY,
 			<foreach collection="list" index="index" item="item" open="" separator="," close="">
-				${item} NUMERIC NULL
+				${item} VARCHAR NULL
 			</foreach>
 		);
 		<!--创建hypertable-->
 		SELECT create_hypertable('${table}', 'time');
 	</update>
 
+	<!--查询设备历史数据-->
+	<select id="readDeviceHistoryData" resultType="java.util.HashMap" statementType="STATEMENT">
+		SELECT time, ST_AsEwkt(location),
+		<foreach collection="list" index="index" item="item" open="" separator="," close="">
+			${item}
+		</foreach>
+		FROM ${table}
+		WHERE
+		<![CDATA[ time >= '${startTime}' AND time < '${endTime}'  AND device_name='${device}' ]]>
+	</select>
+
+	<!--插入单条历史数据-->
+	<insert id="writeDeviceHistoryData" parameterType="java.util.Map">
+		INSERT INTO ${table}
+		<foreach collection="params.keys" item="key" open="(" close=")" separator="," >
+			${key}
+		</foreach>
+		VALUES
+		<foreach collection="params.keys"  item="key" open="(" close=")" separator=",">
+			<!--<choose>
+				<when test=' #{key}=="location"'>
+					ST_GeomFromText(#{params[${key}]},4326)
+				</when>
+				<otherwise>
+					#{params[${key}]}
+				</otherwise>
+			</choose>-->
+			#{params[${key}]}
+		</foreach>
+	</insert>
 </mapper>

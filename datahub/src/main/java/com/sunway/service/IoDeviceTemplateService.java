@@ -4,6 +4,7 @@ import com.sunway.mapper.IIoBaseMapper;
 import com.sunway.mapper.IIoHisDataMapper;
 import com.sunway.mapper.IIoTableName;
 import com.sunway.model.IoBaseEntity;
+import com.sunway.utils.HisData;
 import com.sunway.utils.Mark;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,7 +75,7 @@ public class IoDeviceTemplateService {
         baseMapper.addBaseList(varTable, templateTable,  template, entityList);
 
         //创建历史表
-        String templateHis = "his_" + template;
+        String templateHis = HisData.hisTablePrefix + template;
         List<String> varName = new ArrayList();
         for(IoBaseEntity entity : entityList){
             varName.add(entity.getName());

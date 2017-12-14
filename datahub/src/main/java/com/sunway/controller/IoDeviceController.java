@@ -33,9 +33,9 @@ public class IoDeviceController {
     public String addDevicesTest(){
         System.out.println("addDevicesTest...");
         List<IoBaseEntity> entities = new ArrayList();
-        IoBaseEntity entity = new IoBaseEntity("ModbusTcpClient.channel1.device1");
+        IoBaseEntity entity = new IoBaseEntity("ModbusTcpClient.channel1.myDevice");
         entities.add(entity);
-        addIoDevices("ModbusTcpClient.channel1", "BlowerTemplate", entities);
+        addIoDevices("ModbusTcpClient.channel1", "mytemplate", entities);
         return "menu";
     }
 

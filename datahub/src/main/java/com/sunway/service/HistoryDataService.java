@@ -1,11 +1,18 @@
 package com.sunway.service;
 
+import com.sunway.mapper.IIoBaseMapper;
 import com.sunway.mapper.IIoHisDataMapper;
+import com.sunway.mapper.IIoTableName;
+import com.sunway.model.IoVariable;
 import com.sunway.utils.Data;
+import com.sunway.utils.HisData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Service("historyDataService")
 public class HistoryDataService {
@@ -13,23 +20,44 @@ public class HistoryDataService {
     @Autowired
     private IIoHisDataMapper hisDataMapper;
 
-    public void crateHisTableByTemplate(String tempTable, List<String> varName){
+    @Autowired
+    private IoDeviceService deviceService;
+
+    public String queryTemplateName(String device) {
+        return hisDataMapper.queryTemplateName(IIoTableName.IoDeviceTemplate,
+                IIoTableName.IoDevice,
+                device);
+    }
+
+    public String getHistoryTableName(String device) {
+        return HisData.hisTablePrefix + queryTemplateName(device);
+    }
+
+    public void crateHisTableByTemplate(String tempTable, List<String> varName) {
         hisDataMapper.crateHisTableByTemplate(tempTable, varName);
     }
 
-    public HashMap<Long, Map<String, String>> readHistoryDataByDevices(String var, Date startTime, Date endTime){
+    public List<Map<String, Object>> readDeviceHistoryDataList(String device, String startTime, String endTime) {
+
+        List<IoVariable> varList = deviceService.queryVarsFromDevice(device);
+        List<String> list = new ArrayList();
+
+        for (IoVariable variable : varList) {
+            list.add(variable.getName());
+        }
+
+        return hisDataMapper.readDeviceHistoryData(
+                getHistoryTableName(device),
+                device,
+                list,
+                startTime, endTime);
+    }
+
+    public List<Object> readHistoryDataByDeviceVars(String var, Date startTime, Date endTime) {
         return null;
     }
 
-    public Map<Date, String> readHistoryDataByDeviceVars(String var, Date startTime, Date endTime){
-        return null;
-    }
-
-    /*
-    * INSERT INTO his_mytemplate(time, device_name, location, pressure, temperature, water_volume) VALUES(
-	* '2017-12-12 1:00:00', 'device', 'POINT(31.5 60.87)', 12, 22, 33);
-	*/
-    public void writeHistoryDataByDevice(){
-
+    public void writeDeviceHistoryData(String device, Map<String, Object> params) {
+        hisDataMapper.writeDeviceHistoryData(getHistoryTableName(device), params);
     }
 }

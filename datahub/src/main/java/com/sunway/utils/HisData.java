@@ -4,5 +4,5 @@ import java.util.HashMap;
 
 public class HisData {
 
-    private HashMap<Long, HashMap<String, Object>> hisResult;
+    public final static String hisTablePrefix = "his_";
 }
