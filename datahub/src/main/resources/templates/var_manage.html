@@ -1,0 +1,217 @@
+
+<div class="box box-widget">
+    <div class="box-header">
+        <div class="btn-group">
+            <button type="button" class="btn btn-default" data-btn-type="add" data-toggle="modal"
+                    data-target="#myModal">新增
+            </button>
+        </div>
+    </div>
+
+    <div class="box-body">
+        <table id="example1" class=" table  table-striped table-hover display ">
+            <thead>
+            <tr>
+                <th>名称</th>
+                <th>控制器</th>
+                <th>采集周期</th>
+                <th>独立分包</th>
+                <th>描述</th>
+                <th>编辑</th>
+                <th>删除</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>变量1</td>
+                <td>sss</td>
+                <td>中速周期</td>
+                <td>否</td>
+                <td>描述信息</td>
+                <td><a href="#">编辑</a></td>
+                <td><a href="#">删除</a></td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    新增设备模型
+                </h4>
+            </div>
+            <div class="modal-body" id="modal_body">
+
+                <form class="form-horizontal" role="form">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="var_name" class="col-sm-3 control-label">名称：</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="var_name"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Independent_subcontract" class="col-sm-3 control-label">独立分包：</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="Independent_subcontract" style="width: 100%;">
+                                    <option selected="selected">否</option>
+                                    <option>是</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="polling" class="col-sm-3 control-label">轮询方式：</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="polling" style="width: 100%;">
+                                    <option selected="selected">慢速周期</option>
+                                    <option>中速周期</option>
+                                    <option>快速周期</option>
+                                    <option>不轮询</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="controller" class="col-sm-3 control-label">控制器：</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="controller" style="width: 100%;">
+                                    <option selected="selected">控制器一</option>
+                                    <option>控制器二</option>
+                                    <option>控制器三</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="region" class="col-sm-3 control-label">区域：</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="region" style="width: 100%;">
+                                    <option selected="selected">区域一</option>
+                                    <option>区域二</option>
+                                    <option>区域三</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="data_type" class="col-sm-3 control-label">数据类型：</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="data_type" style="width: 100%;">
+                                    <option selected="selected">整形</option>
+                                    <option>浮点型</option>
+                                    <option>字符串型</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="read_write" class="col-sm-3 control-label">读写方式：</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="read_write" style="width: 100%;">
+                                    <option selected="selected">readwrite</option>
+                                    <option>read</option>
+                                    <option>write</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description" class="col-sm-3 control-label">描述：</label>
+                            <div class="col-sm-8">
+                                <textarea class="form-control" rows="3" id="description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="test_var()">
+                    确定
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    取消
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<script src="AdminLTE-2.3.11/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="AdminLTE-2.3.11/bootstrap/js/bootstrap.min.js"></script>
+<script src="js/adminlte.min.js"></script>
+<script src="AdminLTE-2.3.11/plugins/datepicker/bootstrap-datepicker.js"></script>
+<script src="AdminLTE-2.3.11/datatables.net/js/jquery.dataTables.js"></script>
+<script src="AdminLTE-2.3.11/datatables.net-bs/js/dataTables.bootstrap.js"></script>
+
+<script>
+    var temp_table = null;
+    $(function () {
+        temp_table = $('#example1').DataTable();
+        $('#example1 tbody').on( 'click', 'tr', function () {
+            if ( $(this).hasClass('selected') ) {
+                $(this).removeClass('selected');
+                console.log("进入了if分支");
+            }
+            else {
+                temp_table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+                console.log("进入了else分支");
+            }
+        } );
+    });
+
+    function test_var() {
+        var var_name = $.trim($('#var_name').val());
+        var Independent_subcontract = $.trim($('#Independent_subcontract').val());
+        var polling = $.trim($('#polling').val());
+        var controller = $.trim($('#controller').val());
+        var region = $.trim($('#region').val());
+        var data_type = $.trim($('#data_type').val());
+        var read_write = $.trim($('#read_write').val());
+        var description = $.trim($('#description').val());
+        alert(var_name+"\t"+Independent_subcontract+"\t"+polling+"\t"+controller+"\t"+region+"\t"+data_type+"\t"+read_write+description);
+        console.log("before");
+        temp_table.row.add([
+            model_name,
+            create_time,
+            modify_time,
+            description,
+            '.5'
+        ]).draw();
+        console.log("after");
+
+//        var json = {};
+//        $.ajax({
+//            type: "post",
+//            async: true,
+//            contentType: "application/json; charset=utf-8",
+//            dataType: 'json',
+//            url: "dev-template/add",
+//            data: JSON.stringify({
+//                "model-name": model_name,
+//                "create-time": create_time,
+//                "modify-time": modify_time,
+//                "descript": description,
+//            }),
+//            success: function (msg) {
+//                alert(msg + "添加设备模板成功");
+//            }, error: function (msg) {
+//                alert(msg);
+//            }
+//        });
+    }
+
+    function delete_modal() {
+        console.log("删除按钮进行了点击操作")
+        temp_table.row('.selected').remove().draw(false);
+    }
+</script>

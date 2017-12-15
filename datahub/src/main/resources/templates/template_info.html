@@ -1,0 +1,75 @@
+
+<section class="content-header">
+    <h1>
+        模型信息
+    </h1>
+</section>
+<section class="content">
+    <div class="col-md-3">
+        <!-- Custom Tabs -->
+        <div class="col-md-offset-1">
+
+            <ul class="nav nav-pills">
+                <li class="active"><a href="#tab_1-1" data-toggle="pill">基本信息</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane  fade in active" id="tab_1-1">
+                    <div class="box box-widget ">
+                        <ul class="nav nav-stacked">
+                            <li>
+                                <a href="javascript:void(0);" >模型概览 </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">基本属性 </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">监控属性</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">报警设置</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">控制操作</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">模型配件</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">信息板</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" onclick="click_var();">变量</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title" id="panel_title">模型概览</h3>
+            </div>
+            <div class="panel-body" id="panel_body">
+                模型基本信息
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    function click_var(){
+        $("#panel_title").html("变量管理");
+        console.log("点击了变量按钮");
+        $.ajax({
+            type: "GET",
+            async: true,
+            url: "var_manage",
+            success: function (data) {
+                $("#panel_body").html(data);
+            }, error: function () {
+                alert("失败，请稍后再试！");
+            }
+        });
+    }
+</script>

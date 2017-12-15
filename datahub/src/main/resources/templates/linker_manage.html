@@ -1,0 +1,226 @@
+<section class="content-header">
+    <h1>连接管理
+        <small>连接器管理</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li class="active">连接器管理</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <!--<div class="col-md-6"> -->
+            <!--<div class="box box-default">-->
+            <!--<div class="box-header with-border">-->
+                <!--<h3 class="box-title">Collapsable</h3>-->
+
+                <!--<div class="box-tools pull-right">-->
+                    <!--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>-->
+                    <!--</button>-->
+                <!--</div>-->
+                <!--&lt;!&ndash; /.box-tools &ndash;&gt;-->
+            <!--</div>-->
+            <!--&lt;!&ndash; /.box-header &ndash;&gt;-->
+            <!--<div class="box-body no-padding">-->
+                <!--<ul class="nav nav-stacked">-->
+                    <!--<li><a href="#">Projects <span class="pull-right badge bg-blue">31</span></a></li>-->
+                    <!--<li><a href="#">Tasks <span class="pull-right badge bg-aqua">5</span></a></li>-->
+                    <!--<li><a href="#">Completed Projects <span class="pull-right badge bg-green">12</span></a></li>-->
+                    <!--<li><a href="#">Followers <span class="pull-right badge bg-red">842</span></a></li>-->
+                <!--</ul>-->
+            <!--</div>-->
+            <!--&lt;!&ndash; /.box-body &ndash;&gt;-->
+        <!--</div>-->
+     <!--</div>-->
+        <!--<div class="col-md-6">-->
+        <div class="box box-widget">
+            <div class="box-header">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" data-btn-type="add" data-toggle="modal"
+                            data-target="#myModal">新增
+                    </button>
+                    <button type="button" class="btn btn-default" data-btn-type="edit">编辑</button>
+                    <button type="button" class="btn btn-default" data-btn-type="delete" id="delete" onclick="delete_linker()">删除</button>
+                </div>
+            </div>
+
+            <div class="box-body">
+                <table id="example1" class="table table-striped table-hover display ">
+                    <thead>
+                    <tr>
+                        <th>名称</th>
+                        <th>描述</th>
+                        <th>类型</th>
+                        <th>设备数量</th>
+                        <th>变量数量</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><a href="javascript:void(0);" id="template_info" onclick="linker_info()">编号1</a></td>
+                        <td>Safari 2.0</td>
+                        <td>OSX.4+</td>
+                        <td>419.3</td>
+                        <td>A</td>
+                    </tr>
+                    <tr>
+                        <td><a href="#">Webkit</a></td>
+                        <td>Safari 3.0</td>
+                        <td>OSX.4+</td>
+                        <td>522.1</td>
+                        <td>A</td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>名称</th>
+                        <th>描述</th>
+                        <th>类型</th>
+                        <th>设备数量</th>
+                        <th>变量数量</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        <!--</div>-->
+    </div>
+    </div>
+</section>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    新增连接器
+                </h4>
+            </div>
+            <div class="modal-body" id="modal_body">
+                <form class="form-horizontal" role="form" id="my_form" method="post">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="linker_name" class="col-md-3 control-label">连接器名称：</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="linker_name"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group"><label for="linker_type" class="col-sm-2 control-label">类型：</label>
+                            <div class="col-sm-4"><select class="form-control" id="linker_type" style="width: 100%;">
+                                <option selected="selected">请选择类型</option>
+                            </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group"><label for="manufacturer" class="col-sm-2 control-label">厂商：</label>
+                            <div class="col-sm-4"><select class="form-control" id="manufacturer" style="width: 100%;">
+                                <option selected="selected">请选择厂商</option>
+                            </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description" class="col-md-3 control-label">描述信息：</label>
+                            <div class="col-md-8">
+                                <textarea class="form-control" rows="3" id="description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="test_modal()">
+                    确定
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    取消
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<script src="AdminLTE-2.3.11/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="AdminLTE-2.3.11/bootstrap/js/bootstrap.min.js"></script>
+<script src="js/adminlte.min.js"></script>
+<script src="AdminLTE-2.3.11/plugins/datepicker/bootstrap-datepicker.js"></script>
+<script src="AdminLTE-2.3.11/datatables.net/js/jquery.dataTables.js"></script>
+<script src="AdminLTE-2.3.11/datatables.net-bs/js/dataTables.bootstrap.js"></script>
+
+<script>
+    var temp_table = null;
+    $(function () {
+        temp_table = $('#example1').DataTable();
+        $('#example1 tbody').on( 'click', 'tr', function () {
+            if ( $(this).hasClass('selected') ) {
+                $(this).removeClass('selected');
+                console.log("进入了if分支");
+            }
+            else {
+                temp_table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+                console.log("进入了else分支");
+            }
+        } );
+
+    });
+
+    function linker_info() {
+        console.log("点击了新增按钮");
+        $.ajax({
+            type: "GET",
+            async: true,
+            url: "linker_info",
+            success: function (data) {
+                $("#mainDiv").html(data);
+            }, error: function () {
+                alert("失败，请稍后再试！");
+            }
+        });
+        console.log("执行完新增按钮事件");
+    }
+
+    function test_modal() {
+        var linker_name = $.trim($('#linker_name').val());
+        var linker_type = $.trim($('#linker_type').val());
+        var manufacturer = $.trim($('#manufacturer').val());
+        var description = $.trim($('#description').val());
+        //alert(model_name+"\t"+create_time+"\t"+modify_time+"\t"+description);
+        console.log("before");
+        temp_table.row.add([
+            linker_name,
+            linker_type,
+            manufacturer,
+            description,
+            '.5'
+        ]).draw();
+        console.log("after");
+
+//        var json = {};
+//        $.ajax({
+//            type: "post",
+//            async: true,
+//            contentType: "application/json; charset=utf-8",
+//            dataType: 'json',
+//            url: "dev-template/add",
+//            data: JSON.stringify({
+//                "model-name": model_name,
+//                "create-time": create_time,
+//                "modify-time": modify_time,
+//                "descript": description,
+//            }),
+//            success: function (msg) {
+//                alert(msg + "添加设备模板成功");
+//            }, error: function (msg) {
+//                alert(msg);
+//            }
+//        });
+    }
+
+    function delete_linker() {
+        temp_table.row('.selected').remove().draw(false);
+    }
+</script>

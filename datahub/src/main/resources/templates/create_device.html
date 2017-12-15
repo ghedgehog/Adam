@@ -1,0 +1,131 @@
+<section class="content-header" >
+    <h1>
+        连接管理
+        <small>添加设备</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">连接管理</li>
+    </ol>
+</section>
+<section class="content">
+    <form class="form-horizontal" role="form" method = "post" action = 'starter' onsubmit="submitInfo()">
+        <div class="box-body">
+            <div class="form-group"><label for="device_name" class="col-sm-2 control-label">设备名称：</label>
+                <div class="col-sm-4"><input type="text" class="form-control" id="device_name"></input></div>
+            </div>
+            <div class="form-group"><label for="driver_type" class="col-sm-2 control-label">驱动类型：</label>
+                <div class="col-sm-4">
+                <!--<select class="form-control" id="driver_type"  style="width: 100%;">-->
+                   <!--<option  th:each="list:${list222}" th:text="${list}"></option>-->
+                <!--</select></div>-->
+                <select class="form-control" id="driver_type" >
+                    <!--<option th:each="li:${lists}" th:value="${li}" th:each="areaInfo:${list222}" th:value="${areaInfo}" th:text="${areaInfo}"></option>-->
+                    <!--<option  th:each="lists:${list_attr}" th:text="${lists}">aaa</option>-->
+                    <!--<option  th:text="${list_name}">bbb</option>-->
+                </select>
+                </div>
+            </div>
+            <div class="form-group"><label for="channel_name" class="col-sm-2 control-label">通道名：</label>
+                <div class="col-sm-4"><input type="text" class="form-control" id="channel_name"></input>
+                </div>
+            </div>
+            <div class="form-group"><label for="device_model" class="col-sm-2 control-label">设备模型：</label>
+                <div class="col-sm-4"><select class="form-control" id="device_model" style="width: 100%;">
+                    <option selected="selected">请选择设备模型</option>
+                </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="brand" class="col-sm-2 control-label">品牌：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="brand"></input>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="model_number" class="col-sm-2 control-label">型号：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="model_number"></input>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="description" class="col-sm-2 control-label">描述：</label>
+                <div class="col-sm-4">
+                    <textarea class="form-control" rows="3" id="description"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-4">
+                    <button type="submit" class="btn btn-info ">添加设备</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<script>
+    $(function(){
+        $.ajax({
+            type: "get",
+            async : true,
+            url: "drivertype/get",
+            success: function(data) {
+                var html="<option>请选择驱动类型</option>";
+                $.each(data, function(i,item) {
+                    console.log(item);
+                    html += "<option>"+item+"</option>";
+                });
+                $("#driver_type").html('').append(html);
+            },error: function() {
+                alert("失败");
+            }
+        });
+    });
+    function submitInfo(){
+        var device_name = $.trim($('#device_name').val());
+        var driver_type = $.trim($('#driver_type').val());
+        var channel_name = $.trim($('#channel_name').val());
+        var device_model = $.trim($('#device_model').val());
+        var brand = $.trim($('#brand').val());
+        var model_number = $.trim($('#model_number').val());
+        var description = $.trim($('#description').val());
+
+        console.log(device_name+driver_type+channel_name+device_model+brand+model_number+description);
+
+        $.ajax({
+            type : "post",
+            async : true,
+            contentType : "application/json;charset=utf-8",
+            dataType : 'json',
+            url : "device/add-test",
+            data:JSON.stringify({
+                "device_name":device_name,
+                "driver_type":driver_type,
+                "channel_name":channel_name,
+                "device_model":device_model,
+                "brand":brand,
+                "model_number":model_number,
+                "description":description
+            }),
+            success : function () {
+                alert("添加通道成功");
+            },error : function(){
+                alert("失败");
+            }
+        });
+
+//        $.ajax({
+//            type : "post",
+//            async : true,
+//            contentType : "application/json;charset=utf-8",
+//            dataType : 'json',
+//            url : "device/add-test",
+//            success : function () {
+//                alert("成功");
+//            },error : function(){
+//                alert("失败");
+//            }
+//        });
+    }
+</script>

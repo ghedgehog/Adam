@@ -20,7 +20,7 @@
         <div class="login-box-body">
             <p class="login-box-msg"></p>
 
-            <form id="login" name="login" action="menu" method="post" onsubmit="return submitUser();">
+            <form id="login" name="login" action="starter" method="post" onsubmit="return submitUser();">
                 <div class="form-group has-feedback">
                     <input type="text" class="form-control" name="userName" placeholder="用户名"></input>
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
@@ -37,7 +37,7 @@
                         <input type="submit" value="登录" class="btn btn-primary submit btn-block btn-flat"/>
                     </div>
                 </div>
-                <span style="color:red" th:text="${login}"></span>
+                <!--<span style="color:red" th:text="${login}"></span>-->
             </form>
 
         </div>
@@ -48,23 +48,22 @@
 <script th:src="@{AdminLTE-2.3.11/plugins/iCheck/icheck.min.js}"></script>
 <link rel="stylesheet" th:href="@{style/main.css}"/>
 <script>
-    $(function () {
-        /*  xujia@promisechina','123456' */
-        function submitUser() {
-            var userName = $('input[name="userName"]').val();
-            var passWord = $('input[name="passWord"]').val();
 
-            if (userName == "") {
-                alert("用户名不能为空");
-                return false;
-            }
-            if (passWord == "") {
-                alert("密码不能为空");
-                return false;
-            }
-            document.getElementById("login").submit();
+    function submitUser() {
+        var userName = $('input[name="userName"]').val();
+        var passWord = $('input[name="passWord"]').val();
+
+        if (userName == "") {
+            alert("用户名不能为空");
+            return false;
         }
-    })
+        if (passWord == "") {
+            alert("密码不能为空");
+            return false;
+        }
+        document.getElementById("login").submit();
+
+    }
 </script>
 </body>
 </html>

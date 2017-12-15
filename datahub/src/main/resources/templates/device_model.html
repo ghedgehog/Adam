@@ -1,0 +1,78 @@
+<section class="content-header">
+    <h1>连接管理
+        <small>模型管理</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+        <li class="active">模型管理</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-6">
+            <form class="form-horizontal" role="form">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="model_name" class="col-sm-2 control-label">模型名称：</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" id="model_name"></input>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">创建时间:</label>
+                        <div class="input-group col-sm-4">
+                            <input type="text" class="form-control pull-right datepicker"
+                                   placeholder="dd/mm/yyyy"></input>
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">修改时间:</label>
+                        <div class="input-group col-sm-4">
+                            <input type="text" class="form-control pull-right datepicker"
+                                   placeholder="dd/mm/yyyy"></input>
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description" class="col-sm-2 control-label">模型描述：</label>
+                        <div class="col-sm-4">
+                            <textarea class="form-control" rows="3" id="description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-info pull-left form-control">添加设备</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+
+        </div>
+    </div>
+</section>
+
+<!-- jQuery 3 -->
+<script src="AdminLTE-2.3.11/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="AdminLTE-2.3.11/bootstrap/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="js/adminlte.min.js"></script>
+<script src="AdminLTE-2.3.11/plugins/datepicker/bootstrap-datepicker.js"></script>
+
+<script>
+    $(function () {
+        $('.datepicker').datepicker({
+            autoclose: true
+        });
+
+    });
+</script>

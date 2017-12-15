@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+    <link rel="stylesheet" th:href="@{AdminLTE-2.3.11/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{AdminLTE-2.3.11/font-awesome/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" th:href="@{AdminLTE-2.3.11/Ionicons/css/ionicons.min.css}"/>
+    <link rel="stylesheet" th:href="@{AdminLTE-2.3.11/dist/css/AdminLTE.min.css}"/>
+    <link rel="stylesheet" href="AdminLTE-2.3.11/plugins/datepicker/datepicker3.css"/>
+    <link rel="stylesheet" href="AdminLTE-2.3.11/plugins/select2/select2.css"/>
+    <link rel="stylesheet" th:href="@{AdminLTE-2.3.11/dist/css/skins/skin-blue.css}"/>
+    <link rel="stylesheet" href="AdminLTE-2.3.11/datatables.net-bs/css/dataTables.bootstrap.min.css"/>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Google Font -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic"/>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <header class="main-header">
+        <!-- Logo -->
+        <a href="#" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>A</b>dam</span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>Adam</b></span>
+        </a>
+        <!-- Header Navbar -->
+        <nav class="navbar navbar-static-top" role="navigation">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+            <!-- Navbar Right Menu -->
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                      <!-- Notifications Menu -->
+                    <li class="dropdown notifications-menu">
+                        <!-- Menu toggle button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell-o"></i>
+                            <span class="label label-warning">10</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">You have 10 notifications</li>
+                            <li>
+                                <!-- Inner Menu: contains the notifications -->
+                                <ul class="menu">
+                                    <li><!-- start notification -->
+                                        <a href="#">
+                                            <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                        </a>
+                                    </li>
+                                    <!-- end notification -->
+                                </ul>
+                            </li>
+                            <li class="footer"><a href="#">View all</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- User Account Menu -->
+                    <li class="dropdown user user-menu">
+                        <!-- Menu Toggle Button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <!-- The user image in the navbar-->
+                            <img class="user-image" alt="User Image"/>
+                            <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                            <span class="hidden-xs">admin</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- The user image in the menu -->
+                            <li class="user-header">
+                                <img class="img-circle" alt="User Image"/>
+                                <p>
+                                    Alexander Pierce - Web Developer
+                                    <small>Member since Nov. 2012</small>
+                                </p>
+                            </li>
+                            <!-- Menu Body -->
+                            <li class="user-body">
+                                <div class="row">
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Followers</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Sales</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Friends</a>
+                                    </div>
+                                </div>
+                                <!-- /.row -->
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu" data-widget="tree">
+                <li class="header">HEADER</li>
+                <li><a href="javascript:void(0);"><i class="fa fa-link"></i> <span>首页</span></a></li>
+                <li class="treeview">
+                    <a href="javascript:void(0);"><i class="fa fa-link"></i> <span>连接管理</span>
+                        <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="javascript:void(0);" id="create_device" onclick="create_device()">添加设备</a></li>
+                        <li><a href="javascript:void(0);" id="device_view" onclick="device_view()">设备概览</a></li>
+                        <li><a href="javascript:void(0);" id="template_manage" onclick="template_manage()">模型管理</a></li>
+                        <!--<li><a href="javascript:void(0);" id="linker_manage" onclick="linker_manage()">连接器管理</a></li>-->
+                        <li><a href="javascript:void(0);" id="data_monitor" onclick="data_monitor()">数据监控</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="javascript:void(0);"><i class="fa fa-link"></i> <span>数据管理</span>
+                        <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="javascript:void(0);">实时数据</a></li>
+                        <li><a href="javascript:void(0);">历史数据</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="javascript:void(0);"><i class="fa fa-link"></i> <span>报警</span>
+                        <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="javascript:void(0);">实时报警</a></li>
+                        <li><a href="javascript:void(0);">历史报警</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="javascript:void(0);"><i class="fa fa-link"></i> <span>业务相关</span>
+                        <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="javascript:void(0);">用户管理</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+    </aside>
+
+    <div class="content-wrapper" id="mainDiv" style="overflow:auto">
+
+
+    </div>
+
+    <footer class="main-footer">
+        <!-- To the right -->
+        <div class="pull-right hidden-xs">
+            Anything you want
+        </div>
+        <!-- Default to the left -->
+        <strong>Copyright &copy; 2017 <a href="#">Company</a>.</strong> All rights reserved.
+    </footer>
+
+    <div class="control-sidebar-bg"></div>
+</div>
+
+<script src="AdminLTE-2.3.11/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="AdminLTE-2.3.11/bootstrap/js/bootstrap.min.js"></script>
+<script src="js/adminlte.min.js"></script>
+<script src="AdminLTE-2.3.11/plugins/datepicker/bootstrap-datepicker.js"></script>
+<script src="AdminLTE-2.3.11/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="AdminLTE-2.3.11/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+<script>
+    function create_device() {
+        $.ajax({
+            type: "GET",
+            async: true,
+            url: "create_device",
+            success: function (data) {
+                $("#mainDiv").html(data);
+                //alert(data);
+            }, error: function () {
+                alert("失败，请稍后再试！");
+            }
+        });
+        $("#create_device").parents('li').addClass('active').siblings('li').removeClass('active');
+    }
+
+    function device_view() {
+        $.ajax({
+            type: "GET",
+            async: true,
+            url: "device_view",
+            success: function (data) {
+                //alert(data);
+                $("#mainDiv").html(data);
+            }, error: function () {
+                alert("失败，请稍后再试！");
+            }
+        });
+        $("#device_view").parents('li').addClass('active').siblings('li').removeClass('active');
+    }
+
+    function device_model() {
+        $.ajax({
+            type: "GET",
+            async: true,
+            url: "device_model",
+            success: function (data) {
+                $("#mainDiv").html(data);
+                //alert(data);
+            }, error: function (data) {
+                alert(data);
+            }
+        });
+        $("#device_model").parents('li').addClass('active').siblings('li').removeClass('active');
+    }
+
+    function template_manage() {
+        $.ajax({
+            type: "GET",
+            async: true,
+            url: "template_manage",
+            success: function (data) {
+                $("#mainDiv").html(data);
+                //alert(data);
+            }, error: function () {
+                alert("失败，请稍后再试！");
+            }
+        });
+        $("#template_manage").parents('li').addClass('active').siblings('li').removeClass('active');
+    }
+
+    function linker_manage() {
+        $.ajax({
+            type: "GET",
+            async: true,
+            url: "linker_manage",
+            success: function (data) {
+                $("#mainDiv").html(data);
+                //alert(data);
+            }, error: function () {
+                alert("失败，请稍后再试！");
+            }
+        });
+        $("#linker_manage").parents('li').addClass('active').siblings('li').removeClass('active');
+    }
+
+    function data_monitor(){
+        $.ajax({
+            type: "GET",
+            async: true,
+            url: "data_monitor",
+            success: function (data) {
+                $("#mainDiv").html(data);
+                //alert(data);
+            }, error: function () {
+                alert("失败，请稍后再试！");
+            }
+        });
+        $("#data_monitor").parents('li').addClass('active').siblings('li').removeClass('active');
+    }
+    //   $(function(){
+    //
+    //    $("section.sidebar ul li ul li").each(function(index,item){
+    //        $("item").on("click",function(){
+    //            console.log("click事件");
+    //            var href = $(this).find("a").attr('href');
+    //            console.log(href);
+    //                $.ajax({
+    //                    type: "GET",
+    //                    async : true,
+    //                    url: href,
+    //                    success: function(data) {
+    //                       // $("#mainDiv").append(data);
+    //                        alert(data);
+    //                    },error: function() {
+    //                         alert("失败，请稍后再试！");
+    //                }
+    //                });
+    //            $(this).parents('li').addClass('active').siblings('li').removeClass('active');
+    //            return false;
+    //        });
+    //   });
+    //   });
+</script>
+</body>
+</html>
