@@ -2,6 +2,7 @@ package com.sunway.controller;
 
 import com.sunway.model.IoBaseEntity;
 import com.sunway.service.IoDeviceTemplateService;
+import com.sunway.service.RealDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

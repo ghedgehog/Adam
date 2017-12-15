@@ -33,6 +33,8 @@ public interface IIoBaseMapper<T extends IoBaseEntity> {
                                    @Param("parent") String parent,
                                    @Param("mark") int mark);
 
+    public List<T> queryAllIoBase(@Param("table") String tableName);
+
     public void setMark(@Param("table") String tableName,
                         @Param("ptable") String ptableName,
                         @Param("list") List<T> baseList,

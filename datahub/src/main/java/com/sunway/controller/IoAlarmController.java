@@ -2,6 +2,7 @@ package com.sunway.controller;
 
 import com.sunway.model.IoAlarm;
 import com.sunway.service.IoAlarmService;
+import com.sunway.service.RealDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,9 +18,14 @@ public class IoAlarmController {
     @Autowired
     private IoAlarmService alarmService;
 
+    @Autowired
+    private RealDataService dataService;
+
     @RequestMapping(value="/add")
     public void addAlarms(List<IoAlarm> alarmList){
         alarmService.addAlarm(alarmList);
+        //TRUE TODO
+        dataService.NoticeAlarmAdded();
     }
 
     @RequestMapping(value="/query")

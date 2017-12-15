@@ -42,4 +42,5 @@ public class IoVariable {
     public void setPropConf(String propConf) {
         this.propConf = propConf;
     }
+
 }

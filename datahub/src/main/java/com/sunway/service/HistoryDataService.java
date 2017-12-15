@@ -23,6 +23,10 @@ public class HistoryDataService {
     @Autowired
     private IoDeviceService deviceService;
 
+    public void initial(){
+        deviceService.init();
+    }
+
     public String queryTemplateName(String device) {
         return hisDataMapper.queryTemplateName(IIoTableName.IoDeviceTemplate,
                 IIoTableName.IoDevice,

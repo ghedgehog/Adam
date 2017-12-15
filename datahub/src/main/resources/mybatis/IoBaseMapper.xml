@@ -51,6 +51,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		mark = ${mark}
 	</select>
 
+	<!--queryAllIoBase-->
+	<select id="queryAllIoBase" resultType="com.sunway.model.IoBaseEntity" >
+		SELECT name FROM ${table} WHERE  mark NOT IN (3);
+	</select>
+
 	<!--setSysMark-->
 	<update id="setSysMark" parameterType="java.util.List">
 		UPDATE ${table} SET mark = ${mark}

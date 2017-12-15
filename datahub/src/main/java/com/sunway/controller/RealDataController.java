@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value="real")
@@ -17,9 +18,14 @@ public class RealDataController {
     @Autowired
     RealDataService realDataService;
 
-    @RequestMapping("/read")
-    public String readRealData(String name){
-        return realDataService.get(name);
+    @RequestMapping("/read-obj")
+    public Map<String, Object> readDeviceRealData(String dviceName){
+        return realDataService.queryRealDataByDevice(dviceName);
+    }
+
+    @RequestMapping("/read-var")
+    public Object readVarRealData(String varName){
+        return realDataService.queryRealDataByVar(varName);
     }
 
 }

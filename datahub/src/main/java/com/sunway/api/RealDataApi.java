@@ -21,9 +21,6 @@ public class RealDataApi {
 
     @RequestMapping("/write")
     public void writeRealData(String name, String value){
-
-        //存进缓存
-        realDataService.set(name, value);
-
+        realDataService.addRealDataByVar(name, value);
     }
 }

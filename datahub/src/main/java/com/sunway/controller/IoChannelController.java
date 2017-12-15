@@ -2,6 +2,7 @@ package com.sunway.controller;
 
 import com.sunway.model.IoChannel;
 import com.sunway.service.IoChannelService;
+import com.sunway.service.RealDataService;
 import com.sunway.utils.Mark;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,15 +18,22 @@ public class IoChannelController {
     @Autowired
     private IoChannelService ioChannelService;
 
+    @Autowired
+    private RealDataService dataService;
+
     @RequestMapping(value="/add")
     public void addIoChannels(String driver, List<IoChannel> channels){
         ioChannelService.addIoChannels(driver, channels);
+        //TRUE TODO
+        dataService.NoticeChannelAdded();
     }
 
     @RequestMapping(value="/del")
     public void deleteIoChannels(String uaServer, List<IoChannel> channels){
         //ioChannelService.deleteIoChannels(uaServer, channels);
         ioChannelService.setMark(uaServer, channels, Mark.DELETE);
+        //TRUE TODO
+        dataService.NoticeChannelDeleted();
     }
 
     //GTEST

@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping(value="api-alarm")
 public class IoAlarmApi {
 
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Autowired
     private IoAlarmService ioAlarmService;

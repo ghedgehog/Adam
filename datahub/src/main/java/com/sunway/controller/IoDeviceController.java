@@ -2,6 +2,7 @@ package com.sunway.controller;
 
 import com.sunway.model.IoBaseEntity;
 import com.sunway.service.IoDeviceService;
+import com.sunway.service.RealDataService;
 import com.sunway.utils.Mark;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,15 +18,22 @@ public class IoDeviceController {
     @Autowired
     private IoDeviceService deviceService;
 
+    @Autowired
+    private RealDataService dataService;
+
     @RequestMapping(value="/add")
     public  void addIoDevices(String channel, String template, List<IoBaseEntity> entityList){
         deviceService.addIoDevices(channel, template, entityList);
+        //TRUE TODO
+        dataService.NoticeDeviceAdded();
     }
 
     @RequestMapping(value="/del")
     public void deleteIoDevices(String channels, List<IoBaseEntity> entityList){
         //deviceService.deleteIoDevices(channels, entityList);
         deviceService.setMark(channels, entityList, Mark.DELETE);
+        //TRUE TODO
+        dataService.NoticeDeviceDeleted();
     }
 
     //GTest
