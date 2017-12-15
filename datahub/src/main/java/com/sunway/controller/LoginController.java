@@ -37,5 +37,77 @@ public class LoginController {
         }
         return  null;
     }
+
+    @RequestMapping(value="/starter")
+    public String menu(HttpServletRequest request, Model model){
+//        String userName = request.getParameter("userName");
+//        String passWord = request.getParameter("passWord");
+//        if (usersMapper.queryUser(userName, passWord) != null)
+//        {
+//            model.addAttribute("name", userName);
+//            model.addAttribute("result", "true");
+//        }
+        return  "starter";
+    }
+
+    @RequestMapping(value="/template_manage")
+    public String template_manage(){
+        System.out.println("template_manage...");
+        return "template_manage";
+    }
+
+    @RequestMapping(value="/template_info")
+    public String template_info(){
+        System.out.println("template_info...");
+        return "template_info";
+    }
+
+    @RequestMapping(value="/create_device")
+    public String create_device(){
+        System.out.println("create_device...");
+        return "create_device";
+    }
+
+    @RequestMapping(value="/create_var")
+    public String create_var(){
+        System.out.println("create_var...");
+        return "create_var";
+    }
+
+    @RequestMapping(value="/device_model")
+    public String device_model(){
+        System.out.println("device_model...");
+        return "device_model";
+    }
+
+    @RequestMapping(value="/device_view")
+    public String device_view(){
+        System.out.println("device_view...");
+        return "device_view";
+    }
+
+    @RequestMapping(value="/linker_manage")
+    public String linker_manage(){
+        System.out.println("linker_manage...");
+        return "linker_manage";
+    }
+
+    @RequestMapping(value="/linker_info")
+    public String linker_info(){
+        System.out.println("linker_info...");
+        return "linker_info";
+    }
+
+    @RequestMapping(value="/var_manage")
+    public String var_manage(){
+        System.out.println("var_manage...");
+        return "var_manage";
+    }
+
+    @RequestMapping(value="/data_monitor")
+    public String data_monitor(){
+        System.out.println("data_monitor...");
+        return "data_monitor";
+    }
 }
 
