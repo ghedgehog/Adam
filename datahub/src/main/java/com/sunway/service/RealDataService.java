@@ -28,17 +28,26 @@ public class RealDataService {
         return get(varName);
     }
 
+    /*private String spliteStringByPoint(String longName){
+        String[] strArr = longName.split(".");
+        return strArr.length < 1 ? null :strArr[strArr.length-1];
+    }*/
+
     public Map<String, Object> queryRealDataByDevice(String deivceName){
 
+        String val = "";
         Map<String, Object> valMap = new HashMap<String, Object>();
-
         List<Object> variables = getVariables(deivceName);
 
         for(Object var: variables){
             String valName = deivceName + "." + var;
-            valMap.put(valName , get(valName));
+            Object value = get(valName);
+            //简单校验，设备下所有变量无数据不插入数据
+            if(value != null) val += value.toString();
+            //存入短名
+            valMap.put((String)var , value);
         }
-        return  valMap;
+        return val == "" ? null : valMap;
     }
 
     public void updateAllDevices(List<String> devices){
@@ -51,7 +60,7 @@ public class RealDataService {
     }
 
     public void updateVariables(String dev, List<String> varList){
-        redisTemplate.delete(dev);
+        redisTemplate.delete(dev+Notice.DEVICESUFFIX);
         for(String var : varList){
             listPush(dev + Notice.DEVICESUFFIX, var);
         }

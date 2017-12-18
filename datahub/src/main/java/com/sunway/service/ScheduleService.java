@@ -29,21 +29,21 @@ public class ScheduleService {
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    @Scheduled(initialDelay = SCHE_SECOND*2, fixedDelay=SCHE_SECOND*2)
+    @Scheduled(initialDelay = SCHE_SECOND*2, fixedDelay=SCHE_SECOND*3)
     private void transferReal2His(){
 
         System.out.println( sdf.format(new Date()));
 
         if(!isInitialize){ hisDataService.initial();  isInitialize =true;}
-
         List<Object> deviceList = realDataService.getAllDevices();
 
-        System.out.println("==>"+ deviceList);
-
         for (Object device : deviceList){
-            //Map<String, Object> varMap = realDataService.queryRealDataByDevice((String)device);
-            //System.out.println(varMap);
-            //hisDataService.writeDeviceHistoryData((String)device, varMap);
+            ArrayList temp = (ArrayList)device;
+            for(Object obj : temp){
+                Map<String, Object> varMap = realDataService.queryRealDataByDevice((String)obj);
+                if(varMap!=null) System.out.println(varMap);
+                hisDataService.writeDeviceHistoryData((String)obj, varMap);
+            }
         }
     }
 }

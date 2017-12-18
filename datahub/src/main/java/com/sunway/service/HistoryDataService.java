@@ -61,7 +61,10 @@ public class HistoryDataService {
         return null;
     }
 
+
+
     public void writeDeviceHistoryData(String device, Map<String, Object> params) {
+        if(params==null || params.isEmpty()) return;
         hisDataMapper.writeDeviceHistoryData(getHistoryTableName(device), params);
     }
 }
