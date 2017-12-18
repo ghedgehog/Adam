@@ -7,6 +7,7 @@ import com.sunway.service.IoDeviceService;
 import com.sunway.utils.Mark;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class IoDeviceApi {
     private IoDeviceService deviceService;
 
     //查询新增驱动
-    @RequestMapping(value="/add")
+    @RequestMapping(value="/add", method = RequestMethod.GET)
     List<IoBaseEntity> queryAddedIoDevices(String channelName){
         List<IoBaseEntity> devices = deviceService.queryIoDevices(channelName, Mark.INSERT);
         deviceService.setMark(channelName, devices, Mark.DONE);
@@ -27,7 +28,7 @@ public class IoDeviceApi {
     }
 
     //查询删除驱动
-    @RequestMapping(value="/del")
+    @RequestMapping(value="/del", method = RequestMethod.GET)
     public List<IoBaseEntity> queryDeletedDrivers(String channelName){
         List<IoBaseEntity> devices = deviceService.queryIoDevices(channelName, Mark.DELETE);
         deviceService.deleteIoDevices(channelName, devices);
@@ -35,21 +36,27 @@ public class IoDeviceApi {
     }
 
     //查询设备下变量
-    @RequestMapping(value="/getvars")
+    @RequestMapping(value="/var", method = RequestMethod.GET)
     public List<IoVariable> queryVarsFromDevice(String device){
         return deviceService.queryVarsFromDevice(device);
     }
 
     //查询变量报警配置
-    @RequestMapping(value="/getalarm")
-    public List<IoAlarmConfig> queryVarAlarmConfig(String var){
-        return deviceService.queryVarAlarmConfig(var);
+    @RequestMapping(value="/alm-conf-var", method = RequestMethod.GET)
+    public List<IoAlarmConfig> queryAlarmConfigByVar(String var){
+        return deviceService.queryAlarmConfigByVar(var);
+    }
+
+    //查询所有新增报警对象
+    @RequestMapping(value="/alm-conf", method = RequestMethod.GET)
+    public List<IoAlarmConfig> queryAlarmConfig(){
+        return deviceService.queryAlarmConfig(Mark.INSERT);
     }
 
     //GTEST
-    @RequestMapping(value="/getalarm-test")
-    public List<IoAlarmConfig> queryVarAlarmConfigTest(){
-        return queryVarAlarmConfig("pressure");
+    @RequestMapping(value="/alm-conf-var-test")
+    public List<IoAlarmConfig> queryAlarmConfigByVarTest(){
+        return queryAlarmConfigByVar("pressure");
     }
 
     //GTEST

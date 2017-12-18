@@ -47,17 +47,20 @@ public interface IIoBaseMapper<T extends IoBaseEntity> {
                            @Param("mark") int mark);
 
     public void addIoDevices(@Param("table") String tableName,
-                           @Param("ptable") String ptableName,
-                           @Param("tempTable") String tempTable,
-                           @Param("parent") String parent,
-                           @Param("tempName") String tempName,
-                           @Param("list") List<T> baseList);
+                             @Param("ptable") String ptableName,
+                             @Param("tempTable") String tempTable,
+                             @Param("parent") String parent,
+                             @Param("tempName") String tempName,
+                             @Param("list") List<T> baseList);
 
     public List<IoVariable> queryVarsFromDevice(@Param("varTable") String varTable,
                                                 @Param("devTable") String devTable,
                                                 @Param("devName") String devName);
 
-    public List<IoAlarmConfig> queryVarAlarmConfig(@Param("alarmTable") String alarmTable,
-                                                   @Param("varTable") String varTable,
-                                                   @Param("varName") String Var);
+    public List<IoAlarmConfig> queryAlarmConfigByVar(@Param("alarmTable") String alarmTable,
+                                                     @Param("varTable") String varTable,
+                                                     @Param("varName") String var);
+
+    public List<IoAlarmConfig> queryAlarmConfig(@Param("alarmTable") String alarmTable,
+                                                @Param("mark") int mark);
 }

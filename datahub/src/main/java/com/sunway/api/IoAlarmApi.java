@@ -4,6 +4,7 @@ import com.sunway.model.IoAlarm;
 import com.sunway.service.IoAlarmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
@@ -20,13 +21,13 @@ public class IoAlarmApi {
     @Autowired
     private IoAlarmService ioAlarmService;
 
-    @RequestMapping(value="/add")
+    @RequestMapping(value="/add", method = RequestMethod.POST)
     public void addAlarms(List<IoAlarm> alarmList){
         ioAlarmService.addAlarm(alarmList);
     }
 
     //TODO
-    @RequestMapping(value="/add-test")
+    @RequestMapping(value="/add-test", method = RequestMethod.POST)
     public void addAlarmsTest(){
         List<IoAlarm> alarms = new ArrayList();
         alarms.add(new IoAlarm("",

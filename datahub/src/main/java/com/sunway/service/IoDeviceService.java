@@ -5,6 +5,7 @@ import com.sunway.mapper.IIoTableName;
 import com.sunway.model.IoAlarmConfig;
 import com.sunway.model.IoBaseEntity;
 import com.sunway.model.IoVariable;
+import com.sunway.utils.Mark;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -72,8 +73,14 @@ public class IoDeviceService {
         return baseMapper.queryVarsFromDevice(varTable, deviceTable, device);
     }
 
-    public List<IoAlarmConfig> queryVarAlarmConfig(String var){
-        return baseMapper.queryVarAlarmConfig(alarmTable, varTable, var);
+    public List<IoAlarmConfig> queryAlarmConfig(int mark){
+        List<IoAlarmConfig> alarmConfigList = baseMapper.queryAlarmConfig(alarmTable, mark);
+        setMarkToAlarmConfig(alarmConfigList);
+        return alarmConfigList;
+    }
+
+    public List<IoAlarmConfig> queryAlarmConfigByVar(String var){
+        return baseMapper.queryAlarmConfigByVar(alarmTable, varTable, var);
     }
 
     public List<String> queryVariableNames(String device){
@@ -83,6 +90,15 @@ public class IoDeviceService {
             varNames.add(variable.getName());
         }
         return varNames;
+    }
+
+    private void setMarkToAlarmConfig(List<IoAlarmConfig> alarmConfigList){
+        List<IoBaseEntity> entities = new ArrayList<IoBaseEntity>();
+        for(IoAlarmConfig config : alarmConfigList){
+            IoBaseEntity entity = new IoBaseEntity(config.getName());
+            entities.add(entity);
+        }
+        baseMapper.setSysMark(alarmTable, entities, Mark.DONE);
     }
 
     //更新至实时库

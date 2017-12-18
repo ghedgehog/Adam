@@ -5,6 +5,7 @@ import com.sunway.service.IoDriverService;
 import com.sunway.utils.Mark;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class IoDriverApi {
     private IoDriverService driverService;
 
     //查询新增驱动
-    @RequestMapping(value="/add")
+    @RequestMapping(value="/add", method = RequestMethod.GET)
     public List<IoBaseEntity> queryAddedDrivers(String uaServer){
         List<IoBaseEntity> drivers = driverService.queryIoDrivers(uaServer, Mark.INSERT);
         driverService.setMark(uaServer, drivers, Mark.DONE);
@@ -25,7 +26,7 @@ public class IoDriverApi {
     }
 
     //查询删除驱动
-    @RequestMapping(value="/del")
+    @RequestMapping(value="/del", method = RequestMethod.GET)
     public List<IoBaseEntity> queryDeletedDrivers(String uaServer){
         List<IoBaseEntity> drivers = driverService.queryIoDrivers(uaServer, Mark.DELETE);
         driverService.deleteIoDrivers(uaServer, drivers);

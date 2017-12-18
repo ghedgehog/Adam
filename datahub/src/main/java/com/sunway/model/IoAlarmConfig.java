@@ -4,11 +4,11 @@ public class IoAlarmConfig /*extends IoBaseEntity*/ {
 
     private String name;
     private String conf;
+    private String type;
 
     /*public IoAlarmConfig(String name) {
         super(name);
-    }
-    */
+    }*/
 
     public String getName() {
         return name;
@@ -24,5 +24,13 @@ public class IoAlarmConfig /*extends IoBaseEntity*/ {
 
     public void setConf(String conf) {
         this.conf = conf;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
