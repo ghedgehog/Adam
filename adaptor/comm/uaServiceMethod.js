@@ -59,7 +59,44 @@ exports.AddObject = (session, AddObjectArgs,callback) => {
             callback(null,result);
         }
     });
-}
+};
+
+//设置对象属性 
+exports.SetObjectProperty = (session, SetObjectPropertyArgs,callback) => {
+    var methodsToCall = [];
+    methodsToCall.push(new opcua.call_service.CallMethodRequest({
+        objectId: "ns=2;i=400001511",
+        methodId: "ns=2;s=400001511.SetObjectProperty",
+        inputArguments: [
+            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: SetObjectPropertyArgs.NodeId}),
+            new opcua.Variant({ dataType: opcua.DataType.XmlElement, value: SetObjectPropertyArgs.Values})]
+    }));
+    session.call(methodsToCall, function (err, result) {
+        if (err) {
+            callback("err:" + err);
+        } else {
+            callback(null,result);
+        }
+    });
+};
+
+//删除对象 
+exports.DeleteObject = (session, DeleteObjectArgs,callback) => {
+    var methodsToCall = [];
+    methodsToCall.push(new opcua.call_service.CallMethodRequest({
+        objectId: "ns=2;i=400001511",
+        methodId: "ns=2;s=400001511.DeleteObject",
+        inputArguments: [
+            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: DeleteObjectArgs.NodeId})]
+    }));
+    session.call(methodsToCall, function (err, result) {
+        if (err) {
+            callback("err:" + err);
+        } else {
+            callback(null,result);
+        }
+    });
+};
 
 /* var AddVariableArgs = {
     ParentNodeId: new opcua.NodeId(opcua.NodeIdType.NUMERIC,400001010,2),
@@ -72,7 +109,7 @@ exports.AddObject = (session, AddObjectArgs,callback) => {
     DisplayName: "wzj_displayname",
     Description: "wzj_description"
 };*/
-//添加对象
+//添加变量
 exports.AddVariable = (session, AddVariableArgs,callback) => {
     var methodsToCall = [];
     methodsToCall.push(new opcua.call_service.CallMethodRequest({
@@ -85,9 +122,9 @@ exports.AddVariable = (session, AddVariableArgs,callback) => {
             new opcua.Variant({ dataType: opcua.DataType.NodeId, value: AddVariableArgs.DataType}),
             new opcua.Variant({ dataType: opcua.DataType.Int32,  value: AddVariableArgs.ValueRank}),
             new opcua.Variant({ dataType: opcua.DataType.Byte,   value: AddVariableArgs.AccessLevel}),
-            new opcua.Variant({ dataType: opcua.DataType.String, value: AddObjectArgs.BrowseName}),
-            new opcua.Variant({ dataType: opcua.DataType.String, value: AddObjectArgs.DisplayName}),
-            new opcua.Variant({ dataType: opcua.DataType.String, value: AddObjectArgs.Description})]
+            new opcua.Variant({ dataType: opcua.DataType.String, value: AddVariableArgs.BrowseName}),
+            new opcua.Variant({ dataType: opcua.DataType.String, value: AddVariableArgs.DisplayName}),
+            new opcua.Variant({ dataType: opcua.DataType.String, value: AddVariableArgs.Description})]
     }));
     session.call(methodsToCall, function (err, result) {
         if (err) {
@@ -96,7 +133,84 @@ exports.AddVariable = (session, AddVariableArgs,callback) => {
             callback(null,result);
         }
     });
-}
+};
+
+//设置变量属性 
+exports.SetVariableProperty = (session, varNodeId,propConf,callback) => {
+    var methodsToCall = [];
+    methodsToCall.push(new opcua.call_service.CallMethodRequest({
+        objectId: "ns=2;i=400001511",
+        methodId: "ns=2;s=400001511.SetVariableProperty",
+        inputArguments: [
+            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: varNodeId}),
+            new opcua.Variant({ dataType: opcua.DataType.XmlElement, value: propConf})]
+    }));
+    session.call(methodsToCall, function (err, result) {
+        if (err) {
+            callback("err:" + err);
+        } else {
+            callback(null,result);
+        }
+    });
+};
+
+//删除变量 
+exports.DeleteVariable = (session, DeleteVariableArgs,callback) => {
+    var methodsToCall = [];
+    methodsToCall.push(new opcua.call_service.CallMethodRequest({
+        objectId: "ns=2;i=400001511",
+        methodId: "ns=2;s=400001511.DeleteVariable",
+        inputArguments: [
+            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: DeleteVariableArgs.NodeId})]
+    }));
+    session.call(methodsToCall, function (err, result) {
+        if (err) {
+            callback("err:" + err);
+        } else {
+            callback(null,result);
+        }
+    });
+};
+
+//添加引用关系
+exports.AddReference = (session, AddReferenceArgs,callback) => {
+    var methodsToCall = [];
+    methodsToCall.push(new opcua.call_service.CallMethodRequest({
+        objectId: "ns=2;i=400001511",
+        methodId: "ns=2;s=400001511.AddReference",
+        inputArguments: [
+            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: AddReferenceArgs.SourceNodeId}),
+            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: AddReferenceArgs.TargetNodeId}),
+            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: AddReferenceArgs.ReferenceType})]
+    }));
+    session.call(methodsToCall, function (err, result) {
+        if (err) {
+            callback("err:" + err);
+        } else {
+            callback(null,result);
+        }
+    });
+};
+
+//删除引用关系 
+exports.DeleteReference = (session, DeleteReferenceArgs,callback) => {
+    var methodsToCall = [];
+    methodsToCall.push(new opcua.call_service.CallMethodRequest({
+        objectId: "ns=2;i=400001511",
+        methodId: "ns=2;s=400001511.DeleteReference",
+        inputArguments: [
+            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: DeleteReferenceArgs.SourceNodeId}),
+            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: DeleteReferenceArgs.TargetNodeId}),
+            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: DeleteReferenceArgs.ReferenceType})]
+    }));
+    session.call(methodsToCall, function (err, result) {
+        if (err) {
+            callback("err:" + err);
+        } else {
+            callback(null,result);
+        }
+    });
+};
 
 //获取服务端未被占用的NodeId
 exports.GetFreeNodeIds = (session,GetFreeNodeIdsArgs,callback)=>{
@@ -116,3 +230,18 @@ exports.GetFreeNodeIds = (session,GetFreeNodeIdsArgs,callback)=>{
     });
 }
 
+//获取服务端未被占用的NodeId
+exports.Commit = (session,CommitArgs,callback)=>{
+    var methodsToCall = [];
+    methodsToCall.push(new opcua.call_service.CallMethodRequest({
+        objectId: CommitArgs.objectId,
+        methodId: CommitArgs.methodId
+    }));
+    session.call(methodsToCall, function (err, result) {
+        if (err) {
+            callback("err:" + err);
+        } else {
+            callback(null,result[0].outputArguments[0].value);
+        }
+    });
+}
