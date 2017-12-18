@@ -10,6 +10,8 @@ public interface IIoTableName {
 
     public static String IoChannel = "io_channels";
 
+    public static String IoDeviceAlarm = "io_device_alarm";
+
     public static String IoDeviceTemplate = "io_device_templates";
 
     public static String IoDeviceTemplateAlarm = "io_device_template_alarm";

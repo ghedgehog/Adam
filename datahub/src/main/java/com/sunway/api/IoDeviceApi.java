@@ -1,5 +1,6 @@
 package com.sunway.api;
 
+import com.sunway.model.IoAlarmConfig;
 import com.sunway.model.IoBaseEntity;
 import com.sunway.model.IoVariable;
 import com.sunway.service.IoDeviceService;
@@ -37,6 +38,18 @@ public class IoDeviceApi {
     @RequestMapping(value="/getvars")
     public List<IoVariable> queryVarsFromDevice(String device){
         return deviceService.queryVarsFromDevice(device);
+    }
+
+    //查询变量报警配置
+    @RequestMapping(value="/getalarm")
+    public List<IoAlarmConfig> queryVarAlarmConfig(String var){
+        return deviceService.queryVarAlarmConfig(var);
+    }
+
+    //GTEST
+    @RequestMapping(value="/getalarm-test")
+    public List<IoAlarmConfig> queryVarAlarmConfigTest(){
+        return queryVarAlarmConfig("pressure");
     }
 
     //GTEST

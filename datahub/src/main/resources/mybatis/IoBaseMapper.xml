@@ -103,6 +103,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		pid = (select template_id from ${devTable} where name= #{devName})
 	</select>
 
+	<!--VarAlarmConfig-->
+	<select id="queryVarAlarmConfig" resultMap="alarmConfigMap">
+		select name, alarm_conf from ${alarmTable}
+		where id = (select alarm_id from ${varTable} where name = #{varName});
+	</select>
+
+	<!--AlarmConfigType-->
+	<resultMap id="alarmConfigMap" type="com.sunway.model.IoAlarmConfig">
+		<id property="name" column="name" />
+		<result property="conf" column="alarm_conf"/>
+	</resultMap>
+
 	<!--DriverType-->
 	<resultMap id="ioVarMap" type="com.sunway.model.IoVariable">
 		<id property="name" column="name" />

@@ -2,6 +2,7 @@ package com.sunway.service;
 
 import com.sunway.mapper.IIoBaseMapper;
 import com.sunway.mapper.IIoTableName;
+import com.sunway.model.IoAlarmConfig;
 import com.sunway.model.IoBaseEntity;
 import com.sunway.model.IoVariable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ public class IoDeviceService {
     private String channelTable = IIoTableName.IoChannel;
     private String tempTable = IIoTableName.IoDeviceTemplate;
     private String varTable = IIoTableName.IoDeviceTemplateVar;
+    private String alarmTable = IIoTableName.IoDeviceAlarm;
 
     @Autowired
     private IIoBaseMapper<IoBaseEntity> baseMapper;
@@ -68,6 +70,10 @@ public class IoDeviceService {
 
     public List<IoVariable> queryVarsFromDevice(String device){
         return baseMapper.queryVarsFromDevice(varTable, deviceTable, device);
+    }
+
+    public List<IoAlarmConfig> queryVarAlarmConfig(String var){
+        return baseMapper.queryVarAlarmConfig(alarmTable, varTable, var);
     }
 
     public List<String> queryVariableNames(String device){
