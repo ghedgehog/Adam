@@ -4,6 +4,7 @@ var async = require("async");
 var options = {
     securityMode: opcua.MessageSecurityMode.SIGNANDENCRYPT,
     securityPolicy: opcua.SecurityPolicy.Basic128Rsa15,
+    requestedSessionTimeout:1000,
     connectionStrategy: {
         maxRetry: 1,
         initialDelay: 2000,
@@ -61,15 +62,15 @@ exports.AddObject = (session, AddObjectArgs,callback) => {
     });
 };
 
-//设置对象属性 
-exports.SetObjectProperty = (session, SetObjectPropertyArgs,callback) => {
+//设置对象属性
+exports.SetObjectProperty = (session, objNodeId,conf,callback) => {
     var methodsToCall = [];
     methodsToCall.push(new opcua.call_service.CallMethodRequest({
         objectId: "ns=2;i=400001511",
         methodId: "ns=2;s=400001511.SetObjectProperty",
         inputArguments: [
-            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: SetObjectPropertyArgs.NodeId}),
-            new opcua.Variant({ dataType: opcua.DataType.XmlElement, value: SetObjectPropertyArgs.Values})]
+            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: objNodeId}),
+            new opcua.Variant({ dataType: opcua.DataType.XmlElement, value: conf})]
     }));
     session.call(methodsToCall, function (err, result) {
         if (err) {

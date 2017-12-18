@@ -1,3 +1,17 @@
+/***************adaptor使用说明,begin****************/
+
+1、下载并安装v6.11.2 node，下载地址：https://nodejs.org/en/download/，默认安装即可;
+
+2、命令行运行："node -v",显示"v6.11.2"表示安装成功;
+
+3、命令行运行："npm install -g cnpm --registry=https://registry.npm.taobao.org",配置npm下载镜像地址为："https://registry.npm.taobao.org";
+
+4、在adaptor的根目录命令行运行:"cnpm install"安装项目依赖模块;
+
+5、在adaptor的根目录命令行运行:"node index.js"运行adaptor;
+
+/***************adaptor使用说明,end****************/
+
 ###订阅uasever中所有点的实时数据,并将实时数据推送到redis中;
 
 ###如果与webService的网络异常，需要对实时数据进行存历史，恢复通信后进行历史回补；
@@ -11,3 +25,15 @@
 ###调研一下怎么把node.js中的同类型方法封装成一个类；
 
 ###测点删除以后怎么取消测点的监视项，现在知道通过ClientMonitoredItem的terminate可以取消监视项；
+
+###添加adaptor的使用说明,发布的时候转换成.md格式;
+
+###连接uasever的连接超时时间设置，不起uaserver进行配置,看是否会卡死,链接超时时间不起作用；
+
+###获取datahub数据失败时程序报错；
+
+###pg版本记录，尽量不要在adaptor每次启动的时候都去配置uaserver；
+
+###index中的addDevice，把所有的驱动、通道browse一遍，addVar时又把所有的驱动、设备browse一遍；
+
+###添加比较详细的注释；
