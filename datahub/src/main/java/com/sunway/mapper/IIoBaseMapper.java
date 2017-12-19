@@ -58,6 +58,13 @@ public interface IIoBaseMapper<T extends IoBaseEntity> {
                              @Param("tempName") String tempName,
                              @Param("list") List<T> baseList);
 
+    public void addIoVariables(@Param("varTable") String varTable,
+                               @Param("tempTable") String tempTable,
+                               @Param("alarmTable") String alarmTable,
+                               @Param("template") String template,
+                               @Param("alarm") String alarm,
+                               @Param("list") List<IoVariable> variableList);
+
     public List<IoVariable> queryVarsFromDevice(@Param("varTable") String varTable,
                                                 @Param("devTable") String devTable,
                                                 @Param("devName") String devName);

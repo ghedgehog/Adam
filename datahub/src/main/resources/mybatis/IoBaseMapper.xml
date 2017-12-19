@@ -135,4 +135,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="propRawMin" column="prop_raw_min"/>
 		<result property="propRawMax" column="prop_raw_max"/>-->
 	</resultMap>
+	
+	<insert id="addIoVariables" parameterType="java.util.List">
+		INSERT INTO ${varTable} (name, pid, alarm_id, description, data_type, prop_conf, mark)
+		VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.name},
+			(SELECT id FROM ${tempTable} WHERE name = #{template}),
+			<if test="alarm == null">
+				0,
+			</if>
+			<if test="alarm != null">
+				(SELECT id FROM ${alarmTable} WHERE name = #{alarm}),
+			</if>
+			<if test="item.description==null">
+				#{item.name},
+			</if>
+			<if test="item.description!=null">
+				#{item.description},
+			</if>
+			#{item.dataType},
+			XML'${item.propConf}',
+			1)
+		</foreach>
+	</insert>
 </mapper>

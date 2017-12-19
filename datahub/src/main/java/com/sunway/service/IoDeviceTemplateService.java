@@ -4,6 +4,7 @@ import com.sunway.mapper.IIoBaseMapper;
 import com.sunway.mapper.IIoHisDataMapper;
 import com.sunway.mapper.IIoTableName;
 import com.sunway.model.IoBaseEntity;
+import com.sunway.model.IoVariable;
 import com.sunway.utils.HisData;
 import com.sunway.utils.Mark;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class IoDeviceTemplateService {
     private IIoBaseMapper<IoBaseEntity> baseMapper;
 
     private String templateTable = IIoTableName.IoDeviceTemplate;
-    private String alarmTable = IIoTableName.IoDeviceTemplateAlarm;
+    private String alarmTable = IIoTableName.IoDeviceAlarm;
     private String historyTable = IIoTableName.IoDeviceTemplateHistory;
     private String preStatisticsTable = IIoTableName.IoDeviceTemplatePreStatistics;
     private String varTable = IIoTableName.IoDeviceTemplateVar;
@@ -72,8 +73,12 @@ public class IoDeviceTemplateService {
         //baseMapper.deleteBaseList(tableName, ptableName, template, entityList);
     }
 
-    public void addIoDeviceTemplateVar(String template, List<IoBaseEntity> entityList){
+    /*public void addIoDeviceTemplateVar(String template, List<IoBaseEntity> entityList){
         baseMapper.addBaseList(varTable, templateTable,  template, entityList);
+    }*/
+
+    public void addIoDecieTemplateVars(String template, String alarm, List<IoVariable> variableList){
+        baseMapper.addIoVariables(varTable, templateTable, alarmTable, template, alarm, variableList);
     }
 
     public void deleteIoDeviceTemplateVar(String template, List<IoBaseEntity> entityList){

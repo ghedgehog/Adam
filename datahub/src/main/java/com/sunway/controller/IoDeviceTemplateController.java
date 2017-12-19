@@ -1,6 +1,7 @@
 package com.sunway.controller;
 
 import com.sunway.model.IoBaseEntity;
+import com.sunway.model.IoVariable;
 import com.sunway.service.IoDeviceTemplateService;
 import com.sunway.service.RealDataService;
 import com.sunway.utils.DataTool;
@@ -36,8 +37,6 @@ public class IoDeviceTemplateController {
         String createTime = temp_map.get("create-time");
         String modifyTime = temp_map.get("modify-time");
 
-        System.out.println(createTime + ", " + modifyTime + ", " + temp_map.get("descript"));
-
         IoBaseEntity entity = new IoBaseEntity(temp_map.get("model-name"));
 
         if(!createTime.isEmpty())
@@ -60,9 +59,19 @@ public class IoDeviceTemplateController {
         deviceTemplateService.deleteDeviceTempalte(baseEntityList);
     }
 
-    @RequestMapping(value = "/addvar")
-    public void addDeviceTempalteVar(String template, List<IoBaseEntity> entityList) {
-        deviceTemplateService.addIoDeviceTemplateVar(template, entityList);
+    @RequestMapping(value = "/add-var")
+    @ResponseBody
+    public void addDeviceTempalteVar(@RequestBody Map<String, String> varMap) {
+        if(varMap.isEmpty()) return;
+
+        String alarm = "";
+        String template = varMap.get("model_name");
+
+        IoVariable var = buildVarMap2Xml(varMap);
+        List<IoVariable> variableList = new ArrayList();
+        variableList.add(var);
+
+        deviceTemplateService.addIoDecieTemplateVars(template, alarm, variableList);
     }
 
     @RequestMapping(value = "/delvar")
@@ -72,15 +81,15 @@ public class IoDeviceTemplateController {
 
     @RequestMapping(value = "/add-var-test")
     public String addVarTest(@RequestBody Map<String, String> temp_map) {
-        for (Map.Entry<String, String> entry : temp_map.entrySet()) {
+        /*for (Map.Entry<String, String> entry : temp_map.entrySet()) {
             System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
         }
         //创建变量
-        List<IoBaseEntity> varlist = new ArrayList();
+        List<IoVariable> varlist = new ArrayList();
         String model_name = temp_map.get("model_name");
         String var_name = temp_map.get("var_name");
-        varlist.add(new IoBaseEntity(var_name));
-        addDeviceTempalteVar(model_name, varlist);
+        varlist.add(new IoVariable());
+        addDeviceTempalteVar(model_name, "",  varlist);*/
         return "menu";
     }
 
@@ -107,5 +116,33 @@ public class IoDeviceTemplateController {
         entities.add(entity);
         deleteDeviceTempalte(entities);
         return "menu";
+    }
+
+    private IoVariable buildVarMap2Xml(Map<String, String> varMap) {
+
+        String varName = varMap.get("var_name");
+        String dataType = varMap.get("data_type");
+        String conf = "<Values><Config></Config></Values>";
+        /*conf.concat("<ScanRate>").concat(varMap.get("scan_rate")).concat("</ScanRate>");
+        conf.concat("<Area>").concat(varMap.get("area")).concat("</Area>");
+        conf.concat("<Address>").concat(varMap.get("address")).concat("</Address>");
+        conf.concat("<DataType>").concat(varMap.get("data_type")).concat("</DataType>");
+        conf.concat("<HL>").concat(varMap.get("hl")).concat("</HL>");
+        conf.concat("<StringLen>").concat(varMap.get("string_len")).concat("</StringLen>");
+        conf.concat("<ControlBit>").concat(varMap.get("control_bit")).concat("</ControlBit>");
+        conf.concat("<BitOffset>").concat(varMap.get("bit_offset")).concat("</BitOffset>");
+        conf.concat("<RawMax>").concat(varMap.get("raw_max")).concat("</RawMax>");
+        conf.concat("<RawMin>").concat(varMap.get("raw_min")).concat("</RawMin>");
+        conf.concat("<RangeMax>").concat(varMap.get("range_max")).concat("</RangeMax>");
+        conf.concat("<RangeMin>").concat(varMap.get("range_min")).concat("</RangeMin>");
+        conf.concat("<DataChange>").concat(varMap.get("data_change")).concat("</DataChange>");*/
+        //conf.concat("</Config></Values>");
+
+        IoVariable var = new IoVariable();
+        var.setName(varName);
+        var.setDataType(dataType);
+        var.setPropConf(conf);
+
+        return var;
     }
 }
