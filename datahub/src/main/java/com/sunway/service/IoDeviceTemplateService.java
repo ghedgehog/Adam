@@ -27,13 +27,17 @@ public class IoDeviceTemplateService {
     private String preStatisticsTable = IIoTableName.IoDeviceTemplatePreStatistics;
     private String varTable = IIoTableName.IoDeviceTemplateVar;
 
+    public List<String> queryDeviceTemplate(){
+        return baseMapper.querySysBaseList(templateTable);
+    }
+
     public void addDeviceTempalte(List<IoBaseEntity> baseEntityList){
         baseMapper.addSysBaseList(templateTable, baseEntityList);
         for(IoBaseEntity entity: baseEntityList){
             IoBaseEntity entity1 = new IoBaseEntity("");
             List<IoBaseEntity> entityList = new ArrayList();
             entityList.add(entity1);
-            addIoDeviceTemplateAlarm(entity.getName(), entityList);
+            //addIoDeviceTemplateAlarm(entity.getName(), entityList);
             addIoDeviceTemplateHistory(entity.getName(), entityList);
             addIoDeviceTemplatePreStaticstic(entity.getName(), entityList);
         }

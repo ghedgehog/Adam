@@ -27,7 +27,7 @@ public class IoChannelService {
         baseMapper.deleteBaseList(tableName, ptableName, driver, channels);
     }
 
-    public List<IoChannel> queryIoChannels(String driver, int mark){
+    public List<IoChannel> queryIoChannelsByMark(String driver, int mark){
         return baseMapper.queryIoBaseList(tableName, ptableName, driver, mark);
     }
 

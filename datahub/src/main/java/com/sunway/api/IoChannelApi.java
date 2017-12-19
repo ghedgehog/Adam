@@ -19,7 +19,7 @@ public class IoChannelApi {
     //查询新增通道
     @RequestMapping(value="/add")
     public List<IoChannel> queryAddedChannels(String driver){
-        List<IoChannel> channels = ioChannelService.queryIoChannels(driver, Mark.INSERT);
+        List<IoChannel> channels = ioChannelService.queryIoChannelsByMark(driver, Mark.INSERT);
         ioChannelService.setMark(driver, channels, Mark.DONE);
         return channels;
     }
@@ -27,7 +27,7 @@ public class IoChannelApi {
     //查询删除通道
     @RequestMapping(value="/del")
     public List<IoChannel> queryDeletedChannels(String driver){
-        List<IoChannel> channels = ioChannelService.queryIoChannels(driver, Mark.DELETE);
+        List<IoChannel> channels = ioChannelService.queryIoChannelsByMark(driver, Mark.DELETE);
         ioChannelService.deleteIoChannels(driver, channels);
         return channels;
     }

@@ -29,12 +29,8 @@ public class IoDriverTypesController {
         //FORTEST
         List<String> list = new ArrayList<String>();
         String Name = ioDriverTypes.get(2).getName();
-        System.out.println(Name);
         for (IoDriverType driver : ioDriverTypes) {
             list.add(driver.getName());
-//            System.out.println("Name:" + driver.getName()
-//                    + ", Description:" + driver.getDescription()
-//                    + ", Communication:" + driver.getCommunicationType());
         }
         return list;
     }

@@ -87,7 +87,7 @@
                             <label class="col-md-3 control-label">创建时间:</label>
                             <div class="input-group col-md-8">
                                 <input type="text" class="form-control pull-right datepicker" id="create_time"
-                                       placeholder="dd/mm/yyyy"></input>
+                                       placeholder="yyyy-mm-dd"></input>
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
@@ -98,7 +98,7 @@
                             <label class="col-md-3 control-label">修改时间:</label>
                             <div class="input-group col-md-8">
                                 <input type="text" class="form-control pull-right datepicker" id="modify_time"
-                                       placeholder="dd/mm/yyyy"></input>
+                                       placeholder="yyyy-mm-dd"></input>
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
@@ -190,7 +190,7 @@
             async: true,
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
-            url: "dev-template/add-test",
+            url: "dev-template/add",
             data: JSON.stringify({
                 "model-name": model_name,
                 "create-time": create_time,

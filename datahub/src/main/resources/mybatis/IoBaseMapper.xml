@@ -22,6 +22,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</foreach>
 	</delete>
 
+	<select id="querySysBaseList" resultType="String" >
+		SELECT name FROM ${table}
+	</select>
+
 	<!--addBaseList-->
 	<insert id="addBaseList" parameterType="java.util.List">
 		INSERT INTO ${table} (name, pid, mark) VALUES
@@ -47,8 +51,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT name FROM ${table}
 		WHERE
 		pid = (SELECT id FROM ${ptable} WHERE name = #{parent})
-		AND
-		mark = ${mark}
+		<if test="mark != -1">
+			AND mark = ${mark}
+		</if>
 	</select>
 
 	<!--queryAllIoBase-->
@@ -90,17 +95,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!--Variables-->
 	<select id="queryVarsFromDevice" resultMap="ioVarMap">
-		select name, description,
-		data_type,
-		prop_conf
-		/*prop_data_change,
-		prop_range_min,
-		prop_range_max,
-		prop_raw_min,
-		prop_raw_max*/
+		select name, description, data_type, prop_conf
 		from ${varTable}
-		where
-		pid = (select template_id from ${devTable} where name= #{devName})
+		where pid = (select template_id from ${devTable} where name= #{devName})
 	</select>
 
 	<!--AlarmConfigByVar-->

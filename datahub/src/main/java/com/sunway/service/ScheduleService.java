@@ -27,12 +27,8 @@ public class ScheduleService {
     @Autowired
     private HistoryDataService hisDataService;
 
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
     @Scheduled(initialDelay = SCHE_SECOND*2, fixedDelay=SCHE_SECOND*3)
     private void transferReal2His(){
-
-        //System.out.println( sdf.format(new Date()));
 
         if(!isInitialize){ hisDataService.initial();  isInitialize =true;}
         List<Object> deviceList = realDataService.getAllDevices();

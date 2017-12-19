@@ -7,6 +7,7 @@ import com.sunway.utils.Mark;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +30,9 @@ public class IoChannelController {
     }
 
     @RequestMapping(value="/del")
-    public void deleteIoChannels(String uaServer, List<IoChannel> channels){
+    public void deleteIoChannels(String driver, List<IoChannel> channels){
         //ioChannelService.deleteIoChannels(uaServer, channels);
-        ioChannelService.setMark(uaServer, channels, Mark.DELETE);
+        ioChannelService.setMark(driver, channels, Mark.DELETE);
         //TRUE TODO
         dataService.NoticeChannelDeleted();
     }

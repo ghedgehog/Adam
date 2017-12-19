@@ -82,6 +82,24 @@
             }
         });
     });
+
+    $(function(){
+        $.ajax({
+            type: "get",
+            async : true,
+            url: "dev-template/get",
+            success: function(data) {
+                var html="<option>请选择模板</option>";
+                $.each(data, function(i,item) {
+                    console.log(item);
+                    html += "<option>"+item+"</option>";
+                });
+                $("#device_model").html('').append(html);
+            },error: function() {
+                alert("失败");
+            }
+        });
+    });
     function submitInfo(){
         var device_name = $.trim($('#device_name').val());
         var driver_type = $.trim($('#driver_type').val());
@@ -98,7 +116,7 @@
             async : true,
             contentType : "application/json;charset=utf-8",
             dataType : 'json',
-            url : "device/add-test",
+            url : "device/add",
             data:JSON.stringify({
                 "device_name":device_name,
                 "driver_type":driver_type,

@@ -1,7 +1,10 @@
 package com.sunway.controller;
 
 import com.sunway.model.IoBaseEntity;
+import com.sunway.model.IoChannel;
+import com.sunway.service.IoChannelService;
 import com.sunway.service.IoDeviceService;
+import com.sunway.service.IoDriverService;
 import com.sunway.service.RealDataService;
 import com.sunway.utils.Mark;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +28,36 @@ public class IoDeviceController {
     @Autowired
     private RealDataService dataService;
 
-    @RequestMapping(value="/add")
-    public  void addIoDevices(String channel, String template, List<IoBaseEntity> entityList){
-        deviceService.addIoDevices(channel, template, entityList);
+    @Autowired
+    private IoChannelService channelService;
+
+    @Autowired
+    private IoDriverService driverService;
+
+    @RequestMapping(value="/add", method = RequestMethod.POST)
+    @ResponseBody
+    public  boolean addIoDevices(@RequestBody Map<String, String> tempMap){
+
+        String deviceName = tempMap.get("device_name");
+        String channelName = tempMap.get("channel_name");
+        String driverType = tempMap.get("driver_type");
+        String deviceModel = tempMap.get("device_model");
+
+        //非空校验 TODO
+        String channelLongName = driverType.concat(".").concat(channelName);
+        String deviceLongName = channelLongName.concat(".").concat(deviceName);
+
+        if(!addDriver(driverType) || !addChannel(driverType, channelLongName)) return false; //throw exception
+
+        List<IoBaseEntity> entities = new ArrayList();
+        IoBaseEntity entity = new IoBaseEntity(deviceLongName);
+        entities.add(entity);
+
+        deviceService.addIoDevices(channelLongName, deviceModel, entities);
         //TRUE TODO
         dataService.NoticeDeviceAdded();
+
+        return true;
     }
 
     @RequestMapping(value="/del")
@@ -40,31 +69,6 @@ public class IoDeviceController {
     }
 
     //GTest
-    @RequestMapping(value="/add-test", method = RequestMethod.POST)
-    public String addDevicesTest(@RequestBody Map<String, String> temp_map){
-        for (Map.Entry<String,String> entry:
-                temp_map.entrySet()) {
-            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
-        }
-        String device_name = temp_map.get("device_name");
-        String channel_name = temp_map.get("channel_name");
-        String driver_type = temp_map.get("driver_type");
-
-        String channel_long_name = channel_name.concat(".").concat(device_name);
-        String device_long_name = driver_type.concat(".").concat(channel_long_name);
-        System.out.println(channel_long_name+"\t"+device_long_name);
-
-        System.out.println("addDevicesTest...");
-        List<IoBaseEntity> entities = new ArrayList();
-        //IoBaseEntity entity = new IoBaseEntity("ModbusTcpClient.channel2.device2");
-        IoBaseEntity entity = new IoBaseEntity(device_long_name);
-        entities.add(entity);
-        addIoDevices(channel_long_name, "BlowerTemplate", entities);
-//        addIoDevices("ModbusTcpClient.channel1", "BlowerTemplate", entities);
-        return "menu";
-    }
-
-    //GTest
     @RequestMapping(value="/del-test")
     public String deleteIoDevicesTest(){
         List<IoBaseEntity> entities = new ArrayList();
@@ -72,5 +76,28 @@ public class IoDeviceController {
         entities.add(entity);
         deleteIoDevices("ModbusTcpClient.channel1", entities);
         return "menu";
+    }
+
+    private boolean addChannel(String driver_type, String channel_long_name){
+        if(channel_long_name==null) return false;
+
+        List<IoChannel> channels = channelService.queryIoChannelsByMark(driver_type, -1);
+        IoChannel channel = new IoChannel(channel_long_name);
+        if(channels.contains(channel)) return true;
+
+        channels.clear();
+        channels.add(channel);
+        channelService.addIoChannels(driver_type, channels);
+
+        return true;
+    }
+
+    private boolean addDriver(String driver_type){
+        if(driver_type==null) return false;
+        IoBaseEntity entity = new IoBaseEntity(driver_type);
+        List<IoBaseEntity> entities = new ArrayList<IoBaseEntity>();
+        entities.add(entity);
+        driverService.addIoDrivers("ioserver", entities);
+        return true;
     }
 }
