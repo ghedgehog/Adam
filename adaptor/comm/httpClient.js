@@ -9,6 +9,7 @@ exports.getHttpClient = function (callback) {
             httpclient.registerMethod("getDriver_add", "http://${path}/api-driver/add", "GET");
             httpclient.registerMethod("getChannel_add", "http://${path}/api-channel/add", "GET");
             httpclient.registerMethod("getDevice_add", "http://${path}/api-device/add", "GET");
+            httpclient.registerMethod("getVar_add", "http://${path}/api-device/getvars", "GET");
             httpclient.registerMethod("postDataHub", "http://${path}", "POST");
             cb(null, httpclient);
         }], function (err, results) {
@@ -34,6 +35,14 @@ exports.getChannelToAdd = function(httpclient,requestArgs,callback){
 
 exports.getDeviceToAdd = function(httpclient,requestArgs,callback){
     httpclient.methods.getDevice_add(requestArgs,function (data, response) {
+        callback(null, data);
+    }).on('error', function (err) {
+        callback(err);
+    });
+}
+
+exports.getVarToAdd = function(httpclient,requestArgs,callback){
+    httpclient.methods.getVar_add(requestArgs,function (data, response) {
         callback(null, data);
     }).on('error', function (err) {
         callback(err);

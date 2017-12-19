@@ -48,7 +48,7 @@ function task() {
             });
         },],
         addChannel:['httpClient','addDriver',function(result,callback){
-            uaBuildSpace.browseDrivers(the_session,function(err,drivers){
+            uaBuildSpace.browseIo(the_session,function(err,drivers){
                 if(err) callback(err);
                 else{
                     var para = {};
@@ -63,38 +63,62 @@ function task() {
                                     else cb();
                                 });
                             }
-                        })
+                        });
                     },function(err){
                         if(err) callback(err);
                         else callback(null,"addChannel success!");
-                    }) 
+                    });
                 }
             });
-        }]/* ,
+        }],
         addDevice:['httpClient','addChannel',function(result,callback){
-            uaBuildSpace.browseDrivers(the_session,function(err,drivers){
+            uaBuildSpace.browseAllDrivers(the_session,function(err,channels){
                 if(err) callback(err);
                 else{
                     var para = {};
-                    async.eachSeries(drivers, function(driver, cb) {
-                        para.driver = driver.name;
+                    async.eachSeries(channels, function(channel, cb) {
+                        para.channelName = channel.value;
                         requestArgs.parameters = para;
-                        httpClient.getChannelToAdd(result.httpClient,requestArgs,function(err1,channels){
+                        httpClient.getDeviceToAdd(result.httpClient,requestArgs,function(err1,devices){
                             if(err1) cb(err1);
                             else{
-                                uaBuildSpace.addChannels(the_session,driver.nodeId,channels,function(err2,result2){
+                                uaBuildSpace.addDevices(the_session,channel,devices,function(err2,result2){
                                     if(err2) cb(err2);
                                     else cb();
                                 });
                             }
-                        })
+                        });
                     },function(err){
                         if(err) callback(err);
-                        else callback(null,"addChannel success!");
-                    }) 
+                        else callback(null,"addDevice success!");
+                    }); 
                 }
             });
-        }] */
+        }],
+        addVar:['httpClient','addDevice',function(result,callback){
+            uaBuildSpace.browseAllChannels(the_session,function(err,devices){
+                if(err) callback(err);
+                else{
+                    var para = {};
+                    async.eachSeries(devices, function(device, cb) {
+                        para.device = device.value;
+                        requestArgs.parameters = para;
+                        httpClient.getVarToAdd(result.httpClient,requestArgs,function(err1,Vars){
+                            if(err1) cb(err1);
+                            else{
+                                uaBuildSpace.addVars(the_session,device,Vars,function(err2,result2){
+                                    if(err2) cb(err2);
+                                    else cb();
+                                });
+                            }
+                        });
+                    },function(err){
+                        if(err) callback(err);
+                        else callback(null,"addVar success!");
+                    }); 
+                }
+            });
+        }]
     }, function (err, results) {
         if (err) {
             console.log(err);

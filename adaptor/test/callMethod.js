@@ -122,6 +122,27 @@ function call_GetFreeNodeIds() {
     });
 }
 
+function Commit() {
+    var methodToCalls = [];
+    /* methodToCalls.push(new opcua.call_service.CallMethodRequest({
+        objectId: "ns=2;i=400000301",
+        methodId: "ns=2;s=400000301.Commit",
+        inputArguments: []
+    })); */
+    methodToCalls.push(new opcua.call_service.CallMethodRequest({
+        objectId: new opcua.NodeId(opcua.NodeIdType.STRING,"ModbusTcpClient",2),
+        methodId: new opcua.NodeId(opcua.NodeIdType.STRING,"ModbusTcpClient.Commit",2),
+        inputArguments: []
+    }));
+    the_session.call(methodToCalls, function (err, result) {
+        if (err) {
+            console.log(JSON.stringify(err));
+        } else {
+            console.log(JSON.stringify(result));
+        }
+    });
+}
+
 function browseDrivers(){
     var browseDescription = {
         nodeId: new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400001010, 2),
@@ -144,7 +165,7 @@ function browseDrivers(){
 createConnection("127.0.0.1", 4841, "admin", "admin", function (err, result) {
     if (result) {
         console.log(result);
-       // browseDrivers();
+       Commit();
     } else {
         console.log(err);
     }

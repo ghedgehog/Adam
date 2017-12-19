@@ -15,6 +15,7 @@
     "express": "^4.16.2",
     "express-generator": "^4.15.5",
     "fs": "^0.0.1-security",
+    "log4js": "^2.4.1",
     "node-opcua": "^0.1.0-13",
     "node-rest-client": "^3.1.0"
   },

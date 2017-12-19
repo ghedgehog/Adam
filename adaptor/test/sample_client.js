@@ -119,7 +119,6 @@ async.series([
             callback();
         });
     }
-
 ],
 function(err) {
     if (err) {
@@ -129,3 +128,41 @@ function(err) {
     }
     client.disconnect(function(){});
 }) ;
+
+var self = this;
+ 
+callback = callback || function(){};
+
+if (self.subscriptionId === "terminated") {
+    // already terminated... just ignore
+    callback(new Error("Already Terminated"));
+    return;
+}
+
+if (_.isFinite(self.subscriptionId)) {
+
+    self.publish_engine.unregisterSubscription(self.subscriptionId);
+
+    if (!self.session) {
+        return self._terminate_step2(callback);
+    }
+
+    self.session.deleteSubscriptions({
+        subscriptionIds: [self.subscriptionId]
+    }, function (err) {
+
+        if (err) {
+            /**
+             * notify the observers that an error has occurred
+             * @event internal_error
+             * @param {Error} err the error
+             */
+            self.emit("internal_error", err);
+        }
+        self._terminate_step2(callback);
+    });
+
+} else {
+    assert(self.subscriptionId === "pending");
+    self._terminate_step2(callback);
+}
