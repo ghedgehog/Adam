@@ -4,9 +4,11 @@ import com.sunway.mapper.IUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * 用户登陆
@@ -57,8 +59,11 @@ public class LoginController {
     }
 
     @RequestMapping(value="/template_info")
-    public String template_info(){
-        System.out.println("template_info...");
+    public String template_info(@RequestBody Map<String, String> temp_map, Model model){
+        String model_name = temp_map.get("model_name");
+        System.out.println(model_name);
+        System.out.println("进入了template_info...");
+        model.addAttribute("model_name", model_name);
         return "template_info";
     }
 
@@ -99,8 +104,11 @@ public class LoginController {
     }
 
     @RequestMapping(value="/var_manage")
-    public String var_manage(){
-        System.out.println("var_manage...");
+    public String var_manage(@RequestBody Map<String, String> temp_map, Model model){
+        String model_name = temp_map.get("model_name");
+        System.out.println(model_name);
+        model.addAttribute("model_name", model_name);
+        System.out.println("进入了var_manage...");
         return "var_manage";
     }
 

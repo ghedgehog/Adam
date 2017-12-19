@@ -27,7 +27,7 @@ public class ScheduleService {
     @Autowired
     private HistoryDataService hisDataService;
 
-    @Scheduled(initialDelay = SCHE_SECOND*2, fixedDelay=SCHE_SECOND*3)
+    //@Scheduled(initialDelay = SCHE_SECOND*2, fixedDelay=SCHE_SECOND*3)
     private void transferReal2His(){
 
         if(!isInitialize){ hisDataService.initial();  isInitialize =true;}

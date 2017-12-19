@@ -1,3 +1,4 @@
+<script src="AdminLTE-2.3.11/My97DatePicker/WdatePicker.js"></script>
 <section class="content-header">
     <h1>连接管理
         <small>模型管理</small>
@@ -25,37 +26,37 @@
                 <table id="example1" class=" table  table-striped table-hover display ">
                     <thead>
                     <tr>
-                        <th>Rendering engine</th>
-                        <th>Browser</th>
-                        <th>Platform(s)</th>
-                        <th>Engine version</th>
-                        <th>CSS grade</th>
+                        <th>模型名称</th>
+                        <th>创建时间</th>
+                        <th>修改时间</th>
+                        <th>描述</th>
+                        <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td><a href="javascript:void(0);" id="template_info" onclick="template_info()">编号1</a></td>
-                        <td>Safari 2.0</td>
-                        <td>OSX.4+</td>
-                        <td>419.3</td>
-                        <td>A</td>
-                    </tr>
-                    <tr>
-                        <td><a href="#">Webkit</a></td>
-                        <td>Safari 3.0</td>
-                        <td>OSX.4+</td>
-                        <td>522.1</td>
-                        <td>A</td>
-                    </tr>
+                    <!--<tr>-->
+                        <!--<td><a href="javascript:void(0);" id="template_info" onclick="template_info()">编号1</a></td>-->
+                        <!--<td>Safari 2.0</td>-->
+                        <!--<td>OSX.4+</td>-->
+                        <!--<td>419.3</td>-->
+                        <!--<td>A</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td><a href="#">Webkit</a></td>-->
+                        <!--<td>Safari 3.0</td>-->
+                        <!--<td>OSX.4+</td>-->
+                        <!--<td>522.1</td>-->
+                        <!--<td>A</td>-->
+                    <!--</tr>-->
                     </tbody>
                     <tfoot>
-                    <tr>
-                        <th>Rendering engine</th>
-                        <th>Browser</th>
-                        <th>Platform(s)</th>
-                        <th>Engine version</th>
-                        <th>CSS grade</th>
-                    </tr>
+                    <!--<tr>-->
+                        <!--<th>Rendering engine</th>-->
+                        <!--<th>Browser</th>-->
+                        <!--<th>Platform(s)</th>-->
+                        <!--<th>Engine version</th>-->
+                        <!--<th>CSS grade</th>-->
+                    <!--</tr>-->
                     </tfoot>
                 </table>
             </div>
@@ -86,22 +87,24 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">创建时间:</label>
                             <div class="input-group col-md-8">
-                                <input type="text" class="form-control pull-right datepicker" id="create_time"
-                                       placeholder="yyyy-mm-dd"></input>
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
+                                <!--<input type="text" class="form-control pull-right datepicker" id="create_time"-->
+                                <!--placeholder="dd/mm/yyyy"></input>-->
+                                <input class="Wdate pull-right" id="create_time" type="text" onClick="WdatePicker({el:this,dateFmt:'yyyy-MM-dd HH:mm:ss'})"></input>
+                                <!--<div class="input-group-addon">-->
+                                <!--<i class="fa fa-calendar"></i>-->
+                                <!--</div>-->
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-3 control-label">修改时间:</label>
                             <div class="input-group col-md-8">
-                                <input type="text" class="form-control pull-right datepicker" id="modify_time"
-                                       placeholder="yyyy-mm-dd"></input>
-                                <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </div>
+                                <!--<input type="text" class="form-control pull-right datepicker" id="modify_time"-->
+                                <!--placeholder="dd/mm/yyyy"></input>-->
+                                <input class="Wdate pull-right" id="modify_time" type="text" onClick="WdatePicker({el:this,dateFmt:'yyyy-MM-dd HH:mm:ss'})"></input>
+                                <!--<div class="input-group-addon">-->
+                                <!--<i class="fa fa-calendar"></i>-->
+                                <!--</div>-->
                             </div>
                         </div>
 
@@ -150,15 +153,19 @@
             }
         } );
 
-        $('.datepicker').datepicker({
-            autoclose: true
-        });
+//        $('.datepicker').datepicker({
+//            autoclose: true
+//        });
     });
 
     function template_info() {
         $.ajax({
-            type: "GET",
+            type: "POST",
             async: true,
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({
+                "model_name": model_name,
+            }),
             url: "template_info",
             success: function (data) {
                 $("#mainDiv").html(data);
@@ -167,16 +174,16 @@
             }
         });
     }
-
+    var model_name = null;
     function test_modal() {
-        var model_name = $.trim($('#model_name').val());
+        model_name = $.trim($('#model_name').val());
         var create_time = $.trim($('#create_time').val());
         var modify_time = $.trim($('#modify_time').val());
         var description = $.trim($('#description').val());
         //alert(model_name+"\t"+create_time+"\t"+modify_time+"\t"+description);
         console.log("before");
         temp_table.row.add([
-            model_name,
+            '<a href="javascript:void(0);" onclick="template_info()">'+model_name+'</a>',
             create_time,
             modify_time,
             description,
@@ -198,17 +205,15 @@
                 "descript": description,
             }),
             success: function (msg) {
-                alert(msg + "添加设备模板成功");
+                //alert(msg + "添加设备模板成功");
             }, error: function (msg) {
-                alert(msg);
+                //alert(msg);
             }
         });
     }
 
     function delete_modal() {
-
-            console.log("删除按钮进行了点击操作")
-            temp_table.row('.selected').remove().draw(false);
-
+        console.log("删除按钮进行了点击操作")
+        temp_table.row('.selected').remove().draw(false);
     }
 </script>

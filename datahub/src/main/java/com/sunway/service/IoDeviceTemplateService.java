@@ -84,7 +84,7 @@ public class IoDeviceTemplateService {
         for(IoBaseEntity entity : entityList){
             varName.add(entity.getName());
         }
-        hisDataMapper.crateHisTableByTemplate(templateHis, varName);
+        //hisDataMapper.crateHisTableByTemplate(templateHis, varName);
     }
 
     public void deleteIoDeviceTemplateVar(String template, List<IoBaseEntity> entityList){

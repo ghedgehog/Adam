@@ -1,4 +1,4 @@
-
+<html xmlns:th="http://www.thymeleaf.org">
 <div class="box box-widget">
     <div class="box-header">
         <div class="btn-group">
@@ -9,7 +9,7 @@
     </div>
 
     <div class="box-body">
-        <table id="example1" class=" table  table-striped table-hover display ">
+        <table id="example1" class=" table table-striped table-hover display ">
             <thead>
             <tr>
                 <th>名称</th>
@@ -45,7 +45,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    新增设备模型
+                    新增变量
                 </h4>
             </div>
             <div class="modal-body" id="modal_body">
@@ -152,7 +152,7 @@
 <script src="AdminLTE-2.3.11/datatables.net/js/jquery.dataTables.js"></script>
 <script src="AdminLTE-2.3.11/datatables.net-bs/js/dataTables.bootstrap.js"></script>
 
-<script>
+<script th:inline="javascript">
     var temp_table = null;
     $(function () {
         temp_table = $('#example1').DataTable();
@@ -170,6 +170,11 @@
     });
 
     function test_var() {
+
+        /*<![CDATA[*/
+        var model_name = [[${model_name}]];
+        console.log("点击新增变量了---"+model_name);
+        /*]]>*/
         var var_name = $.trim($('#var_name').val());
         var Independent_subcontract = $.trim($('#Independent_subcontract').val());
         var polling = $.trim($('#polling').val());
@@ -178,36 +183,45 @@
         var data_type = $.trim($('#data_type').val());
         var read_write = $.trim($('#read_write').val());
         var description = $.trim($('#description').val());
-        alert(var_name+"\t"+Independent_subcontract+"\t"+polling+"\t"+controller+"\t"+region+"\t"+data_type+"\t"+read_write+description);
+        //alert(var_name+"\t"+Independent_subcontract+"\t"+polling+"\t"+controller+"\t"+region+"\t"+data_type+"\t"+read_write+description);
         console.log("before");
+
         temp_table.row.add([
-            model_name,
-            create_time,
-            modify_time,
+            var_name,
+            controller,
+            polling,
+            Independent_subcontract,
             description,
-            '.5'
+            '编辑',
+            '删除'
         ]).draw();
+
         console.log("after");
 
-//        var json = {};
-//        $.ajax({
-//            type: "post",
-//            async: true,
-//            contentType: "application/json; charset=utf-8",
+        var json = {};
+        $.ajax({
+            type: "post",
+            async: true,
+            contentType: "application/json; charset=utf-8",
 //            dataType: 'json',
-//            url: "dev-template/add",
-//            data: JSON.stringify({
-//                "model-name": model_name,
-//                "create-time": create_time,
-//                "modify-time": modify_time,
-//                "descript": description,
-//            }),
-//            success: function (msg) {
-//                alert(msg + "添加设备模板成功");
-//            }, error: function (msg) {
-//                alert(msg);
-//            }
-//        });
+            url: "dev-template/add-var-test",
+            data: JSON.stringify({
+                "model_name":model_name,
+                "var_name": var_name,
+                "Independent_subcontract": Independent_subcontract,
+                "polling": polling,
+                "controller": controller,
+                "region": region,
+                "data_type": data_type,
+                "read_write": read_write,
+                "description":description
+            }),
+            success: function (msg) {
+                //alert(msg + "添加设备模板成功");
+            }, error: function (msg) {
+               // alert(msg);
+            }
+        });
     }
 
     function delete_modal() {
@@ -215,3 +229,4 @@
         temp_table.row('.selected').remove().draw(false);
     }
 </script>
+</html>
