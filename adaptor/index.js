@@ -38,7 +38,7 @@ function task() {
         addDriver: ['uaConnect', 'httpClient', function (result, callback) {//创建驱动
             httpClient.getDriverToAdd(the_httpClient, requestArgs, function (err, result) {
                 if (err) callback("getDriverToAdd failed: " + err.code);
-                else if (result.length != 0) {
+                else if (result.length > 0) {
                     uaBuildSpace.addDrivers(the_session, result, function (err1, result1) {
                         if (err1) callback(err1);
                         else {
@@ -53,7 +53,7 @@ function task() {
         addChannel: ['httpClient', 'addDriver', function (result, callback) {
             uaBuildSpace.browseIo(the_session, function (err, drivers) {
                 if (err) callback(err);
-                else if (drivers.length != 0) {
+                else if (drivers.length > 0) {
                     var para = {};
                     async.eachSeries(drivers, function (driver, cb) {
                         para.driver = driver.value;
@@ -82,7 +82,7 @@ function task() {
         addDevice: ['httpClient', 'addChannel', function (result, callback) {
             uaBuildSpace.browseAllDrivers(the_session, function (err, channels) {
                 if (err) callback(err);
-                else if (channels.length != 0) {
+                else if (channels.length > 0) {
                     var para = {};
                     async.eachSeries(channels, function (channel, cb) {
                         para.channelName = channel.value;
@@ -135,14 +135,7 @@ function task() {
         addAlarmObj:['addVar',function(result,callback){
             httpClient.getAlarmObjToAdd(the_httpClient,requestArgs,function(err,alarmObjsToAdd){
                 if(err) callback(err);
-                else if(alarmObjsToAdd!=0){
-                     alarmObjsToAdd = [
-                        {type:"OnAlarmType",
-                        name:"Alarm1",
-                        conf:"<Values><Severity>300</Severity><Message>On</Message></Values>"},
-                        {type:"ExclusiveDeviationAlarmType",
-                        name:"Alarm2",
-                        conf:"<Values><Severity>300</Severity></Values>"}];
+                else if(alarmObjsToAdd.length>0){
                         uaBuildSpace.addAlarmObj(the_session,alarmObjsToAdd,function(err1,result1){
                             if(err1) callback(err1);
                             else callback(null,result1);
@@ -151,31 +144,33 @@ function task() {
                     callback("there is no alarmObj to add !!!");
                 }
             });
-        }]/* ,
+        }],
         varAlarmConf:['addAlarmObj',function(result,callback){
             uaBuildSpace.browseAllDevices(the_session, function (err, vars) {
                 if (err) callback(err);
-                else {
+                else if(vars.length>0){
                     var para = {};
                     async.eachSeries(vars, function (var1, cb) {
-                        para.device = device.value;
+                        para.var = var1.value.split(".")[3];
                         requestArgs.parameters = para;
-                        httpClient.getVarToAdd(the_httpClient, requestArgs, function (err1, Vars) {
+                        httpClient.getVarAlarmConf(the_httpClient, requestArgs, function (err1, alarmObjs) {
                             if (err1) cb(err1);
-                            else {
-                                uaBuildSpace.addVars(the_session, device, Vars, function (err2, result2) {
+                            else if(alarmObjs.length>0) {   
+                                uaBuildSpace.varAlarmConf(the_session, var1, alarmObjs, function (err2, result2) {
                                     if (err2) cb(err2);
                                     else cb();
                                 });
-                            }
+                            }else cb();
                         });
                     }, function (err) {
                         if (err) callback(err);
-                        else callback(null, "addVar success!");
+                        else callback(null, "varAlarmConf success !");
                     });
+                }else{
+                    callback("there is no var in db !");
                 }
             });
-        }] */
+        }] 
     }, function (err, results) {
         if (err) {
             console.log(err);

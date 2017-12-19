@@ -17,7 +17,7 @@ exports.getHttpClient = function (callback) {
             /*变量报警*/
             httpclient.registerMethod("getVarAlarmConf", "http://${path}/api-device/alm-conf-var", "GET");
             /*报警对象*/
-            httpclient.registerMethod("getAlarmObj_add", "http://${path}/api-alarm/add", "GET");
+            httpclient.registerMethod("getAlarmObj_add", "http://${path}/api-device/alm-conf", "GET");
             /*推送实时*/
             httpclient.registerMethod("postDataHub", "http://${path}", "POST");
             /*推送报警*/

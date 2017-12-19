@@ -7,6 +7,7 @@ var ioChannelType = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000310, 2);
 var ioDeviceTYpe = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000330, 2);
 var ioProxyVariableType = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000350, 2);
 var Organizes = new opcua.NodeId(opcua.NodeIdType.NUMERIC, opcua.ReferenceTypeIds.Organizes, 0);
+var HasCondition = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 9006, 0);                      /*变量和报警对象之间的引用关系*/
 
 var dbAlarmConfigRoot = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400001113, 2);            /*报警配置根目录*/
 var alarmType = {
@@ -151,7 +152,7 @@ function addAlarmObj(the_session, alarmObjsToAdd, callback) {
         AddAlarmObjArgs.ParentNodeId = dbAlarmConfigRoot;
         AddAlarmObjArgs.NodeId = new opcua.NodeId(opcua.NodeIdType.STRING, alarmObj.name, 2);
         AddAlarmObjArgs.TypeDefinitionId = alarmType[alarmObj.type];
-        AddAlarmObjArgs.BrowseName =  alarmObj.name;
+        AddAlarmObjArgs.BrowseName = alarmObj.name;
         AddAlarmObjArgs.DisplayName = alarmObj.name;
         AddAlarmObjArgs.Description = alarmObj.name;
         uaServiceMethod.AddObject(the_session, AddAlarmObjArgs, function (err, result) {
@@ -162,6 +163,23 @@ function addAlarmObj(the_session, alarmObjsToAdd, callback) {
                     else cb();
                 });
             }
+        });
+    }, function (err) {
+        if (err) callback(err);
+        else callback(null, "addAlarmObj success!");
+    });
+}
+
+//配置变量报警
+function varAlarmConf(the_session, varNodeId, alarmObjs, callback) {
+    var varAlarmConfArgs = {};
+    async.eachSeries(alarmObjs, function (alarmObj, cb) {
+        varAlarmConfArgs.SourceNodeId = varNodeId;
+        varAlarmConfArgs.TargetNodeId = new opcua.NodeId(opcua.NodeIdType.STRING, alarmObj.name, 2);
+        varAlarmConfArgs.ReferenceType = HasCondition;
+        uaServiceMethod.AddReference(the_session, varAlarmConfArgs, function (err, result) {
+            if (err) cb(err);
+            else cb();
         });
     }, function (err) {
         if (err) callback(err);
@@ -413,6 +431,7 @@ exports.addChannels = addChannels;
 exports.addDevices = addDevices;
 exports.addVars = addVars;
 exports.addAlarmObj = addAlarmObj;
+exports.varAlarmConf = varAlarmConf;
 exports.browseIo = browseIo;
 exports.browseDriver = browseDriver;
 exports.browseAllDrivers = browseAllDrivers;
