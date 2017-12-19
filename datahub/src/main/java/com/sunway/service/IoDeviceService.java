@@ -1,10 +1,12 @@
 package com.sunway.service;
 
 import com.sunway.mapper.IIoBaseMapper;
+import com.sunway.mapper.IIoHisDataMapper;
 import com.sunway.mapper.IIoTableName;
 import com.sunway.model.IoAlarmConfig;
 import com.sunway.model.IoBaseEntity;
 import com.sunway.model.IoVariable;
+import com.sunway.utils.HisData;
 import com.sunway.utils.Mark;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,9 @@ public class IoDeviceService {
     @Autowired
     private RealDataService realDataService;
 
+    @Autowired
+    private IIoHisDataMapper hisDataMapper;
+
     /*@Autowired
     public IoDeviceService() {
         //更新设备至实时库
@@ -40,6 +45,10 @@ public class IoDeviceService {
 
         baseMapper.addIoDevices(deviceTable, channelTable, tempTable, channelName, templateName, entityList);
 
+        //创建历史表
+        for (IoBaseEntity entity : entityList){
+            createHistroyTable(templateName, entity.getName());
+        }
         //更新设备至实时库
         updateDeviceToRealHub();
     }
@@ -110,5 +119,23 @@ public class IoDeviceService {
             List<String> varList = queryVariableNames(device);
             realDataService.updateVariables(device, varList);
         }
+    }
+
+    private boolean createHistroyTable(String template, String deviceName){
+        //创建历史表 TODO
+        String templateHis = HisData.hisTablePrefix + template;
+
+        int ret = baseMapper.isTableExists(templateHis);
+        if(ret > 0) return true;
+
+        List<IoVariable> entityList = queryVarsFromDevice(deviceName);
+        if(entityList.isEmpty()) return  false;
+
+        List<String> varName = new ArrayList();
+        for(IoVariable entity : entityList){
+            varName.add(entity.getName());
+        }
+        hisDataMapper.crateHisTableByTemplate(templateHis, varName);
+        return true;
     }
 }

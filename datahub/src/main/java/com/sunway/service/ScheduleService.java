@@ -27,7 +27,7 @@ public class ScheduleService {
     @Autowired
     private HistoryDataService hisDataService;
 
-    //@Scheduled(initialDelay = SCHE_SECOND*2, fixedDelay=SCHE_SECOND*3)
+    @Scheduled(initialDelay = SCHE_SECOND*2, fixedDelay=SCHE_SECOND*3)
     private void transferReal2His(){
 
         if(!isInitialize){ hisDataService.initial();  isInitialize =true;}
@@ -37,7 +37,6 @@ public class ScheduleService {
             ArrayList temp = (ArrayList)device;
             for(Object obj : temp){
                 Map<String, Object> varMap = realDataService.queryRealDataByDevice((String)obj);
-                if(varMap!=null) System.out.println(varMap);
                 hisDataService.writeDeviceHistoryData((String)obj, varMap);
             }
         }

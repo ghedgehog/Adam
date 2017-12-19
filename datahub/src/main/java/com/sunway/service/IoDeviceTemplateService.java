@@ -18,9 +18,6 @@ public class IoDeviceTemplateService {
     @Autowired
     private IIoBaseMapper<IoBaseEntity> baseMapper;
 
-    @Autowired
-    private IIoHisDataMapper hisDataMapper;
-
     private String templateTable = IIoTableName.IoDeviceTemplate;
     private String alarmTable = IIoTableName.IoDeviceTemplateAlarm;
     private String historyTable = IIoTableName.IoDeviceTemplateHistory;
@@ -77,14 +74,6 @@ public class IoDeviceTemplateService {
 
     public void addIoDeviceTemplateVar(String template, List<IoBaseEntity> entityList){
         baseMapper.addBaseList(varTable, templateTable,  template, entityList);
-
-        //创建历史表
-        String templateHis = HisData.hisTablePrefix + template;
-        List<String> varName = new ArrayList();
-        for(IoBaseEntity entity : entityList){
-            varName.add(entity.getName());
-        }
-        //hisDataMapper.crateHisTableByTemplate(templateHis, varName);
     }
 
     public void deleteIoDeviceTemplateVar(String template, List<IoBaseEntity> entityList){

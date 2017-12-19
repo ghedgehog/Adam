@@ -40,10 +40,10 @@ public class IoDeviceTemplateController {
 
         IoBaseEntity entity = new IoBaseEntity(temp_map.get("model-name"));
 
-        if(createTime != null)
-            entity.setCreateTime(DataTool.getDateFromString(createTime));
-        if(modifyTime != null)
-            entity.setCreateTime(DataTool.getDateFromString(modifyTime));
+        if(!createTime.isEmpty())
+            entity.setCreateTime(DataTool.getDateAndTimeFromString(createTime));
+        if(!modifyTime.isEmpty())
+            entity.setCreateTime(DataTool.getDateAndTimeFromString(modifyTime));
 
         entity.setDescription(temp_map.get("descript"));
 

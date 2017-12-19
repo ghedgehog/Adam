@@ -4,6 +4,7 @@ import com.sunway.model.IoAlarmConfig;
 import com.sunway.model.IoBaseEntity;
 import com.sunway.model.IoVariable;
 import org.apache.ibatis.annotations.Param;
+import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +13,8 @@ import java.util.List;
 @Transactional
 @Repository
 public interface IIoBaseMapper<T extends IoBaseEntity> {
+
+    public int isTableExists(@Param("table") String tableName);
 
     public void addSysBaseList(@Param("table") String tableName,
                                @Param("list") List<T> baseList);

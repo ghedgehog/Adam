@@ -4,6 +4,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sunway.mapper.IIoBaseMapper">
 
+	<select id="isTableExists" resultType="java.lang.Integer">
+		SELECT count(*) FROM pg_class WHERE relname=#{table}
+	</select>
+
 	<!--addSysBaseList-->
 	<insert id="addSysBaseList" parameterType="java.util.List">
 		INSERT INTO ${table} (name, mark) VALUES

@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!--建表，暂时先只创建VARCHAR，后续根据var的类型创建对应类型 time暂时不带时区-->
 	<update id="crateHisTableByTemplate" parameterType="java.util.List" statementType="STATEMENT">
-		create table ${table} (
+		CREATE TABLE IF NOT EXISTS ${table} (
 			time TIMESTAMP WITHOUT TIME ZONE NOT NULL,
 			device_name VARCHAR NOT NULL,
 			location GEOMETRY,
