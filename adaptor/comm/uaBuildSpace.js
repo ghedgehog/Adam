@@ -7,6 +7,19 @@ var ioChannelType = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000310, 2);
 var ioDeviceTYpe = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000330, 2);
 var ioProxyVariableType = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000350, 2);
 var Organizes = new opcua.NodeId(opcua.NodeIdType.NUMERIC, opcua.ReferenceTypeIds.Organizes, 0);
+var HasCondition = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 9006, 0);                      /*变量和报警对象之间的引用关系*/
+
+var dbAlarmConfigRoot = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400001113, 2);            /*报警配置根目录*/
+var alarmType = {
+    OnAlarmType: new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000700, 2),                   /*开报警*/
+    OffAlarmType: new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000701, 2),                  /*关报警*/
+    ExclusiveRateOfChangeAlarmType: new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000704, 2),/*单一变化率报警*/
+    NonExclusiveRateOfChangeAlarm: new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000700, 2), /*非单一变化率报警*/
+    ExclusiveLevelAlarmType: new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000703, 2),       /*单一限值报警*/
+    NonExclusiveLevelAlarmType: new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000705, 2),    /*非单一限值报警*/
+    ExclusiveDeviationAlarmType: new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000702, 2),   /*单一偏差报警*/
+    NonExclusiveDeviationAlarm: new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000706, 2)     /*非单一偏差报警*/
+};
 
 function addDrivers(the_session, driversToAdd, callback) {
     var AddObjectArgs = {};
@@ -70,7 +83,7 @@ function addVars(the_session, deviceNodeId, VarsToAdd, callback) {
     var AddVarArgs = {};
     async.eachSeries(VarsToAdd, function (Var, cb) {
         AddVarArgs.ParentNodeId = deviceNodeId;
-        AddVarArgs.NodeId = new opcua.NodeId(opcua.NodeIdType.STRING, deviceNodeId.value+'.'+Var.name, 2);
+        AddVarArgs.NodeId = new opcua.NodeId(opcua.NodeIdType.STRING, deviceNodeId.value + '.' + Var.name, 2);
         AddVarArgs.TypeDefinitionId = ioProxyVariableType;
         AddVarArgs.DataType = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 11, 0);
         AddVarArgs.ValueRank = -1;
@@ -81,8 +94,8 @@ function addVars(the_session, deviceNodeId, VarsToAdd, callback) {
         uaServiceMethod.AddVariable(the_session, AddVarArgs, function (err, result) {
             if (err) cb(err);
             else {
-                uaServiceMethod.SetVariableProperty(the_session,AddVarArgs.NodeId,Var.propConf,function(err1,result1){
-                    if(err1) cb(err1);
+                uaServiceMethod.SetVariableProperty(the_session, AddVarArgs.NodeId, Var.propConf, function (err1, result1) {
+                    if (err1) cb(err1);
                     else cb();
                 });
             }
@@ -91,7 +104,7 @@ function addVars(the_session, deviceNodeId, VarsToAdd, callback) {
         if (err) callback(err);
         else callback(null, "addVar success!");
     });
-} 
+}
 
 //添加NUMERIC的var
 /* function addVars(the_session, deviceNodeId, VarsToAdd, callback) {
@@ -126,6 +139,53 @@ function addVars(the_session, deviceNodeId, VarsToAdd, callback) {
             });
         }});
 } */
+/* var alarmObjsToAdd = [{type:"OnAlarmType",
+                        name:"Alarm1",
+                        conf:"<Values></Values>"},
+                        {type:"ExclusiveDeviationAlarmType",
+                        name:"Alarm2",
+                        conf:"<Values></Values>"}];*/
+//添加报警对象
+function addAlarmObj(the_session, alarmObjsToAdd, callback) {
+    var AddAlarmObjArgs = {};
+    async.eachSeries(alarmObjsToAdd, function (alarmObj, cb) {
+        AddAlarmObjArgs.ParentNodeId = dbAlarmConfigRoot;
+        AddAlarmObjArgs.NodeId = new opcua.NodeId(opcua.NodeIdType.STRING, alarmObj.name, 2);
+        AddAlarmObjArgs.TypeDefinitionId = alarmType[alarmObj.type];
+        AddAlarmObjArgs.BrowseName = alarmObj.name;
+        AddAlarmObjArgs.DisplayName = alarmObj.name;
+        AddAlarmObjArgs.Description = alarmObj.name;
+        uaServiceMethod.AddObject(the_session, AddAlarmObjArgs, function (err, result) {
+            if (err) cb(err);
+            else {
+                uaServiceMethod.SetObjectProperty(the_session, AddAlarmObjArgs.NodeId, alarmObj.conf, function (err1, result1) {
+                    if (err1) cb(err1);
+                    else cb();
+                });
+            }
+        });
+    }, function (err) {
+        if (err) callback(err);
+        else callback(null, "addAlarmObj success!");
+    });
+}
+
+//配置变量报警
+function varAlarmConf(the_session, varNodeId, alarmObjs, callback) {
+    var varAlarmConfArgs = {};
+    async.eachSeries(alarmObjs, function (alarmObj, cb) {
+        varAlarmConfArgs.SourceNodeId = varNodeId;
+        varAlarmConfArgs.TargetNodeId = new opcua.NodeId(opcua.NodeIdType.STRING, alarmObj.name, 2);
+        varAlarmConfArgs.ReferenceType = HasCondition;
+        uaServiceMethod.AddReference(the_session, varAlarmConfArgs, function (err, result) {
+            if (err) cb(err);
+            else cb();
+        });
+    }, function (err) {
+        if (err) callback(err);
+        else callback(null, "addAlarmObj success!");
+    });
+}
 
 function browseIo(the_session, callback) {
     var browseDescription = {
@@ -228,13 +288,12 @@ function browseChannel(the_session, channelNodeId, callback) {
         if (err) {
             callback(err);
         } else {
-            var devices = [];
             async.eachSeries(browse_result[0].references, function (reference, cb) {
-                devices.push(reference.nodeId);
+                devicesNodeId.push(reference.nodeId);
                 cb();
             }, function (err) {
                 if (err) callback(err);
-                else callback(null, devices);
+                else callback(null, devicesNodeId);
             });
         }
     });
@@ -277,8 +336,70 @@ function browseAllChannels(the_session, callback) {
     });
 }
 
-function subRreal(the_session,nodeIdToSub,callback) {
-    var the_subscription=new opcua.ClientSubscription(the_session,{
+function browseDevice(the_session, deviceNodeId, callback) {
+    var browseDescription = {
+        nodeId: deviceNodeId,
+        referenceTypeId: Organizes,
+        browseDirection: opcua.BrowseDirection.Forward,
+        includeSubtypes: true,
+        nodeClassMask: 0,
+        resultMask: 63
+    }
+    var varsNodeId = [];
+    the_session.browse(browseDescription, function (err, browse_result) {
+        if (err) {
+            callback(err);
+        } else {
+            async.eachSeries(browse_result[0].references, function (reference, cb) {
+                varsNodeId.push(reference.nodeId);
+                cb();
+            }, function (err) {
+                if (err) callback(err);
+                else callback(null, varsNodeId);
+            });
+        }
+    });
+}
+
+function browseAllDevices(the_session, callback) {
+    async.waterfall([
+        function (cb_waterfall) {//遍历所有通道
+            browseAllChannels(the_session, function (err, devices) {
+                if (err) cb_waterfall(err);
+                else {
+                    cb_waterfall(null, devices);
+                }
+            });
+        },
+        function (devices, cb_waterfall) {//遍历所有变量
+            var varsNodeId = [];
+            async.eachSeries(devices, function (device, cb_eachSeries1) {
+                browseDevice(the_session, device, function (err, vars) {
+                    if (err) cb_eachSeries1(err);
+                    else if (vars.length != 0) {
+                        async.eachSeries(vars, function (var1, cb_eachSeries2) {
+                            varsNodeId.push(var1);
+                            cb_eachSeries2();
+                        }, function (err) {
+                            if (!err) cb_eachSeries1();
+                        });
+                    } else cb_eachSeries1();
+                });
+            }, function (err) {
+                if (err) cb_waterfall(err);
+                else cb_waterfall(null, varsNodeId);
+            });
+        }
+    ], function (err, result) {
+        if (err) callback(err);
+        else {
+            callback(null, result);
+        }
+    });
+}
+
+function subRreal(the_session, nodeIdToSub, callback) {
+    var the_subscription = new opcua.ClientSubscription(the_session, {
         requestedPublishingInterval: 1000,
         requestedLifetimeCount: 100,
         requestedMaxKeepAliveCount: 2,
@@ -286,32 +407,35 @@ function subRreal(the_session,nodeIdToSub,callback) {
         publishingEnabled: true,
         priority: 10
     });
-    var monitoredItem  = the_subscription.monitor({
+    var monitoredItem = the_subscription.monitor({
         nodeId: nodeIdToSub,
         attributeId: opcua.AttributeIds.Value
     },
-    {
-        samplingInterval: 100,
-        discardOldest: true,
-        queueSize: 10
-    }/* ,
+        {
+            samplingInterval: 100,
+            discardOldest: true,
+            queueSize: 10
+        }/* ,
     opcua.read_service.TimestampsToReturn.Both */
     );
-    monitoredItem.on("changed",function(dataValue){
-       console.log(" % free mem = ",dataValue);
+    monitoredItem.on("changed", function (dataValue) {
+        console.log(" % free mem = ", dataValue);
     });
- }
+}
 
-function delSub(){
-
+function delSub() {
 }
 
 exports.addDrivers = addDrivers;
 exports.addChannels = addChannels;
 exports.addDevices = addDevices;
 exports.addVars = addVars;
+exports.addAlarmObj = addAlarmObj;
+exports.varAlarmConf = varAlarmConf;
 exports.browseIo = browseIo;
 exports.browseDriver = browseDriver;
 exports.browseAllDrivers = browseAllDrivers;
 exports.browseChannel = browseChannel;
 exports.browseAllChannels = browseAllChannels;
+exports.browseDevice = browseDevice;
+exports.browseAllDevices = browseAllDevices; 

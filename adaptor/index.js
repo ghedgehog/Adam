@@ -6,7 +6,7 @@ var httpClient = require('./comm/httpClient');
 var async = require("async");
 
 //全局变量
-var the_session = {};
+var the_session = {},the_httpClient = {};
 var requestArgs = {
     path: { "path": "localhost:8080" }, //区分restful接口
     parameters: { uaServer: "ioserver" }, //序列化到url中的parameters
@@ -30,101 +30,153 @@ function task() {
                 if (err) {
                     callback(err);
                 } else {
-                    callback(null, result[0]);
+                    the_httpClient = result[0]
+                    callback(null, "get httpclient success!");
                 }
-            })
+            });
         },
         addDriver: ['uaConnect', 'httpClient', function (result, callback) {//创建驱动
-            httpClient.getDriverToAdd(result.httpClient, requestArgs, function (err, result) {
-                if (err) callback(err);
-                else {
+            httpClient.getDriverToAdd(the_httpClient, requestArgs, function (err, result) {
+                if (err) callback("getDriverToAdd failed: " + err.code);
+                else if (result.length > 0) {
                     uaBuildSpace.addDrivers(the_session, result, function (err1, result1) {
                         if (err1) callback(err1);
                         else {
                             callback(null, result1);
                         }
                     });
+                } else {
+                    callback("there is no driver to add !!!");
                 }
             });
         },],
-        addChannel:['httpClient','addDriver',function(result,callback){
-            uaBuildSpace.browseIo(the_session,function(err,drivers){
-                if(err) callback(err);
-                else{
+        addChannel: ['httpClient', 'addDriver', function (result, callback) {
+            uaBuildSpace.browseIo(the_session, function (err, drivers) {
+                if (err) callback(err);
+                else if (drivers.length > 0) {
                     var para = {};
-                    async.eachSeries(drivers, function(driver, cb) {
+                    async.eachSeries(drivers, function (driver, cb) {
                         para.driver = driver.value;
                         requestArgs.parameters = para;
-                        httpClient.getChannelToAdd(result.httpClient,requestArgs,function(err1,channels){
-                            if(err1) cb(err1);
-                            else{
-                                uaBuildSpace.addChannels(the_session,driver,channels,function(err2,result2){
-                                    if(err2) cb(err2);
+                        httpClient.getChannelToAdd(the_httpClient, requestArgs, function (err1, channels) {
+                            if (err1) cb(err1);
+                            else if (channels.length != 0) {
+                                uaBuildSpace.addChannels(the_session, driver, channels, function (err2, result2) {
+                                    if (err2) cb(err2);
+                                    else cb();
+                                });
+                            } else {
+                                console.warn("there is no channel below " + driver.value + " !!!");
+                                cb();
+                            }
+                        });
+                    }, function (err) {
+                        if (err) callback(err);
+                        else callback(null, "addChannel success!");
+                    });
+                } else {
+                    callback("there is no driver in db !!!");
+                }
+            });
+        }],
+        addDevice: ['httpClient', 'addChannel', function (result, callback) {
+            uaBuildSpace.browseAllDrivers(the_session, function (err, channels) {
+                if (err) callback(err);
+                else if (channels.length > 0) {
+                    var para = {};
+                    async.eachSeries(channels, function (channel, cb) {
+                        para.channelName = channel.value;
+                        requestArgs.parameters = para;
+                        httpClient.getDeviceToAdd(the_httpClient, requestArgs, function (err1, devices) {
+                            if (err1) cb(err1);
+                            else if (devices.length != 0) {
+                                uaBuildSpace.addDevices(the_session, channel, devices, function (err2, result2) {
+                                    if (err2) cb(err2);
+                                    else cb();
+                                });
+                            } else {
+                                console.log("there is no device below " + channel.value + " !!!");
+                                cb();
+                            }
+                        });
+                    }, function (err) {
+                        if (err) callback(err);
+                        else callback(null, "addDevice success!");
+                    });
+                } else {
+                    callback("there is no channel in db !!!");
+                }
+            });
+        }],
+        addVar: ['httpClient', 'addDevice', function (result, callback) {
+            uaBuildSpace.browseAllChannels(the_session, function (err, devices) {
+                if (err) callback(err);
+                else {
+                    var para = {};
+                    async.eachSeries(devices, function (device, cb) {
+                        para.device = device.value;
+                        requestArgs.parameters = para;
+                        httpClient.getVarToAdd(the_httpClient, requestArgs, function (err1, Vars) {
+                            if (err1) cb(err1);
+                            else {
+                                uaBuildSpace.addVars(the_session, device, Vars, function (err2, result2) {
+                                    if (err2) cb(err2);
                                     else cb();
                                 });
                             }
                         });
-                    },function(err){
-                        if(err) callback(err);
-                        else callback(null,"addChannel success!");
+                    }, function (err) {
+                        if (err) callback(err);
+                        else callback(null, "addVar success!");
                     });
                 }
             });
-        }],
-        addDevice:['httpClient','addChannel',function(result,callback){
-            uaBuildSpace.browseAllDrivers(the_session,function(err,channels){
+        }],       
+        addAlarmObj:['addVar',function(result,callback){
+            httpClient.getAlarmObjToAdd(the_httpClient,requestArgs,function(err,alarmObjsToAdd){
                 if(err) callback(err);
-                else{
-                    var para = {};
-                    async.eachSeries(channels, function(channel, cb) {
-                        para.channelName = channel.value;
-                        requestArgs.parameters = para;
-                        httpClient.getDeviceToAdd(result.httpClient,requestArgs,function(err1,devices){
-                            if(err1) cb(err1);
-                            else{
-                                uaBuildSpace.addDevices(the_session,channel,devices,function(err2,result2){
-                                    if(err2) cb(err2);
-                                    else cb();
-                                });
-                            }
+                else if(alarmObjsToAdd.length>0){
+                        uaBuildSpace.addAlarmObj(the_session,alarmObjsToAdd,function(err1,result1){
+                            if(err1) callback(err1);
+                            else callback(null,result1);
                         });
-                    },function(err){
-                        if(err) callback(err);
-                        else callback(null,"addDevice success!");
-                    }); 
+                }else{
+                    callback("there is no alarmObj to add !!!");
                 }
             });
         }],
-        addVar:['httpClient','addDevice',function(result,callback){
-            uaBuildSpace.browseAllChannels(the_session,function(err,devices){
-                if(err) callback(err);
-                else{
+        varAlarmConf:['addAlarmObj',function(result,callback){
+            uaBuildSpace.browseAllDevices(the_session, function (err, vars) {
+                if (err) callback(err);
+                else if(vars.length>0){
                     var para = {};
-                    async.eachSeries(devices, function(device, cb) {
-                        para.device = device.value;
+                    async.eachSeries(vars, function (var1, cb) {
+                        para.var = var1.value.split(".")[3];
                         requestArgs.parameters = para;
-                        httpClient.getVarToAdd(result.httpClient,requestArgs,function(err1,Vars){
-                            if(err1) cb(err1);
-                            else{
-                                uaBuildSpace.addVars(the_session,device,Vars,function(err2,result2){
-                                    if(err2) cb(err2);
+                        httpClient.getVarAlarmConf(the_httpClient, requestArgs, function (err1, alarmObjs) {
+                            if (err1) cb(err1);
+                            else if(alarmObjs.length>0) {   
+                                uaBuildSpace.varAlarmConf(the_session, var1, alarmObjs, function (err2, result2) {
+                                    if (err2) cb(err2);
                                     else cb();
                                 });
-                            }
+                            }else cb();
                         });
-                    },function(err){
-                        if(err) callback(err);
-                        else callback(null,"addVar success!");
-                    }); 
+                    }, function (err) {
+                        if (err) callback(err);
+                        else callback(null, "varAlarmConf success !");
+                    });
+                }else{
+                    callback("there is no var in db !");
                 }
             });
-        }]
+        }] 
     }, function (err, results) {
         if (err) {
             console.log(err);
             setTimeout(task, 3000);
         } else {
-            console.log(JSON.stringify(results));
+            console.log(results);
         }
     });
 }
