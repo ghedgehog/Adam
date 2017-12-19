@@ -83,7 +83,9 @@ public class IoDeviceController {
 
         List<IoChannel> channels = channelService.queryIoChannelsByMark(driver_type, -1);
         IoChannel channel = new IoChannel(channel_long_name);
-        if(channels.contains(channel)) return true;
+
+        //if(channels.contains(channel)) return true;
+        if(!channels.isEmpty() && ((IoBaseEntity)channels.get(0)).getName().equals(channel_long_name)) return true;
 
         channels.clear();
         channels.add(channel);
@@ -94,10 +96,17 @@ public class IoDeviceController {
 
     private boolean addDriver(String driver_type){
         if(driver_type==null) return false;
+        String uaServer = "ioserver";
+
         IoBaseEntity entity = new IoBaseEntity(driver_type);
-        List<IoBaseEntity> entities = new ArrayList<IoBaseEntity>();
+        List<IoBaseEntity> entities = driverService.queryIoDrivers(uaServer, -1);
+
+        //if(entities.contains(entity)) return true;
+        if(!entities.isEmpty() && entities.get(0).getName().equals(driver_type)) return true;
+
+        entities.clear();
         entities.add(entity);
-        driverService.addIoDrivers("ioserver", entities);
+        driverService.addIoDrivers(uaServer, entities);
         return true;
     }
 }
