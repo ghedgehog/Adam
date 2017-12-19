@@ -40,6 +40,20 @@ function addDrivers(the_session, driversToAdd, callback) {
     });
 }
 
+function delDrivers(the_session, driversToAdd, callback) {
+    var nodeId = {};
+    async.eachSeries(driversToAdd, function (driver, cb) {
+        nodeId = new opcua.NodeId(opcua.NodeIdType.STRING, driver.name, 2);
+        uaServiceMethod.DeleteObject(the_session, nodeId, function (err, result) {
+            if (err) cb(err);
+            else cb();
+        });
+    }, function (err) {
+        if (err) callback(err);
+        else callback(null, "delDriver success!");
+    });
+}
+
 function addChannels(the_session, driverNodeId, channelsToAdd, callback) {
     var AddObjectArgs = {};
     async.eachSeries(channelsToAdd, function (channel, cb) {
@@ -56,6 +70,20 @@ function addChannels(the_session, driverNodeId, channelsToAdd, callback) {
     }, function (err) {
         if (err) callback(err);
         else callback(null, "addChannel success!");
+    });
+}
+
+function delChannels(the_session, driverNodeId, channelsToAdd, callback) {
+    var NodeId = {};
+    async.eachSeries(channelsToAdd, function (channel, cb) {
+     NodeId = new opcua.NodeId(opcua.NodeIdType.STRING, channel.name, 2);
+        uaServiceMethod.DeleteObject(the_session, NodeId, function (err, result) {
+            if (err) cb(err);
+            else cb();
+        });
+    }, function (err) {
+        if (err) callback(err);
+        else callback(null, "delChannel success!");
     });
 }
 
@@ -79,7 +107,7 @@ function addDevices(the_session, channelNodeId, devicesToAdd, callback) {
 }
 
 //添加NodeId为STRING的长点名var;
-function addVars(the_session, deviceNodeId, VarsToAdd, callback) {
+/*  function addVars(the_session, deviceNodeId, VarsToAdd, callback) {
     var AddVarArgs = {};
     async.eachSeries(VarsToAdd, function (Var, cb) {
         AddVarArgs.ParentNodeId = deviceNodeId;
@@ -104,10 +132,10 @@ function addVars(the_session, deviceNodeId, VarsToAdd, callback) {
         if (err) callback(err);
         else callback(null, "addVar success!");
     });
-}
+} */ 
 
 //添加NUMERIC的var
-/* function addVars(the_session, deviceNodeId, VarsToAdd, callback) {
+function addVars(the_session, deviceNodeId, VarsToAdd, callback) {
     uaServiceMethod.GetFreeNodeIds(the_session, VarsToAdd.length, function (err, nodesId) {
         if (err) {
             callback(err);
@@ -138,7 +166,7 @@ function addVars(the_session, deviceNodeId, VarsToAdd, callback) {
                 else callback(null, "addVar success!");
             });
         }});
-} */
+} 
 /* var alarmObjsToAdd = [{type:"OnAlarmType",
                         name:"Alarm1",
                         conf:"<Values></Values>"},
@@ -195,7 +223,7 @@ function browseIo(the_session, callback) {
         includeSubtypes: true,
         nodeClassMask: 0,
         resultMask: 63
-    }
+    };
     var driversNodeId = [];
     the_session.browse(browseDescription, function (err, browse_result) {
         if (err) {
@@ -398,36 +426,10 @@ function browseAllDevices(the_session, callback) {
     });
 }
 
-function subRreal(the_session, nodeIdToSub, callback) {
-    var the_subscription = new opcua.ClientSubscription(the_session, {
-        requestedPublishingInterval: 1000,
-        requestedLifetimeCount: 100,
-        requestedMaxKeepAliveCount: 2,
-        maxNotificationsPerPublish: 10,
-        publishingEnabled: true,
-        priority: 10
-    });
-    var monitoredItem = the_subscription.monitor({
-        nodeId: nodeIdToSub,
-        attributeId: opcua.AttributeIds.Value
-    },
-        {
-            samplingInterval: 100,
-            discardOldest: true,
-            queueSize: 10
-        }/* ,
-    opcua.read_service.TimestampsToReturn.Both */
-    );
-    monitoredItem.on("changed", function (dataValue) {
-        console.log(" % free mem = ", dataValue);
-    });
-}
-
-function delSub() {
-}
-
 exports.addDrivers = addDrivers;
+exports.delDrivers = delDrivers;
 exports.addChannels = addChannels;
+exports.delChannels = delChannels;
 exports.addDevices = addDevices;
 exports.addVars = addVars;
 exports.addAlarmObj = addAlarmObj;
@@ -438,4 +440,4 @@ exports.browseAllDrivers = browseAllDrivers;
 exports.browseChannel = browseChannel;
 exports.browseAllChannels = browseAllChannels;
 exports.browseDevice = browseDevice;
-exports.browseAllDevices = browseAllDevices; 
+exports.browseAllDevices = browseAllDevices;
