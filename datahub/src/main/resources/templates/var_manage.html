@@ -13,9 +13,7 @@
             <thead>
             <tr>
                 <th>名称</th>
-                <th>控制器</th>
-                <th>采集周期</th>
-                <th>独立分包</th>
+                <th>数据类型</th>
                 <th>描述</th>
                 <th>编辑</th>
                 <th>删除</th>
@@ -24,9 +22,7 @@
             <tbody>
             <tr>
                 <td>变量1</td>
-                <td>sss</td>
-                <td>中速周期</td>
-                <td>否</td>
+                <td>int32--32位有符号整数</td>
                 <td>描述信息</td>
                 <td><a href="#">编辑</a></td>
                 <td><a href="#">删除</a></td>
@@ -197,6 +193,11 @@
 <script src="AdminLTE-2.3.11/datatables.net-bs/js/dataTables.bootstrap.js"></script>
 
 <script th:inline="javascript">
+    var model_name;
+    /*<![CDATA[*/
+    model_name= [[${model_name}]];
+    console.log("点击新增变量了---"+model_name);
+    /*]]>*/
     var temp_table = null;
     $(function () {
         temp_table = $('#example1').DataTable({
@@ -231,12 +232,46 @@
                 console.log("进入了else分支");
             }
         } );
+
+        $.ajax({
+            type: "post",
+            async: true,
+            url: "dev-template/getvar",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({
+                "model_name":model_name,
+            }),
+            success: function (data) {
+                console.log(data.length);
+                console.log(data);
+                /*<![CDATA[*/
+                for (var i=0;i<data.length;++i){
+                    var obj = data[i];
+                    var name = obj["name"];
+                    var description = obj["description"];
+                    var dataType = obj["dataType"];
+                    console.log(name+"\t"+description+"\t"+dataType);
+                    temp_table.row.add([
+                        name,
+                        dataType,
+                        description,
+                        '编辑',
+                        '删除'
+                    ]).draw();
+                }
+                /*]]>*/
+
+                //alert("所有的模型名称："+data);
+            }, error: function (msg) {
+                //alert(msg);
+            }
+        });
     });
 
     function test_var() {
 
         /*<![CDATA[*/
-        var model_name = [[${model_name}]];
+        model_name= [[${model_name}]];
         console.log("点击新增变量了---"+model_name);
         /*]]>*/
         var var_name = $.trim($('#var_name').val());
@@ -313,7 +348,7 @@
             type: "post",
             async: true,
             contentType: "application/json; charset=utf-8",
-            url: "dev-template/add-var-test",
+            url: "dev-template/add-var",
             data: JSON.stringify({
                 "ModelName":model_name,
                 "VarName": var_name,

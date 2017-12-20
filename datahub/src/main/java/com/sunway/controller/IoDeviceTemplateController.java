@@ -65,10 +65,11 @@ public class IoDeviceTemplateController {
     @RequestMapping(value = "/add-var")
     @ResponseBody
     public void addDeviceTempalteVar(@RequestBody Map<String, String> varMap) {
+        System.out.println("进入了add-var方法");
         if(varMap.isEmpty()) return;
 
         String alarm = "";
-        String template = varMap.get("model_name");
+        String template = varMap.get("ModelName");
 
         IoVariable var = buildVarMap2Xml(varMap);
         List<IoVariable> variableList = new ArrayList();
@@ -84,8 +85,12 @@ public class IoDeviceTemplateController {
 
     @RequestMapping(value = "/getvar")
     @ResponseBody
-    public List<IoVariable> queryVarsFromTemplate(String template){
+    public List<IoVariable> queryVarsFromTemplate(@RequestBody Map<String, String> temp_map){
+
+        String template = temp_map.get("model_name");
+        System.out.println("进入了请求所有变量的方法"+template);
         return deviceTemplateService.queryVarsByTemplate(template);
+
     }
 
     @RequestMapping(value = "/add-var-test")
@@ -136,7 +141,7 @@ public class IoDeviceTemplateController {
         Document doc = DocumentHelper.createDocument();
         Element rootEle = doc.addElement("Values");
         Element subRoot = rootEle.addElement("Config");
-        subRoot.addElement("ScanRate").setText(varMap.get("ScanRate"));
+        /*subRoot.addElement("ScanRate").setText(varMap.get("ScanRate"));
         subRoot.addElement("Area").setText(varMap.get("Area"));
         subRoot.addElement("Address").setText(varMap.get("Address"));
         subRoot.addElement("DataType").setText(varMap.get("DataType"));
@@ -144,7 +149,7 @@ public class IoDeviceTemplateController {
         subRoot.addElement("StringLen").setText(varMap.get("DataLength"));
         subRoot.addElement("ControlBit").setText(varMap.get("Controller"));
         subRoot.addElement("BitOffset").setText(varMap.get("BitOffset"));
-        /*subRoot.addElement("RawMax").setText(varMap.get("raw_max"));
+        subRoot.addElement("RawMax").setText(varMap.get("raw_max"));
         subRoot.addElement("RawMin").setText(varMap.get("raw_min"));
         subRoot.addElement("RangeMax").setText(varMap.get("range_max"));
         subRoot.addElement("RangeMin").setText(varMap.get("range_min"));
