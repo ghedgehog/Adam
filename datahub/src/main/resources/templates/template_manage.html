@@ -140,7 +140,27 @@
 <script>
     var temp_table = null;
     $(function () {
-        temp_table = $('#example1').DataTable();
+        temp_table = $('#example1').DataTable({
+            "processing": true,
+            "bPaginage": true,
+            "bSort": false,
+            "paginationType": "full_numbers",
+            "oLanguage": {
+                "sLengthMenu": "每页显示 _MENU_ 条",
+                "sZeroRecords": "没有找到符合条件的数据",
+                "sInfo": "当前第 _START_ - _END_ 条　共计 _TOTAL_ 条",
+                "sInfoEmpty": "没有记录",
+                "sInfoFiltered": "(从 _MAX_ 条记录中过滤)",
+                "sSearch": "搜索",
+                "sProcessing": "数据加载中...",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "尾页"
+                }
+            }
+        });
         $('#example1 tbody').on( 'click', 'tr', function () {
             if ( $(this).hasClass('selected') ) {
                 $(this).removeClass('selected');
@@ -153,18 +173,37 @@
             }
         } );
 
-//        $('.datepicker').datepicker({
-//            autoclose: true
-//        });
+        $.ajax({
+            type: "get",
+            async: true,
+            url: "dev-template/get",
+            success: function (data) {
+                /*<![CDATA[*/
+                for (var i=0;i<data.length;++i){
+                    temp_table.row.add([
+                        '<a href="javascript:void(0);" onclick="template_info(this)">'+data[i]+'</a>',
+                        '2017-12-18 19:05:34',
+                        '2017-12-18 21:05:34',
+                        '描述信息测试',
+                        '编辑 删除'
+                    ]).draw();
+                }
+                /*]]>*/
+                //alert("所有的模型名称："+data);
+            }, error: function (msg) {
+                //alert(msg);
+            }
+        });
     });
 
-    function template_info() {
+    function template_info(target) {
+        console.log("点击的标签的内容是"+$(target).text());
         $.ajax({
             type: "POST",
             async: true,
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify({
-                "model_name": model_name,
+                "model_name": $(target).text(),
             }),
             url: "template_info",
             success: function (data) {
@@ -183,7 +222,7 @@
         //alert(model_name+"\t"+create_time+"\t"+modify_time+"\t"+description);
         console.log("before");
         temp_table.row.add([
-            '<a href="javascript:void(0);" onclick="template_info()">'+model_name+'</a>',
+            '<a href="javascript:void(0);" onclick="template_info(this)">'+model_name+'</a>',
             create_time,
             modify_time,
             description,

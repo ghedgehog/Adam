@@ -70,9 +70,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="polling" class="col-sm-3 control-label">轮询方式：</label>
+                            <label for="ScanRate" class="col-sm-3 control-label">轮询方式：</label>
                             <div class="col-sm-8">
-                                <select class="form-control" id="polling" style="width: 100%;">
+                                <select class="form-control" id="ScanRate" style="width: 100%;">
                                     <option selected="selected">慢速周期</option>
                                     <option>中速周期</option>
                                     <option>快速周期</option>
@@ -80,34 +80,78 @@
                                 </select>
                             </div>
                         </div>
+
                         <div class="form-group">
-                            <label for="controller" class="col-sm-3 control-label">控制器：</label>
+                            <label for="HL" class="col-sm-3 control-label">高低字节：</label>
                             <div class="col-sm-8">
-                                <select class="form-control" id="controller" style="width: 100%;">
-                                    <option selected="selected">控制器一</option>
-                                    <option>控制器二</option>
-                                    <option>控制器三</option>
+                                <select class="form-control" id="HL" style="width: 100%;">
+                                    <option selected="selected">H--高字节</option>
+                                    <option>L--低字节</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="region" class="col-sm-3 control-label">区域：</label>
+                            <label for="Area" class="col-sm-3 control-label">区域：</label>
                             <div class="col-sm-8">
-                                <select class="form-control" id="region" style="width: 100%;">
-                                    <option selected="selected">区域一</option>
-                                    <option>区域二</option>
-                                    <option>区域三</option>
+                                <select class="form-control" id="Area" style="width: 100%;">
+                                    <option selected="selected">CO区---线圈状态区</option>
+                                    <option>DI区---输入状态区</option>
+                                    <option>HR区---保持寄存器区</option>
+                                    <option>AI区---输入寄存器区</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="data_type" class="col-sm-3 control-label">数据类型：</label>
+                            <label for="Address" class="col-sm-3 control-label">偏移地址：</label>
                             <div class="col-sm-8">
-                                <select class="form-control" id="data_type" style="width: 100%;">
-                                    <option selected="selected">整形</option>
-                                    <option>浮点型</option>
-                                    <option>字符串型</option>
+                                <input type="number" class="form-control" id="Address"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ControlBit" class="col-sm-3 control-label">按位读取：</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="ControlBit" style="width: 100%;">
+                                    <option selected="selected">否</option>
+                                    <option>是</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="BitOffset" class="col-sm-3 control-label">位偏移：</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="BitOffset"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dataLength" class="col-sm-3 control-label">数据长度：</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="dataLength"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="DataType" class="col-sm-3 control-label">数据类型：</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="DataType" style="width: 100%;">
+                                    <option selected="selected">bool--0-1开关量</option>
+                                    <option>char--8位有符号整数</option>
+                                    <option>byte--8位有符号整数</option>
+                                    <option>short--16位有符号整数</option>
+                                    <option>word--16位无符号整数</option>
+                                    <option>int32--32位有符号整数</option>
+                                    <option>dword--32位无符号整数</option>
+                                    <option>float--32单精度浮点数</option>
+                                    <option>BCD码--无符号BCD码</option>
+                                    <option>int64--64位有符号整数</option>
+                                    <option>uint64--64位无符号整数</option>
+                                    <option>double--64位双精度浮点数</option>
+                                    <option>string--ascii码字符串</option>
+                                    <option>buffer--字节数组</option>
                                 </select>
                             </div>
                         </div>
@@ -117,8 +161,8 @@
                             <div class="col-sm-8">
                                 <select class="form-control" id="read_write" style="width: 100%;">
                                     <option selected="selected">readwrite</option>
-                                    <option>read</option>
-                                    <option>write</option>
+                                    <option>read-only</option>
+                                    <option>write-only</option>
                                 </select>
                             </div>
                         </div>
@@ -155,7 +199,27 @@
 <script th:inline="javascript">
     var temp_table = null;
     $(function () {
-        temp_table = $('#example1').DataTable();
+        temp_table = $('#example1').DataTable({
+            "processing": true,
+            "bPaginage": true,
+            "bSort": false,
+            "paginationType": "full_numbers",
+            "oLanguage": {
+                "sLengthMenu": "每页显示 _MENU_ 条",
+                "sZeroRecords": "没有找到符合条件的数据",
+                "sInfo": "当前第 _START_ - _END_ 条　共计 _TOTAL_ 条",
+                "sInfoEmpty": "没有记录",
+                "sInfoFiltered": "(从 _MAX_ 条记录中过滤)",
+                "sSearch": "搜索",
+                "sProcessing": "数据加载中...",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "尾页"
+                }
+            }
+        });
         $('#example1 tbody').on( 'click', 'tr', function () {
             if ( $(this).hasClass('selected') ) {
                 $(this).removeClass('selected');
@@ -177,19 +241,66 @@
         /*]]>*/
         var var_name = $.trim($('#var_name').val());
         var Independent_subcontract = $.trim($('#Independent_subcontract').val());
-        var polling = $.trim($('#polling').val());
+        var ScanRate = $.trim($('#ScanRate').val());
+        var HL = $.trim($('#HL').val());
         var controller = $.trim($('#controller').val());
-        var region = $.trim($('#region').val());
-        var data_type = $.trim($('#data_type').val());
+        var Area = $.trim($('#Area').val());
+        var Address = $.trim($('#Address').val());
+        var DataType = $.trim($('#DataType').val());
+        var ControlBit = $.trim($('#ControlBit').val());
+        var BitOffset =  $.trim($('#BitOffset').val());
+        var dataLength = $.trim($('#dataLength').val());
         var read_write = $.trim($('#read_write').val());
         var description = $.trim($('#description').val());
         //alert(var_name+"\t"+Independent_subcontract+"\t"+polling+"\t"+controller+"\t"+region+"\t"+data_type+"\t"+read_write+description);
         console.log("before");
 
+        switch(DataType)
+        {
+            case 'char--8位有符号整数':
+                DataType = 1;
+                break;
+            case 'byte--8位有符号整数':
+                DataType = 2;
+                break;
+            case 'short--16位有符号整数':
+                DataType = 3;
+                break;
+            case 'word--16位无符号整数':
+                DataType = 4;
+                break;
+            case 'int32--32位有符号整数':
+                DataType = 5;
+                break;
+            case 'dword--32位无符号整数':
+                DataType = 6;
+                break;
+            case 'float--32单精度浮点数':
+                DataType = 7;
+                break;
+            case 'BCD码--无符号BCD码':
+                DataType = 8;
+                break;
+            case 'int64--64位有符号整数':
+                DataType = 9;
+                break;
+            case 'uint64--64位无符号整数':
+                DataType = 10;
+                break;
+            case 'double--64位双精度浮点数':
+                DataType = 11;
+                break;
+            case 'string--ascii码字符串':
+                DataType = 12;
+                break;
+            case 'buffer--字节数组':
+                DataType = 13;
+                break;
+        }
         temp_table.row.add([
             var_name,
             controller,
-            polling,
+            ScanRate,
             Independent_subcontract,
             description,
             '编辑',
@@ -197,24 +308,27 @@
         ]).draw();
 
         console.log("after");
-
         var json = {};
         $.ajax({
             type: "post",
             async: true,
             contentType: "application/json; charset=utf-8",
-//            dataType: 'json',
-            url: "dev-template/add-var",
+            url: "dev-template/add-var-test",
             data: JSON.stringify({
-                "model_name":model_name,
-                "var_name": var_name,
-                "Independent_subcontract": Independent_subcontract,
-                "polling": polling,
-                "controller": controller,
-                "region": region,
-                "data_type": data_type,
-                "read_write": read_write,
-                "description":description
+                "ModelName":model_name,
+                "VarName": var_name,
+                "IndependentSubcontract": Independent_subcontract,
+                "ScanRate": ScanRate,
+                "HL": HL,
+                 "Controller": controller,
+                "Area": Area,
+                "Address":Address,
+                "ControlBit":ControlBit,
+                "BitOffset":BitOffset,
+                "DataLength":dataLength,
+                "DataType": DataType,
+                "ReadWrite": read_write,
+                "Description":description
             }),
             success: function (msg) {
                 //alert(msg + "添加设备模板成功");

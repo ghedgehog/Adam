@@ -184,7 +184,27 @@
 <script>
     var temp_table = null;
     $(function () {
-        temp_table = $('#example1').DataTable();
+        temp_table = $('#example1').DataTable({
+            "processing": true,
+            "bPaginage": true,
+            "bSort": false,
+            "paginationType": "full_numbers",
+            "oLanguage": {
+                "sLengthMenu": "每页显示 _MENU_ 条",
+                "sZeroRecords": "没有找到符合条件的数据",
+                "sInfo": "当前第 _START_ - _END_ 条　共计 _TOTAL_ 条",
+                "sInfoEmpty": "没有记录",
+                "sInfoFiltered": "(从 _MAX_ 条记录中过滤)",
+                "sSearch": "搜索",
+                "sProcessing": "数据加载中...",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "尾页"
+                }
+            }
+        });
         $('#example1 tbody').on( 'click', 'tr', function () {
             if ( $(this).hasClass('selected') ) {
                 $(this).removeClass('selected');
