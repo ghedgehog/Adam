@@ -8,8 +8,10 @@ exports.getHttpClient = function (callback) {
         function (cb) {
             /*驱动*/
             httpclient.registerMethod("getDriver_add", "http://${path}/api-driver/add", "GET");
+            httpclient.registerMethod("getDriver_del", "http://${path}/api-driver/del", "GET");
             /*通道*/
             httpclient.registerMethod("getChannel_add", "http://${path}/api-channel/add", "GET");
+            httpclient.registerMethod("getChannel_del", "http://${path}/api-channel/del", "GET");
             /*设备*/
             httpclient.registerMethod("getDevice_add", "http://${path}/api-device/add", "GET");
             /*变量*/
@@ -36,8 +38,24 @@ exports.getDriverToAdd = function(httpclient,requestArgs,callback){
     });
 };
 
+exports.getDriverToDel = function(httpclient,requestArgs,callback){
+    httpclient.methods.getDriver_del(requestArgs,function (data, response) {
+        callback(null, data);
+    }).on('error', function (err) {
+        callback(err);
+    });
+};
+
 exports.getChannelToAdd = function(httpclient,requestArgs,callback){
     httpclient.methods.getChannel_add(requestArgs,function (data, response) {
+        callback(null, data);
+    }).on('error', function (err) {
+        callback(err);
+    });
+};
+
+exports.getChannelToDel = function(httpclient,requestArgs,callback){
+    httpclient.methods.getChannel_del(requestArgs,function (data, response) {
         callback(null, data);
     }).on('error', function (err) {
         callback(err);

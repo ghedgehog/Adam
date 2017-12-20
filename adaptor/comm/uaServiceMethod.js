@@ -82,13 +82,13 @@ exports.SetObjectProperty = (session, objNodeId,conf,callback) => {
 };
 
 //删除对象 
-exports.DeleteObject = (session, DeleteObjectArgs,callback) => {
+exports.DeleteObject = (session, DeleteObjectNodeId,callback) => {
     var methodsToCall = [];
     methodsToCall.push(new opcua.call_service.CallMethodRequest({
         objectId: "ns=2;i=400001511",
         methodId: "ns=2;s=400001511.DeleteObject",
         inputArguments: [
-            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: DeleteObjectArgs.NodeId})]
+            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: DeleteObjectNodeId})]
     }));
     session.call(methodsToCall, function (err, result) {
         if (err) {
