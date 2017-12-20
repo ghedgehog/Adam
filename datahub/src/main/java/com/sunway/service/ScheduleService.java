@@ -27,7 +27,7 @@ public class ScheduleService {
     @Autowired
     private HistoryDataService hisDataService;
 
-    @Scheduled(initialDelay = SCHE_SECOND*2, fixedDelay=SCHE_SECOND*3)
+    @Scheduled(initialDelay = SCHE_SECOND*2, fixedDelay=SCHE_SECOND*1)
     private void transferReal2His(){
 
         if(!isInitialize){ hisDataService.initial();  isInitialize =true;}
@@ -37,7 +37,7 @@ public class ScheduleService {
             ArrayList temp = (ArrayList)device;
             for(Object obj : temp){
                 Map<String, Object> varMap = realDataService.queryRealDataByDevice((String)obj);
-                varMap.put("device_name", (String)obj);
+                if(varMap!= null) varMap.put("device_name", (String)obj);
                 //varMap.put("location", "ST_GeomFromText('POINT(116.39 39.9)', 4326)");
                 hisDataService.writeDeviceHistoryData((String)obj, varMap);
             }

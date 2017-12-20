@@ -82,6 +82,12 @@ public class IoDeviceTemplateController {
         deviceTemplateService.deleteIoDeviceTemplateVar(template, entityList);
     }
 
+    @RequestMapping(value = "/getvar")
+    @ResponseBody
+    public List<IoVariable> queryVarsFromTemplate(String template){
+        return deviceTemplateService.queryVarsByTemplate(template);
+    }
+
     @RequestMapping(value = "/add-var-test")
     public String addVarTest(@RequestBody Map<String, String> temp_map) {
         /*for (Map.Entry<String, String> entry : temp_map.entrySet()) {
@@ -123,22 +129,22 @@ public class IoDeviceTemplateController {
 
     private IoVariable buildVarMap2Xml(Map<String, String> varMap) {
 
-        String varName = varMap.get("var_name");
-        String dataType = varMap.get("data_type");
+        String varName = varMap.get("VarName");
+        String dataType = varMap.get("DataType");
 
         //TODO exception
         Document doc = DocumentHelper.createDocument();
         Element rootEle = doc.addElement("Values");
         Element subRoot = rootEle.addElement("Config");
-        /*subRoot.addElement("ScanRate").setText(varMap.get("scan_rate"));
-        subRoot.addElement("Area").setText(varMap.get("area"));
-        subRoot.addElement("Address").setText(varMap.get("address"));
-        subRoot.addElement("DataType").setText(varMap.get("data_type"));
-        subRoot.addElement("HL").setText(varMap.get("hl"));
-        subRoot.addElement("StringLen").setText(varMap.get("string_len"));
-        subRoot.addElement("ControlBit").setText(varMap.get("control_bit"));
-        subRoot.addElement("BitOffset").setText(varMap.get("bit_offset"));
-        subRoot.addElement("RawMax").setText(varMap.get("raw_max"));
+        subRoot.addElement("ScanRate").setText(varMap.get("ScanRate"));
+        subRoot.addElement("Area").setText(varMap.get("Area"));
+        subRoot.addElement("Address").setText(varMap.get("Address"));
+        subRoot.addElement("DataType").setText(varMap.get("DataType"));
+        subRoot.addElement("HL").setText(varMap.get("HL"));
+        subRoot.addElement("StringLen").setText(varMap.get("DataLength"));
+        subRoot.addElement("ControlBit").setText(varMap.get("Controller"));
+        subRoot.addElement("BitOffset").setText(varMap.get("BitOffset"));
+        /*subRoot.addElement("RawMax").setText(varMap.get("raw_max"));
         subRoot.addElement("RawMin").setText(varMap.get("raw_min"));
         subRoot.addElement("RangeMax").setText(varMap.get("range_max"));
         subRoot.addElement("RangeMin").setText(varMap.get("range_min"));

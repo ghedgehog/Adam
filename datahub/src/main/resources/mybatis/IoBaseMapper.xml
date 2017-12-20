@@ -104,6 +104,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where pid = (select template_id from ${devTable} where name= #{devName})
 	</select>
 
+	<select id="queryVarsFromTemplate" resultMap="ioVarMap">
+		select name, description, data_type, prop_conf
+		from ${varTable}
+		where pid = (select id from ${tempTable} where name= #{template})
+	</select>
+
 	<!--AlarmConfigByVar-->
 	<select id="queryAlarmConfigByVar" resultMap="alarmConfigMap">
 		select name, alarm_type, alarm_conf from ${alarmTable}

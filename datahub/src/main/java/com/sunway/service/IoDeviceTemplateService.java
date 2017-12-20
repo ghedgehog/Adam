@@ -85,4 +85,8 @@ public class IoDeviceTemplateService {
         baseMapper.setMark(varTable, templateTable,  entityList, template, Mark.DELETE);
         //baseMapper.deleteBaseList(tableName, ptableName, template, entityList);
     }
+
+    public List<IoVariable> queryVarsByTemplate(String template){
+        return baseMapper.queryVarsFromTemplate(varTable, templateTable, template);
+    }
 }

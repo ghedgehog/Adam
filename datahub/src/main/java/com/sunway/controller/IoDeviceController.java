@@ -68,13 +68,19 @@ public class IoDeviceController {
         dataService.NoticeDeviceDeleted();
     }
 
+    @RequestMapping(value="/get", method = RequestMethod.GET)
+    @ResponseBody
+    public List<IoBaseEntity> queryAllIoDevices(){
+        return deviceService.queryAllIoDevices();
+    }
+
     //GTest
     @RequestMapping(value="/del-test")
     public String deleteIoDevicesTest(){
-        List<IoBaseEntity> entities = new ArrayList();
+        /*List<IoBaseEntity> entities = new ArrayList();
         IoBaseEntity entity = new IoBaseEntity("ModbusTcpClient.channel1.device1");
         entities.add(entity);
-        deleteIoDevices("ModbusTcpClient.channel1", entities);
+        deleteIoDevices("ModbusTcpClient.channel1", entities);*/
         return "menu";
     }
 

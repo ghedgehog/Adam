@@ -113,6 +113,7 @@ public class IoDeviceService {
     //更新至实时库
     private void updateDeviceToRealHub(){
         List<String> devList = getBaseName(queryAllIoDevices());
+        System.out.println( "queryAllIoDevices: " + devList);
         if(devList.isEmpty()) return;
         realDataService.updateAllDevices(devList);
         for(String device : devList){
@@ -125,7 +126,8 @@ public class IoDeviceService {
         //创建历史表 TODO
         String templateHis = HisData.hisTablePrefix + template;
 
-        int ret = baseMapper.isTableExists(templateHis);
+        //SELECT * FROM pg_class WHERE relname='templatehis' 表名作为变量小写
+        int ret = baseMapper.isTableExists(templateHis.toLowerCase());
         if(ret > 0) return true;
 
         List<IoVariable> entityList = queryVarsFromDevice(deviceName);
