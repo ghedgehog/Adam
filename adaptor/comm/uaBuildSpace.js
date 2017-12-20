@@ -6,6 +6,7 @@ var ioDriverType = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000301, 2);
 var ioChannelType = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000310, 2);
 var ioDeviceTYpe = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000330, 2);
 var ioProxyVariableType = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000350, 2);
+var BaseDataVariableType = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 63, 0);
 var Organizes = new opcua.NodeId(opcua.NodeIdType.NUMERIC, opcua.ReferenceTypeIds.Organizes, 0);
 var HasCondition = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 9006, 0);                      /*变量和报警对象之间的引用关系*/
 
@@ -107,12 +108,12 @@ function addDevices(the_session, channelNodeId, devicesToAdd, callback) {
 }
 
 //添加NodeId为STRING的长点名var;
-/*  function addVars(the_session, deviceNodeId, VarsToAdd, callback) {
+  function addVars(the_session, deviceNodeId, VarsToAdd, callback) {
     var AddVarArgs = {};
     async.eachSeries(VarsToAdd, function (Var, cb) {
         AddVarArgs.ParentNodeId = deviceNodeId;
         AddVarArgs.NodeId = new opcua.NodeId(opcua.NodeIdType.STRING, deviceNodeId.value + '.' + Var.name, 2);
-        AddVarArgs.TypeDefinitionId = ioProxyVariableType;
+        AddVarArgs.TypeDefinitionId = BaseDataVariableType;
         AddVarArgs.DataType = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 11, 0);
         AddVarArgs.ValueRank = -1;
         AddVarArgs.AccessLevel = 15;
@@ -132,10 +133,10 @@ function addDevices(the_session, channelNodeId, devicesToAdd, callback) {
         if (err) callback(err);
         else callback(null, "addVar success!");
     });
-} */ 
+} 
 
 //添加NUMERIC的var
-function addVars(the_session, deviceNodeId, VarsToAdd, callback) {
+/* function addVars(the_session, deviceNodeId, VarsToAdd, callback) {
     uaServiceMethod.GetFreeNodeIds(the_session, VarsToAdd.length, function (err, nodesId) {
         if (err) {
             callback(err);
@@ -145,7 +146,7 @@ function addVars(the_session, deviceNodeId, VarsToAdd, callback) {
                 AddVarArgs.ParentNodeId = deviceNodeId;
                 AddVarArgs.NodeId = nodesId[index];
                 index++;
-                AddVarArgs.TypeDefinitionId = ioProxyVariableType;
+                AddVarArgs.TypeDefinitionId = BaseDataVariableType;
                 AddVarArgs.DataType = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 11, 0);
                 AddVarArgs.ValueRank = -1;
                 AddVarArgs.AccessLevel = 15;
@@ -166,7 +167,7 @@ function addVars(the_session, deviceNodeId, VarsToAdd, callback) {
                 else callback(null, "addVar success!");
             });
         }});
-} 
+}  */
 /* var alarmObjsToAdd = [{type:"OnAlarmType",
                         name:"Alarm1",
                         conf:"<Values></Values>"},

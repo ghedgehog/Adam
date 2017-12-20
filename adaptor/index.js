@@ -68,7 +68,8 @@ function init(done) {
     }, function (err, results) {
         if (err) {
             console.log(err);
-            setTimeout(init, 3000);
+            var d1 = done;
+            (function (done) { setTimeout(init, 3000, done);})(d1);
         } else {
             console.log(results);
             done();
