@@ -5,6 +5,9 @@ import com.sunway.model.IoVariable;
 import com.sunway.service.IoDeviceTemplateService;
 import com.sunway.service.RealDataService;
 import com.sunway.utils.DataTool;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -122,26 +125,30 @@ public class IoDeviceTemplateController {
 
         String varName = varMap.get("var_name");
         String dataType = varMap.get("data_type");
-        String conf = "<Values><Config></Config></Values>";
-        /*conf.concat("<ScanRate>").concat(varMap.get("scan_rate")).concat("</ScanRate>");
-        conf.concat("<Area>").concat(varMap.get("area")).concat("</Area>");
-        conf.concat("<Address>").concat(varMap.get("address")).concat("</Address>");
-        conf.concat("<DataType>").concat(varMap.get("data_type")).concat("</DataType>");
-        conf.concat("<HL>").concat(varMap.get("hl")).concat("</HL>");
-        conf.concat("<StringLen>").concat(varMap.get("string_len")).concat("</StringLen>");
-        conf.concat("<ControlBit>").concat(varMap.get("control_bit")).concat("</ControlBit>");
-        conf.concat("<BitOffset>").concat(varMap.get("bit_offset")).concat("</BitOffset>");
-        conf.concat("<RawMax>").concat(varMap.get("raw_max")).concat("</RawMax>");
-        conf.concat("<RawMin>").concat(varMap.get("raw_min")).concat("</RawMin>");
-        conf.concat("<RangeMax>").concat(varMap.get("range_max")).concat("</RangeMax>");
-        conf.concat("<RangeMin>").concat(varMap.get("range_min")).concat("</RangeMin>");
-        conf.concat("<DataChange>").concat(varMap.get("data_change")).concat("</DataChange>");*/
-        //conf.concat("</Config></Values>");
+
+        //TODO exception
+        Document doc = DocumentHelper.createDocument();
+        Element rootEle = doc.addElement("Values");
+        Element subRoot = rootEle.addElement("Config");
+        /*subRoot.addElement("ScanRate").setText(varMap.get("scan_rate"));
+        subRoot.addElement("Area").setText(varMap.get("area"));
+        subRoot.addElement("Address").setText(varMap.get("address"));
+        subRoot.addElement("DataType").setText(varMap.get("data_type"));
+        subRoot.addElement("HL").setText(varMap.get("hl"));
+        subRoot.addElement("StringLen").setText(varMap.get("string_len"));
+        subRoot.addElement("ControlBit").setText(varMap.get("control_bit"));
+        subRoot.addElement("BitOffset").setText(varMap.get("bit_offset"));
+        subRoot.addElement("RawMax").setText(varMap.get("raw_max"));
+        subRoot.addElement("RawMin").setText(varMap.get("raw_min"));
+        subRoot.addElement("RangeMax").setText(varMap.get("range_max"));
+        subRoot.addElement("RangeMin").setText(varMap.get("range_min"));
+        subRoot.addElement("DataChange").setText(varMap.get("data_change"));*/
+        String propConf = doc.asXML();
 
         IoVariable var = new IoVariable();
         var.setName(varName);
         var.setDataType(dataType);
-        var.setPropConf(conf);
+        var.setPropConf(propConf);
 
         return var;
     }
