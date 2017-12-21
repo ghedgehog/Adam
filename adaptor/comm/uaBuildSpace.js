@@ -9,7 +9,6 @@ var ioProxyVariableType = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000350, 
 var BaseDataVariableType = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 63, 0);
 var Organizes = new opcua.NodeId(opcua.NodeIdType.NUMERIC, opcua.ReferenceTypeIds.Organizes, 0);
 var HasCondition = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 9006, 0);                      /*变量和报警对象之间的引用关系*/
-
 var dbAlarmConfigRoot = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400001113, 2);            /*报警配置根目录*/
 var alarmType = {
     OnAlarmType: new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000700, 2),                   /*开报警*/
@@ -37,21 +36,21 @@ function addDrivers(the_session, driversToAdd, callback) {
         });
     }, function (err) {
         if (err) callback(err);
-        else callback(null, "addDriver success!");
+        else callback(null, "add Driver success!");
     });
 }
 
-function delDrivers(the_session, driversToAdd, callback) {
+function delDrivers(the_session, driversToDel, callback) {
     var nodeId = {};
-    async.eachSeries(driversToAdd, function (driver, cb) {
-        nodeId = new opcua.NodeId(opcua.NodeIdType.STRING, driver.name, 2);
+    async.eachSeries(driversToDel, function (driverToDel, cb) {
+        nodeId = new opcua.NodeId(opcua.NodeIdType.STRING, driverToDel.name, 2);
         uaServiceMethod.DeleteObject(the_session, nodeId, function (err, result) {
             if (err) cb(err);
             else cb();
         });
     }, function (err) {
         if (err) callback(err);
-        else callback(null, "delDriver success!");
+        else callback(null, "del Driver success!");
     });
 }
 
