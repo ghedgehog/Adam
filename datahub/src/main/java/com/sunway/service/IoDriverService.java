@@ -19,9 +19,9 @@ public class IoDriverService {
     private String tableName = IIoTableName.IoDriver;
     private String ptableName = IIoTableName.IoUaServers;
 
-    public void addIoDrivers(String uaServer, List<IoBaseEntity> drivers) throws BusinessException {
+    public int addIoDrivers(String uaServer, List<IoBaseEntity> drivers) throws BusinessException {
         try{
-            baseMapper.addBaseList(tableName, ptableName, uaServer, drivers);
+            return baseMapper.addBaseList(tableName, ptableName, uaServer, drivers);
         }catch (Exception e){
             throw new BusinessException(e.getMessage());
         }

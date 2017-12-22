@@ -19,9 +19,9 @@ public class IoChannelService {
     private String tableName = IIoTableName.IoChannel;
     private String ptableName = IIoTableName.IoDriver;
 
-    public void addIoChannels(String driver, List<IoChannel> channels) throws BusinessException {
+    public int addIoChannels(String driver, List<IoChannel> channels) throws BusinessException {
         try{
-            baseMapper.addBaseList(tableName, ptableName, driver, channels);
+            return baseMapper.addBaseList(tableName, ptableName, driver, channels);
         }catch (Exception e){
             throw new BusinessException(e.getMessage());
         }

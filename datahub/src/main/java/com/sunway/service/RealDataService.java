@@ -28,11 +28,6 @@ public class RealDataService {
         return get(varName);
     }
 
-    /*private String spliteStringByPoint(String longName){
-        String[] strArr = longName.split(".");
-        return strArr.length < 1 ? null :strArr[strArr.length-1];
-    }*/
-
     public Map<String, Object> queryRealDataByDevice(String deivceName){
 
         String val = "";
@@ -47,7 +42,12 @@ public class RealDataService {
             //存入短名
             valMap.put((String)var , value);
         }
-        return val == "" ? null : valMap;
+
+        if(val != "" ){
+            valMap.put("time", new Date());
+            return valMap;
+        }
+        return null;
     }
 
     public void updateAllDevices(List<String> devices){

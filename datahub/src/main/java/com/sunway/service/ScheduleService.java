@@ -38,7 +38,7 @@ public class ScheduleService {
             for(Object obj : temp){
                 Map<String, Object> varMap = realDataService.queryRealDataByDevice((String)obj);
                 if(varMap!= null) varMap.put("device_name", (String)obj);
-                //varMap.put("location", "ST_GeomFromText('POINT(116.39 39.9)', 4326)");
+                //varMap.put("location", "POINT(116.39 39.9)");
                 hisDataService.writeDeviceHistoryData((String)obj, varMap);
             }
         }

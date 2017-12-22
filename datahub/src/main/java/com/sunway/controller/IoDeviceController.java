@@ -100,9 +100,14 @@ public class IoDeviceController {
 
         channels.clear();
         channels.add(channel);
-        channelService.addIoChannels(driver_type, channels);
 
-        return true;
+        int ret = channelService.addIoChannels(driver_type, channels);
+
+        if (ret!=0){
+            dataService.NoticeChannelAdded();
+            return true;
+        }
+        return false;
     }
 
     private boolean addDriver(String driver_type) throws BusinessException {
@@ -117,7 +122,12 @@ public class IoDeviceController {
 
         entities.clear();
         entities.add(entity);
-        driverService.addIoDrivers(uaServer, entities);
-        return true;
+        int ret = driverService.addIoDrivers(uaServer, entities);
+
+        if (ret!=0){
+            dataService.NoticeDriverAdded();
+            return true;
+        }
+        return false;
     }
 }

@@ -34,7 +34,9 @@ public class HistoryDataService {
     }
 
     public String getHistoryTableName(String device) {
-        return HisData.hisTablePrefix + queryTemplateName(device);
+        String template = queryTemplateName(device);
+        if(template == null) return  null;
+        return HisData.hisTablePrefix + template;
     }
 
     public void crateHisTableByTemplate(String tempTable, List<String> varName) {
@@ -61,10 +63,13 @@ public class HistoryDataService {
         return null;
     }
 
-
-
     public void writeDeviceHistoryData(String device, Map<String, Object> params) {
         if(params==null || params.isEmpty()) return;
-        hisDataMapper.writeDeviceHistoryData(getHistoryTableName(device), params);
+
+        String hisTable = getHistoryTableName(device);
+
+        if(hisTable != null){
+            hisDataMapper.writeDeviceHistoryData(hisTable, params);
+        }
     }
 }

@@ -34,16 +34,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<!--插入单条历史数据-->
-	<insert id="writeDeviceHistoryData" parameterType="java.util.Map">
+	<insert id="writeDeviceHistoryData" parameterType="java.util.Map" >
 		INSERT INTO ${table}
 		<foreach collection="params.keys" item="key" open="(" close=")" separator="," >
 			${key}
 		</foreach>
 		VALUES
 		<foreach collection="params.keys"  item="key" open="(" close=")" separator=",">
+			<!--<if test=' #{key}=="location"'>
+				<![CDATA[ ST_GeomFromText(#{params[${key}]},4326) ]]>
+			</if>
+			<if test=' #{key}=="location"'>
+				#{params[${key}]}
+			</if>-->
 			<!--<choose>
 				<when test=' #{key}=="location"'>
-					ST_GeomFromText(#{params[${key}]},4326)
+					<![CDATA[ ST_GeomFromText(#{params[${key}]},4326) ]]>
 				</when>
 				<otherwise>
 					#{params[${key}]}

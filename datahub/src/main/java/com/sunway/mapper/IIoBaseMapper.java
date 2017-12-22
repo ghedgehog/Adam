@@ -24,7 +24,7 @@ public interface IIoBaseMapper<T extends IoBaseEntity> {
 
     public List<String> querySysBaseList(@Param("table") String tableName);
 
-    public void addBaseList(@Param("table") String tableName,
+    public int addBaseList(@Param("table") String tableName,
                             @Param("ptable") String ptableName,
                             @Param("parent") String parent,
                             @Param("list") List<T> baseList);
