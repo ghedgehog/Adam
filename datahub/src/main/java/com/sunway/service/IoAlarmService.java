@@ -1,5 +1,6 @@
 package com.sunway.service;
 
+import com.sunway.exception.BusinessException;
 import com.sunway.mapper.IIoExtendMapper;
 import com.sunway.mapper.IIoTableName;
 import com.sunway.model.IoAlarm;
@@ -19,8 +20,12 @@ public class IoAlarmService {
 
     private String tableName = IIoTableName.IoAlarm;
 
-    public void addAlarm(List<IoAlarm> alarms){
-        extendMapper.addAlarms(tableName, alarms);
+    public void addAlarm(List<IoAlarm> alarms) throws BusinessException {
+        try{
+            extendMapper.addAlarms(tableName, alarms);
+        }catch (Exception e){
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     public List<IoAlarm> queryAlarm(Date startTime, Date endTime){

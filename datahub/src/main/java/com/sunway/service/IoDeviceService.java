@@ -1,5 +1,7 @@
 package com.sunway.service;
 
+import com.sunway.exception.BusinessException;
+import com.sunway.exception.SystemException;
 import com.sunway.mapper.IIoBaseMapper;
 import com.sunway.mapper.IIoHisDataMapper;
 import com.sunway.mapper.IIoTableName;
@@ -41,9 +43,13 @@ public class IoDeviceService {
         updateDeviceToRealHub();
     }
 
-    public void addIoDevices(String channelName, String templateName, List<IoBaseEntity> entityList) {
+    public void addIoDevices(String channelName, String templateName, List<IoBaseEntity> entityList) throws BusinessException {
 
-        baseMapper.addIoDevices(deviceTable, channelTable, tempTable, channelName, templateName, entityList);
+        try{
+            baseMapper.addIoDevices(deviceTable, channelTable, tempTable, channelName, templateName, entityList);
+        }catch (Exception e){
+            throw new BusinessException(e.getMessage());
+        }
 
         //创建历史表
         for (IoBaseEntity entity : entityList){
@@ -123,22 +129,27 @@ public class IoDeviceService {
         }
     }
 
-    private boolean createHistroyTable(String template, String deviceName){
-        //创建历史表 TODO
-        String templateHis = HisData.hisTablePrefix + template;
+    private boolean createHistroyTable(String template, String deviceName) throws BusinessException {
 
-        //SELECT * FROM pg_class WHERE relname='templatehis' 表名作为变量小写
-        int ret = baseMapper.isTableExists(templateHis.toLowerCase());
-        if(ret > 0) return true;
+        try{
+            //创建历史表 TODO
+            String templateHis = HisData.hisTablePrefix + template;
 
-        List<IoVariable> entityList = queryVarsFromDevice(deviceName);
-        if(entityList.isEmpty()) return  false;
+            //SELECT * FROM pg_class WHERE relname='templatehis' 表名作为变量小写
+            int ret = baseMapper.isTableExists(templateHis.toLowerCase());
+            if(ret > 0) return true;
 
-        List<String> varName = new ArrayList();
-        for(IoVariable entity : entityList){
-            varName.add(entity.getName());
+            List<IoVariable> entityList = queryVarsFromDevice(deviceName);
+            if(entityList.isEmpty()) return  false;
+
+            List<String> varName = new ArrayList();
+            for(IoVariable entity : entityList){
+                varName.add(entity.getName());
+            }
+            hisDataMapper.crateHisTableByTemplate(templateHis, varName);
+            return true;
+        }catch (Exception e){
+            throw new BusinessException(e.getMessage());
         }
-        hisDataMapper.crateHisTableByTemplate(templateHis, varName);
-        return true;
     }
 }

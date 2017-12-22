@@ -191,7 +191,7 @@
                 /*]]>*/
                 //alert("所有的模型名称："+data);
             }, error: function (msg) {
-                //alert(msg);
+                alert(msg.responseText);
             }
         });
     });
@@ -208,8 +208,8 @@
             url: "template_info",
             success: function (data) {
                 $("#mainDiv").html(data);
-            }, error: function () {
-                alert("失败，请稍后再试！");
+            }, error: function (msg) {
+                alert(msg.responseText);
             }
         });
     }
@@ -246,7 +246,7 @@
             success: function (msg) {
                 //alert(msg + "添加设备模板成功");
             }, error: function (msg) {
-                //alert(msg);
+                alert(msg.responseText);
             }
         });
     }

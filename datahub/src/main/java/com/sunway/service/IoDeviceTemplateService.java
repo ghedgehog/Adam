@@ -1,5 +1,6 @@
 package com.sunway.service;
 
+import com.sunway.exception.BusinessException;
 import com.sunway.mapper.IIoBaseMapper;
 import com.sunway.mapper.IIoHisDataMapper;
 import com.sunway.mapper.IIoTableName;
@@ -29,8 +30,13 @@ public class IoDeviceTemplateService {
         return baseMapper.querySysBaseList(templateTable);
     }
 
-    public void addDeviceTempalte(List<IoBaseEntity> baseEntityList){
-        baseMapper.addSysBaseList(templateTable, baseEntityList);
+    public void addDeviceTempalte(List<IoBaseEntity> baseEntityList) throws BusinessException {
+        try{
+            baseMapper.addSysBaseList(templateTable, baseEntityList);
+        }catch (Exception e){
+            throw new BusinessException(e.getMessage());
+        }
+
         for(IoBaseEntity entity: baseEntityList){
             IoBaseEntity entity1 = new IoBaseEntity("");
             List<IoBaseEntity> entityList = new ArrayList();
@@ -41,49 +47,73 @@ public class IoDeviceTemplateService {
         }
     }
 
-    public void deleteDeviceTempalte(List<IoBaseEntity> baseEntityList){
-        baseMapper.setSysMark(templateTable, baseEntityList, Mark.DELETE);
-        //baseMapper.deleteSysBaseList(tableName, baseEntityList);
+    public void deleteDeviceTempalte(List<IoBaseEntity> baseEntityList) throws BusinessException {
+        try{
+            baseMapper.setSysMark(templateTable, baseEntityList, Mark.DELETE);
+            //baseMapper.deleteSysBaseList(tableName, baseEntityList);
+        }catch (Exception e){
+            throw new BusinessException(e.getMessage());
+        }
     }
 
-    public void addIoDeviceTemplateAlarm(String template, List<IoBaseEntity> entityList){
-        baseMapper.addBaseList(alarmTable, templateTable, template, entityList);
+    public void addIoDeviceTemplateAlarm(String template, List<IoBaseEntity> entityList) throws BusinessException {
+        try{
+            baseMapper.addBaseList(alarmTable, templateTable, template, entityList);
+        }catch (Exception e){
+            throw new BusinessException(e.getMessage());
+        }
     }
 
-    public void deleteIoDeviceTemplateAlarm(String template, List<IoBaseEntity> entityList){
-        baseMapper.setMark(alarmTable, templateTable, entityList, template, Mark.DELETE);
-        //baseMapper.deleteBaseList(templateTable, alarmTable, template, entityList);
+    public void deleteIoDeviceTemplateAlarm(String template, List<IoBaseEntity> entityList) throws BusinessException {
+        try{
+            baseMapper.setMark(alarmTable, templateTable, entityList, template, Mark.DELETE);
+            //baseMapper.deleteBaseList(templateTable, alarmTable, template, entityList);
+        }catch (Exception e){
+            throw new BusinessException(e.getMessage());
+        }
     }
     
-    public void addIoDeviceTemplateHistory(String template, List<IoBaseEntity> entityList){
-        baseMapper.addBaseList(historyTable, templateTable,  template, entityList);
+    public void addIoDeviceTemplateHistory(String template, List<IoBaseEntity> entityList) throws BusinessException {
+        try{
+            baseMapper.addBaseList(historyTable, templateTable,  template, entityList);
+        }catch (Exception e){
+            throw new BusinessException(e.getMessage());
+        }
     }
 
-    public void deleteIoDeviceTemplateHistory(String template, List<IoBaseEntity> entityList){
-        baseMapper.setMark(historyTable, templateTable,  entityList, template, Mark.DELETE);
-        //baseMapper.deleteBaseList(tableName, ptableName, template, entityList);
+    public void deleteIoDeviceTemplateHistory(String template, List<IoBaseEntity> entityList) throws BusinessException {
+        try{
+            baseMapper.setMark(historyTable, templateTable,  entityList, template, Mark.DELETE);
+            //baseMapper.deleteBaseList(tableName, ptableName, template, entityList);
+        }catch (Exception e){
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     public void addIoDeviceTemplatePreStaticstic(String template, List<IoBaseEntity> entityList){
-        baseMapper.addBaseList(preStatisticsTable, templateTable,  template, entityList);
+        //baseMapper.addBaseList(preStatisticsTable, templateTable,  template, entityList);
     }
 
     public void deleteIoDeviceTemplatePreStaticstic(String template, List<IoBaseEntity> entityList){
-        baseMapper.setMark(preStatisticsTable, templateTable,  entityList, template, Mark.DELETE);
+        //baseMapper.setMark(preStatisticsTable, templateTable,  entityList, template, Mark.DELETE);
         //baseMapper.deleteBaseList(tableName, ptableName, template, entityList);
     }
 
-    /*public void addIoDeviceTemplateVar(String template, List<IoBaseEntity> entityList){
-        baseMapper.addBaseList(varTable, templateTable,  template, entityList);
-    }*/
-
-    public void addIoDecieTemplateVars(String template, String alarm, List<IoVariable> variableList){
-        baseMapper.addIoVariables(varTable, templateTable, alarmTable, template, alarm, variableList);
+    public void addIoDecieTemplateVars(String template, String alarm, List<IoVariable> variableList) throws BusinessException {
+        try{
+            baseMapper.addIoVariables(varTable, templateTable, alarmTable, template, alarm, variableList);
+        }catch (Exception e){
+            throw new BusinessException(e.getMessage());
+        }
     }
 
-    public void deleteIoDeviceTemplateVar(String template, List<IoBaseEntity> entityList){
-        baseMapper.setMark(varTable, templateTable,  entityList, template, Mark.DELETE);
-        //baseMapper.deleteBaseList(tableName, ptableName, template, entityList);
+    public void deleteIoDeviceTemplateVar(String template, List<IoBaseEntity> entityList) throws BusinessException {
+        try{
+            baseMapper.setMark(varTable, templateTable,  entityList, template, Mark.DELETE);
+            //baseMapper.deleteBaseList(tableName, ptableName, template, entityList);
+        }catch (Exception e){
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     public List<IoVariable> queryVarsByTemplate(String template){

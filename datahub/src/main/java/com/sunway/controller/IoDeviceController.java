@@ -1,5 +1,6 @@
 package com.sunway.controller;
 
+import com.sunway.exception.BusinessException;
 import com.sunway.model.IoBaseEntity;
 import com.sunway.model.IoChannel;
 import com.sunway.service.IoChannelService;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +40,8 @@ public class IoDeviceController {
 
     @RequestMapping(value="/add", method = RequestMethod.POST)
     @ResponseBody
-    public  boolean addIoDevices(@RequestBody Map<String, String> tempMap){
+    public  String addIoDevices(@RequestBody Map<String, String> tempMap) throws BusinessException {
+        System.out.println("addIoDevices()");
 
         String deviceName = tempMap.get("device_name");
         String channelName = tempMap.get("channel_name");
@@ -47,8 +52,7 @@ public class IoDeviceController {
         String channelLongName = driverType.concat(".").concat(channelName);
         String deviceLongName = channelLongName.concat(".").concat(deviceName);
 
-        if(!addDriver(driverType) || !addChannel(driverType, channelLongName)) return false; //throw exception
-
+        if(!addDriver(driverType) || !addChannel(driverType, channelLongName)) return null;
         List<IoBaseEntity> entities = new ArrayList();
         IoBaseEntity entity = new IoBaseEntity(deviceLongName);
         entities.add(entity);
@@ -58,7 +62,7 @@ public class IoDeviceController {
         dataService.NoticeDeviceAdded();
         dataService.NoticeVariableAdded();
 
-        return true;
+        return "Ok";
     }
 
     @RequestMapping(value="/del")
@@ -85,7 +89,7 @@ public class IoDeviceController {
         return "menu";
     }*/
 
-    private boolean addChannel(String driver_type, String channel_long_name){
+    private boolean addChannel(String driver_type, String channel_long_name) throws BusinessException {
         if(channel_long_name==null) return false;
 
         List<IoChannel> channels = channelService.queryIoChannelsByMark(driver_type, -1);
@@ -101,7 +105,7 @@ public class IoDeviceController {
         return true;
     }
 
-    private boolean addDriver(String driver_type){
+    private boolean addDriver(String driver_type) throws BusinessException {
         if(driver_type==null) return false;
         String uaServer = "ioserver";
 

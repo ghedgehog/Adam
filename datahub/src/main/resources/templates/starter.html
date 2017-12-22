@@ -203,8 +203,8 @@
             success: function (data) {
                 $("#mainDiv").html(data);
                 //alert(data);
-            }, error: function () {
-                alert("失败，请稍后再试！");
+            }, error: function (msg) {
+                alert(msg.responseText);
             }
         });
         $("#create_device").parents('li').addClass('active').siblings('li').removeClass('active');
@@ -218,8 +218,8 @@
             success: function (data) {
                 //alert(data);
                 $("#mainDiv").html(data);
-            }, error: function () {
-                alert("失败，请稍后再试！");
+            }, error: function (msg) {
+                alert(msg.responseText);
             }
         });
         $("#device_view").parents('li').addClass('active').siblings('li').removeClass('active');
@@ -234,7 +234,7 @@
                 $("#mainDiv").html(data);
                 //alert(data);
             }, error: function (data) {
-                alert(data);
+                alert(data.responseText);
             }
         });
         $("#device_model").parents('li').addClass('active').siblings('li').removeClass('active');
@@ -248,8 +248,8 @@
             success: function (data) {
                 $("#mainDiv").html(data);
                 //alert(data);
-            }, error: function () {
-                alert("失败，请稍后再试！");
+            }, error: function (data) {
+                alert(data.responseText);
             }
         });
         $("#template_manage").parents('li').addClass('active').siblings('li').removeClass('active');
@@ -263,8 +263,8 @@
             success: function (data) {
                 $("#mainDiv").html(data);
                 //alert(data);
-            }, error: function () {
-                alert("失败，请稍后再试！");
+            }, error: function (data) {
+                alert(data.responseText);
             }
         });
         $("#linker_manage").parents('li').addClass('active').siblings('li').removeClass('active');
@@ -278,8 +278,8 @@
             success: function (data) {
                 $("#mainDiv").html(data);
                 //alert(data);
-            }, error: function () {
-                alert("失败，请稍后再试！");
+            }, error: function (data) {
+                alert(data.responseText);
             }
         });
         $("#data_monitor").parents('li').addClass('active').siblings('li').removeClass('active');

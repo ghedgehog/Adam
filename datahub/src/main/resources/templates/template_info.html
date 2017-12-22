@@ -77,8 +77,8 @@
             url: "var_manage",
             success: function (data) {
                 $("#panel_body").html(data);
-            }, error: function () {
-                alert("失败，请稍后再试！");
+            }, error: function (data) {
+                alert(data.responseText);
             }
         });
     }

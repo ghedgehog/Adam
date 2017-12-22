@@ -1,5 +1,6 @@
 package com.sunway.service;
 
+import com.sunway.exception.BusinessException;
 import com.sunway.mapper.IIoBaseMapper;
 import com.sunway.mapper.IIoTableName;
 import com.sunway.model.IoUaServer;
@@ -17,9 +18,13 @@ public class IoUaServerService {
     @Autowired
     private IIoBaseMapper<IoUaServer> baseMapper;
 
-    public void addIoUaServer(String uaServer){
-        List<IoUaServer> list = new ArrayList();
-        list.add( new IoUaServer(uaServer));
-        baseMapper.addSysBaseList(tableName, list);
+    public void addIoUaServer(String uaServer) throws BusinessException {
+        try{
+            List<IoUaServer> list = new ArrayList();
+            list.add( new IoUaServer(uaServer));
+            baseMapper.addSysBaseList(tableName, list);
+        }catch (Exception e){
+            throw new BusinessException(e.getMessage());
+        }
     }
 }

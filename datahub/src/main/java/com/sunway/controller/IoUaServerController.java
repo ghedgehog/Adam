@@ -1,5 +1,6 @@
 package com.sunway.controller;
 
+import com.sunway.exception.BusinessException;
 import com.sunway.service.IoUaServerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +14,7 @@ public class IoUaServerController {
     private IoUaServerService ioUaServerService;
 
     @RequestMapping(value="/add")
-    public String addIoUaServer(String uaServer){
+    public String addIoUaServer(String uaServer) throws BusinessException {
         ioUaServerService.addIoUaServer(uaServer);
         return "menu";
     }

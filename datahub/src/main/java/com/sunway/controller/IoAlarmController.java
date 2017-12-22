@@ -1,5 +1,6 @@
 package com.sunway.controller;
 
+import com.sunway.exception.BusinessException;
 import com.sunway.model.IoAlarm;
 import com.sunway.service.IoAlarmService;
 import com.sunway.service.RealDataService;
@@ -22,7 +23,7 @@ public class IoAlarmController {
     private RealDataService dataService;
 
     @RequestMapping(value="/add")
-    public void addAlarms(List<IoAlarm> alarmList){
+    public void addAlarms(List<IoAlarm> alarmList) throws BusinessException {
         alarmService.addAlarm(alarmList);
         //TRUE TODO
         dataService.NoticeAlarmAdded();

@@ -1,5 +1,6 @@
 package com.sunway.api;
 
+import com.sunway.exception.BusinessException;
 import com.sunway.model.IoAlarm;
 import com.sunway.service.IoAlarmService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,11 @@ public class IoAlarmApi {
     private IoAlarmService ioAlarmService;
 
     @RequestMapping(value="/add", method = RequestMethod.POST)
-    public void addAlarms(List<IoAlarm> alarmList){
+    public void addAlarms(List<IoAlarm> alarmList) throws BusinessException {
         ioAlarmService.addAlarm(alarmList);
     }
 
-    //TODO
+    /*//TODO
     @RequestMapping(value="/add-test", method = RequestMethod.POST)
     public void addAlarmsTest(){
         List<IoAlarm> alarms = new ArrayList();
@@ -36,5 +37,5 @@ public class IoAlarmApi {
                 1, 1, "device1",
                 "", "", 1));
         addAlarms(alarms);
-    }
+    }*/
 }

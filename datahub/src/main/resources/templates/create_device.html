@@ -126,10 +126,12 @@
                 "model_number":model_number,
                 "description":description
             }),
-            success : function () {
+            success : function (data) {
                 //alert("添加通道成功");
-            },error : function(){
+                //alert(data.msg);
+            },error : function(data){
                 //alert("失败");
+                alert(data.responseText);
             }
         });
 

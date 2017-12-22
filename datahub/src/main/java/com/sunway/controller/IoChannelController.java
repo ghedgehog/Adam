@@ -1,5 +1,6 @@
 package com.sunway.controller;
 
+import com.sunway.exception.BusinessException;
 import com.sunway.model.IoChannel;
 import com.sunway.service.IoChannelService;
 import com.sunway.service.RealDataService;
@@ -23,14 +24,14 @@ public class IoChannelController {
     private RealDataService dataService;
 
     @RequestMapping(value="/add")
-    public void addIoChannels(String driver, List<IoChannel> channels){
+    public void addIoChannels(String driver, List<IoChannel> channels) throws BusinessException {
         ioChannelService.addIoChannels(driver, channels);
         //TRUE TODO
         dataService.NoticeChannelAdded();
     }
 
     @RequestMapping(value="/del")
-    public void deleteIoChannels(String driver, List<IoChannel> channels){
+    public void deleteIoChannels(String driver, List<IoChannel> channels) throws BusinessException {
         //ioChannelService.deleteIoChannels(uaServer, channels);
         ioChannelService.setMark(driver, channels, Mark.DELETE);
         //TRUE TODO

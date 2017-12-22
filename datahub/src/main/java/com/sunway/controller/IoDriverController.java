@@ -1,5 +1,6 @@
 package com.sunway.controller;
 
+import com.sunway.exception.BusinessException;
 import com.sunway.model.IoBaseEntity;
 import com.sunway.service.IoDriverService;
 import com.sunway.service.RealDataService;
@@ -22,14 +23,14 @@ public class IoDriverController {
     private RealDataService dataService;
 
     @RequestMapping(value="/add")
-    public void addIoDrivers(String uaServer, List<IoBaseEntity> drivers){
+    public void addIoDrivers(String uaServer, List<IoBaseEntity> drivers) throws BusinessException {
         driverService.addIoDrivers(uaServer, drivers);
         //TRUE TODO
         dataService.NoticeDriverAdded();
     }
 
     @RequestMapping(value="/del")
-    public void deleteIoDrivers(String uaServer, List<IoBaseEntity> drivers){
+    public void deleteIoDrivers(String uaServer, List<IoBaseEntity> drivers) throws BusinessException {
         driverService.setMark(uaServer, drivers, Mark.DELETE);
         //driverService.deleteIoDrivers(uaServer, drivers);
         //TRUE TODO

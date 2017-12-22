@@ -1,25 +1,22 @@
 package com.sunway.controller;
 
+import com.sunway.exception.BusinessException;
 import com.sunway.model.IoBaseEntity;
 import com.sunway.model.IoVariable;
 import com.sunway.service.IoDeviceTemplateService;
-import com.sunway.service.RealDataService;
-import com.sunway.utils.DataTool;
+import com.sunway.utils.JsonTool;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping(value = "dev-template")
@@ -35,7 +32,7 @@ public class IoDeviceTemplateController {
     }
 
     @RequestMapping(value = "/add")
-    public String addDeviceTempalte(@RequestBody Map<String, String> temp_map) {
+    public String addDeviceTempalte(@RequestBody Map<String, String> temp_map) throws BusinessException {
 
         String createTime = temp_map.get("create-time");
         String modifyTime = temp_map.get("modify-time");
@@ -43,9 +40,9 @@ public class IoDeviceTemplateController {
         IoBaseEntity entity = new IoBaseEntity(temp_map.get("model-name"));
 
         if(!createTime.isEmpty())
-            entity.setCreateTime(DataTool.getDateAndTimeFromString(createTime));
+            entity.setCreateTime(JsonTool.getDateAndTimeFromString(createTime));
         if(!modifyTime.isEmpty())
-            entity.setCreateTime(DataTool.getDateAndTimeFromString(modifyTime));
+            entity.setCreateTime(JsonTool.getDateAndTimeFromString(modifyTime));
 
         entity.setDescription(temp_map.get("descript"));
 
@@ -58,13 +55,13 @@ public class IoDeviceTemplateController {
     }
 
     @RequestMapping(value = "/del")
-    public void deleteDeviceTempalte(List<IoBaseEntity> baseEntityList) {
+    public void deleteDeviceTempalte(List<IoBaseEntity> baseEntityList) throws BusinessException {
         deviceTemplateService.deleteDeviceTempalte(baseEntityList);
     }
 
     @RequestMapping(value = "/add-var")
     @ResponseBody
-    public void addDeviceTempalteVar(@RequestBody Map<String, String> varMap) {
+    public void addDeviceTempalteVar(@RequestBody Map<String, String> varMap) throws BusinessException {
         System.out.println("进入了add-var方法");
         if(varMap.isEmpty()) return;
 
@@ -79,7 +76,7 @@ public class IoDeviceTemplateController {
     }
 
     @RequestMapping(value = "/delvar")
-    public void deleteDeviceTempalteVar(String template, List<IoBaseEntity> entityList) {
+    public void deleteDeviceTempalteVar(String template, List<IoBaseEntity> entityList) throws BusinessException {
         deviceTemplateService.deleteIoDeviceTemplateVar(template, entityList);
     }
 

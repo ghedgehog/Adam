@@ -176,8 +176,8 @@
             url: "linker_info",
             success: function (data) {
                 $("#mainDiv").html(data);
-            }, error: function () {
-                alert("失败，请稍后再试！");
+            }, error: function (msg) {
+                alert(msg.responseText);
             }
         });
         console.log("执行完新增按钮事件");
