@@ -37,15 +37,4 @@ public class IoAlarmApi {
                 "", "", 1));
         addAlarms(alarms);
     }
-
-    /*@RequestMapping(value = "/time")
-    public void Test(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date(System.currentTimeMillis());
-        java.util.Date utilDate = new java.util.Date(); //获取当前时间
-        System.out.println(utilDate);
-        System.out.println(date.toString());
-        System.out.println(sdf.format(utilDate));
-        System.out.println(sdf.format(date));
-    }*/
 }

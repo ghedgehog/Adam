@@ -18,9 +18,9 @@ public class IoUaServerController {
         return "menu";
     }
 
-    @RequestMapping(value="/add-test")
+    /*@RequestMapping(value="/add-test")
     public String addIoUaServerTest(){
         addIoUaServer("ioserver2");
         return "menu";
-    }
+    }*/
 }

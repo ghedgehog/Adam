@@ -51,7 +51,7 @@ public class HistoryDataService {
         }
 
         return hisDataMapper.readDeviceHistoryData(
-                getHistoryTableName(device),
+                getHistoryTableName(device).toLowerCase(),
                 device,
                 list,
                 startTime, endTime);

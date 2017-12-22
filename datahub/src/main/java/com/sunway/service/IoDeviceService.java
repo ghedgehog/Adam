@@ -107,7 +107,8 @@ public class IoDeviceService {
             IoBaseEntity entity = new IoBaseEntity(config.getName());
             entities.add(entity);
         }
-        baseMapper.setSysMark(alarmTable, entities, Mark.DONE);
+        //影响测试报警暂时关闭 TODO
+        //baseMapper.setSysMark(alarmTable, entities, Mark.DONE);
     }
 
     //更新至实时库

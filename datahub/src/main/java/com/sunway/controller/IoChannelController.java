@@ -37,7 +37,7 @@ public class IoChannelController {
         dataService.NoticeChannelDeleted();
     }
 
-    //GTEST
+    /*//GTEST
     @RequestMapping(value="/add-test")
     public String addIoChannelsTest(){
         List<IoChannel> channels = new ArrayList();
@@ -55,5 +55,5 @@ public class IoChannelController {
         channels.add(new IoChannel("ModbusTcpClient.channel5"));
         deleteIoChannels("ModbusTcpClient", channels);
         return "menu";
-    }
+    }*/
 }

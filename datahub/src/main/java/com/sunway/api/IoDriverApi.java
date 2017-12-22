@@ -21,7 +21,8 @@ public class IoDriverApi {
     @RequestMapping(value="/add", method = RequestMethod.GET)
     public List<IoBaseEntity> queryAddedDrivers(String uaServer){
         List<IoBaseEntity> drivers = driverService.queryIoDrivers(uaServer, Mark.INSERT);
-        driverService.setMark(uaServer, drivers, Mark.DONE);
+        if(drivers == null || drivers.isEmpty()) return null;
+        //driverService.setMark(uaServer, drivers, Mark.DONE);
         return drivers;
     }
 
@@ -29,11 +30,11 @@ public class IoDriverApi {
     @RequestMapping(value="/del", method = RequestMethod.GET)
     public List<IoBaseEntity> queryDeletedDrivers(String uaServer){
         List<IoBaseEntity> drivers = driverService.queryIoDrivers(uaServer, Mark.DELETE);
-        driverService.deleteIoDrivers(uaServer, drivers);
+        //driverService.deleteIoDrivers(uaServer, drivers);
         return drivers;
     }
 
-    //GTEST
+    /*//GTEST
     @RequestMapping(value="/add-test")
     public List<IoBaseEntity> queryAddedDriversTest(){
         return queryAddedDrivers("ioserver");
@@ -42,5 +43,5 @@ public class IoDriverApi {
     @RequestMapping(value="/del-test")
     public List<IoBaseEntity> queryDeletedDrivers(){
         return queryDeletedDrivers("ioserver");
-    }
+    }*/
 }

@@ -56,6 +56,7 @@ public class IoDeviceController {
         deviceService.addIoDevices(channelLongName, deviceModel, entities);
         //TRUE TODO
         dataService.NoticeDeviceAdded();
+        dataService.NoticeVariableAdded();
 
         return true;
     }
@@ -74,15 +75,15 @@ public class IoDeviceController {
         return deviceService.queryAllIoDevices();
     }
 
-    //GTest
+    /*//GTest
     @RequestMapping(value="/del-test")
     public String deleteIoDevicesTest(){
-        /*List<IoBaseEntity> entities = new ArrayList();
+        *//*List<IoBaseEntity> entities = new ArrayList();
         IoBaseEntity entity = new IoBaseEntity("ModbusTcpClient.channel1.device1");
         entities.add(entity);
-        deleteIoDevices("ModbusTcpClient.channel1", entities);*/
+        deleteIoDevices("ModbusTcpClient.channel1", entities);*//*
         return "menu";
-    }
+    }*/
 
     private boolean addChannel(String driver_type, String channel_long_name){
         if(channel_long_name==null) return false;

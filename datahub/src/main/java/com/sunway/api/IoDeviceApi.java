@@ -23,6 +23,7 @@ public class IoDeviceApi {
     @RequestMapping(value="/add", method = RequestMethod.GET)
     List<IoBaseEntity> queryAddedIoDevices(String channelName){
         List<IoBaseEntity> devices = deviceService.queryIoDevices(channelName, Mark.INSERT);
+        if(devices==null || devices.isEmpty()) return null;
         deviceService.setMark(channelName, devices, Mark.DONE);
         return devices;
     }
@@ -53,7 +54,7 @@ public class IoDeviceApi {
         return deviceService.queryAlarmConfig(Mark.INSERT);
     }
 
-    //GTEST
+    /*//GTEST
     @RequestMapping(value="/alm-conf-var-test")
     public List<IoAlarmConfig> queryAlarmConfigByVarTest(){
         return queryAlarmConfigByVar("pressure");
@@ -75,5 +76,5 @@ public class IoDeviceApi {
     public List<IoBaseEntity> queryDeletedDriversTest(){
         return queryDeletedDrivers("ModbusTcpClient.channel1");
     }
-
+*/
 }

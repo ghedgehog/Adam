@@ -93,9 +93,9 @@ public class IoDeviceTemplateController {
 
     }
 
-    @RequestMapping(value = "/add-var-test")
+    /*@RequestMapping(value = "/add-var-test")
     public String addVarTest(@RequestBody Map<String, String> temp_map) {
-        /*for (Map.Entry<String, String> entry : temp_map.entrySet()) {
+        *//*for (Map.Entry<String, String> entry : temp_map.entrySet()) {
             System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
         }
         //创建变量
@@ -103,13 +103,13 @@ public class IoDeviceTemplateController {
         String model_name = temp_map.get("model_name");
         String var_name = temp_map.get("var_name");
         varlist.add(new IoVariable());
-        addDeviceTempalteVar(model_name, "",  varlist);*/
+        addDeviceTempalteVar(model_name, "",  varlist);*//*
         return "menu";
     }
 
     @RequestMapping(value = "/add-test")
     public String addDeviceTempalteTest() {
-        /*//创建模板
+        //创建模板
         List<IoBaseEntity> entities = new ArrayList();
         IoBaseEntity entity = new IoBaseEntity("mytemplate");
         entities.add(entity);
@@ -119,7 +119,7 @@ public class IoDeviceTemplateController {
         varlist.add(new IoBaseEntity("pressure"));
         varlist.add(new IoBaseEntity("temperature"));
         varlist.add(new IoBaseEntity("water_volume"));
-        addDeviceTempalteVar("mytemplate", varlist);*/
+        addDeviceTempalteVar("mytemplate", varlist);*//*
         return "menu";
     }
 
@@ -130,7 +130,7 @@ public class IoDeviceTemplateController {
         entities.add(entity);
         deleteDeviceTempalte(entities);
         return "menu";
-    }
+    }*/
 
     private IoVariable buildVarMap2Xml(Map<String, String> varMap) {
 

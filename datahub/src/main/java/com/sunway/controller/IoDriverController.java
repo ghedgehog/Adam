@@ -36,7 +36,7 @@ public class IoDriverController {
         dataService.NoticeDriverDeleted();
     }
 
-    //GTEST
+    /*//GTEST
     @RequestMapping(value="/add-test")
     public String addIoDriversTest(){
         List<IoBaseEntity> drivers = new ArrayList();
@@ -54,5 +54,5 @@ public class IoDriverController {
         drivers.add(new IoBaseEntity("ModbusUdpServer"));
         deleteIoDrivers("ioserver", drivers);
         return "menu";
-    }
+    }*/
 }

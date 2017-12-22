@@ -20,7 +20,8 @@ public class IoChannelApi {
     @RequestMapping(value="/add")
     public List<IoChannel> queryAddedChannels(String driver){
         List<IoChannel> channels = ioChannelService.queryIoChannelsByMark(driver, Mark.INSERT);
-        ioChannelService.setMark(driver, channels, Mark.DONE);
+        if(channels == null || channels.isEmpty()) return null;
+        //ioChannelService.setMark(driver, channels, Mark.DONE);
         return channels;
     }
 
@@ -28,18 +29,7 @@ public class IoChannelApi {
     @RequestMapping(value="/del")
     public List<IoChannel> queryDeletedChannels(String driver){
         List<IoChannel> channels = ioChannelService.queryIoChannelsByMark(driver, Mark.DELETE);
-        ioChannelService.deleteIoChannels(driver, channels);
+        //ioChannelService.deleteIoChannels(driver, channels);
         return channels;
-    }
-
-    //GTEST
-    @RequestMapping(value="/add-test")
-    public List<IoChannel> queryAddedChannelTest(){
-        return queryAddedChannels("ModbusTcpClient");
-    }
-
-    @RequestMapping(value="/del-test")
-    public List<IoChannel> queryDeletedDriversTest(){
-        return queryDeletedChannels("ModbusTcpClient");
     }
 }

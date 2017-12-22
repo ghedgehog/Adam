@@ -8,6 +8,7 @@ import com.sunway.utils.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.ParseException;
@@ -29,7 +30,7 @@ public class HistoryDataController {
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
-    @RequestMapping(value = "/read")
+    @RequestMapping(value = "/read", method = RequestMethod.GET)
     @ResponseBody
     public List<Map<String, Object>> readDeviceHistoryDataList(String device,
                                                                String startTime,
@@ -37,18 +38,18 @@ public class HistoryDataController {
         return historyDataService.readDeviceHistoryDataList(device, startTime, endTime);
     }
 
-    @RequestMapping(value = "/write")
+    @RequestMapping(value = "/write", method = RequestMethod.GET)
     public void writeDeviceHistoryData(String device, Map<String, Object> varMap) {
         historyDataService.writeDeviceHistoryData(device, varMap);
     }
 
-    @RequestMapping(value = "/read-test")
+    /*@RequestMapping(value = "/read-test", method = RequestMethod.GET)
     @ResponseBody
     public List<Map<String, Object>> readHistoryDataByDevicesTest() throws ParseException {
-        String device = "ModbusTcpClient.channel1.myDevice";
+        String device = "FORCE_HLS_SIM.channel.Blower";
         List<Map<String, Object>> hisDataList = readDeviceHistoryDataList(device,
-                "2017-12-14 12:31:00",
-                "2017-12-14 12:36:00");
+                "2017-12-20 00:00:00",
+                "2017-12-20 13:00:00");
         return hisDataList;
     }
 
@@ -66,5 +67,5 @@ public class HistoryDataController {
         //varMap.put("location", "POINT(22.5 60.87)");
         writeDeviceHistoryData(device, varMap);
         return "menu";
-    }
+    }*/
 }
