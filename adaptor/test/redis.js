@@ -1,5 +1,9 @@
 var Redis = require('ioredis');
-var redisClient = new Redis();
+var redisClient = new Redis( {
+  host:'196.168.65.163',
+port:6379,
+db:1});
+redisClient.set(1,33333);
 redisClient.subscribe('redisChat',function (err, count) {
   });
   
