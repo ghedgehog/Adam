@@ -15,6 +15,7 @@ exports.registerMethod = function (callback) {
             httpclient.registerMethod("getChannel_del", "http://${path}/api-channel/del", "GET");
             /*设备*/
             httpclient.registerMethod("getDevice_add", "http://${path}/api-device/add", "GET");
+            httpclient.registerMethod("getDevice_del", "http://${path}/api-device/del", "GET");
             /*变量*/
             httpclient.registerMethod("getVar_add", "http://${path}/api-device/var", "GET");
             /*变量报警*/
@@ -70,6 +71,15 @@ exports.getChannelToDel = function(httpclient,requestArgs,callback){
 exports.getDeviceToAdd = function(httpclient,requestArgs,callback){
     httpclient.methods.getDevice_add(requestArgs,function (data, response) {
         log.trace('getDeviceToAdd:',data);
+        callback(null, data);
+    }).on('error', function (err) {
+        callback(err);
+    });
+};
+
+exports.getDeviceToDel = function(httpclient,requestArgs,callback){
+    httpclient.methods.getDevice_del(requestArgs,function (data, response) {
+        log.trace('getDeviceToDel:',data);
         callback(null, data);
     }).on('error', function (err) {
         callback(err);

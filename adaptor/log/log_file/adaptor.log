@@ -1,0 +1,48 @@
+[2017-12-21T15:16:05.607] [INFO] log - { init: 
+   { httpClient: ' register http method success!',
+     uaConnect: 'create session success!',
+     addDriver: 'there is no driver to add !!!',
+     addChannel: 'there is no driver in db !!!',
+     addDevice: 'there is no channel in db !!!',
+     addVar: 'there is no device in db !!',
+     addAlarmObj: 'addAlarmObj success!',
+     varAlarmConf: 'there is no var in db !' },
+  subDataHubConfig: 'subDataHubConfig sucess !!!',
+  subUaRealAlarm: undefined,
+  subUaRealData: 'subUaRealData sucess !!!' }
+[2017-12-21T15:31:43.907] [INFO] log - { init: 
+   { httpClient: ' register http method success!',
+     uaConnect: 'create session success!',
+     addDriver: 'there is no driver to add !!!',
+     addChannel: 'there is no driver in db !!!',
+     addDevice: 'there is no channel in db !!!',
+     addVar: 'there is no device in db !!',
+     addAlarmObj: 'addAlarmObj success!',
+     varAlarmConf: 'there is no var in db !' },
+  subDataHubConfig: 'subDataHubConfig sucess !!!',
+  subUaRealAlarm: undefined,
+  subUaRealData: 'subUaRealData sucess !!!' }
+[2017-12-21T16:47:21.048] [INFO] log - { init: 
+   { httpClient: ' register http method success!',
+     uaConnect: 'create session success!',
+     addDriver: 'there is no driver to add !!!',
+     addChannel: 'there is no driver in db !!!',
+     addDevice: 'there is no channel in db !!!',
+     addVar: 'there is no device in db !!',
+     addAlarmObj: 'addAlarmObj success!!!',
+     varAlarmConf: 'there is no var in db !' },
+  subDataHubConfig: 'subDataHubConfig sucess !!!',
+  subUaRealAlarm: undefined,
+  subUaRealData: 'subUaRealData sucess !!!' }
+[2017-12-21T18:14:19.084] [INFO] log - { init: 
+   { httpClient: ' register http method success!',
+     uaConnect: 'create session success!',
+     addDriver: 'there is no driver to add !!!',
+     addChannel: 'there is no driver in db !!!',
+     addDevice: 'there is no channel in db !!!',
+     addVar: 'there is no device in db !!',
+     addAlarmObj: 'addAlarmObj success!!!',
+     varAlarmConf: 'there is no var in db !' },
+  subDataHubConfig: 'subDataHubConfig sucess !!!',
+  subUaRealAlarm: undefined,
+  subUaRealData: 'subUaRealData sucess !!!' }

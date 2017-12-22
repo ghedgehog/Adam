@@ -72,7 +72,7 @@ function init(cb) {
             log.error(err);
             setTimeout(init, 3000, cb);
         } else {
-            cb(null,results);
+            cb(null, results);
         }
     });
 }
@@ -115,19 +115,25 @@ function subDataHubConfig(cb) {
                     break;
                 }
             case 'Device_Del': //删除设备
-                break;
+                {
+                    interface.addDevice(the_session, the_httpClient, requestArgs, cb);
+                    break;
+                }
             case 'Variable_Add': //增加变量
                 {
                     interface.addVar(the_session, the_httpClient, requestArgs, cb);
                     break;
                 }
             case 'Variable_Del': //删除变量
-                break;
+                {
+                    interface.delVar(the_session, the_httpClient, requestArgs, cb);
+                    break;
+                }
             default:
                 break;
         }
     });
-    cb(null,'subDataHubConfig sucess !!!');
+    cb(null, 'subDataHubConfig sucess !!!');
 }
 
 function subUaRealData(cb) {

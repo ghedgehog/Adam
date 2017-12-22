@@ -6,7 +6,6 @@ var ioDriverType = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000301, 2);
 var ioChannelType = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000310, 2);
 var ioDeviceTYpe = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000330, 2);
 var ioProxyVariableType = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000350, 2);
-var BaseDataVariableType = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 63, 0);
 var Organizes = new opcua.NodeId(opcua.NodeIdType.NUMERIC, opcua.ReferenceTypeIds.Organizes, 0);
 var HasCondition = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 9006, 0);                      /*变量和报警对象之间的引用关系*/
 var dbAlarmConfigRoot = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400001113, 2);            /*报警配置根目录*/
@@ -36,7 +35,7 @@ function addDrivers(the_session, driversToAdd, callback) {
         });
     }, function (err) {
         if (err) callback(err);
-        else callback(null, "add Driver success!");
+        else callback(null, "add Driver success!!!");
     });
 }
 
@@ -50,7 +49,7 @@ function delDrivers(the_session, driversToDel, callback) {
         });
     }, function (err) {
         if (err) callback(err);
-        else callback(null, "del Driver success!");
+        else callback(null, "del Driver success!!!");
     });
 }
 
@@ -69,21 +68,21 @@ function addChannels(the_session, driverNodeId, channelsToAdd, callback) {
         });
     }, function (err) {
         if (err) callback(err);
-        else callback(null, "addChannel success!");
+        else callback(null, "addChannel success!!!");
     });
 }
 
-function delChannels(the_session, driverNodeId, channelsToAdd, callback) {
+function delChannels(the_session, channelsToDel, callback) {
     var NodeId = {};
-    async.eachSeries(channelsToAdd, function (channel, cb) {
-     NodeId = new opcua.NodeId(opcua.NodeIdType.STRING, channel.name, 2);
+    async.eachSeries(channelsToDel, function (channelToDel, cb) {
+     NodeId = new opcua.NodeId(opcua.NodeIdType.STRING, channelToDel.name, 2);
         uaServiceMethod.DeleteObject(the_session, NodeId, function (err, result) {
             if (err) cb(err);
             else cb();
         });
     }, function (err) {
         if (err) callback(err);
-        else callback(null, "delChannel success!");
+        else callback(null, "delChannel success!!!");
     });
 }
 
@@ -102,17 +101,31 @@ function addDevices(the_session, channelNodeId, devicesToAdd, callback) {
         });
     }, function (err) {
         if (err) callback(err);
-        else callback(null, "addChannel success!");
+        else callback(null, "addChannel success!!!");
+    });
+}
+
+function delDevices(the_session, devicesToDel, callback) {
+    var NodeId = {};
+    async.eachSeries(devicesToDel, function (deviceToDel, cb) {
+     NodeId = new opcua.NodeId(opcua.NodeIdType.STRING, deviceToDel.name, 2);
+        uaServiceMethod.DeleteObject(the_session, NodeId, function (err, result) {
+            if (err) cb(err);
+            else cb();
+        });
+    }, function (err) {
+        if (err) callback(err);
+        else callback(null, "delDevice success!!!");
     });
 }
 
 //添加NodeId为STRING的长点名var;
-  function addVars(the_session, deviceNodeId, VarsToAdd, callback) {
+function addVars(the_session, deviceNodeId, VarsToAdd, callback) {
     var AddVarArgs = {};
     async.eachSeries(VarsToAdd, function (Var, cb) {
         AddVarArgs.ParentNodeId = deviceNodeId;
         AddVarArgs.NodeId = new opcua.NodeId(opcua.NodeIdType.STRING, deviceNodeId.value + '.' + Var.name, 2);
-        AddVarArgs.TypeDefinitionId = BaseDataVariableType;
+        AddVarArgs.TypeDefinitionId = ioProxyVariableType;
         AddVarArgs.DataType = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 11, 0);
         AddVarArgs.ValueRank = -1;
         AddVarArgs.AccessLevel = 15;
@@ -130,43 +143,25 @@ function addDevices(the_session, channelNodeId, devicesToAdd, callback) {
         });
     }, function (err) {
         if (err) callback(err);
-        else callback(null, "addVar success!");
+        else callback(null, "addVar success!!!");
     });
 } 
 
-//添加NUMERIC的var
-/* function addVars(the_session, deviceNodeId, VarsToAdd, callback) {
-    uaServiceMethod.GetFreeNodeIds(the_session, VarsToAdd.length, function (err, nodesId) {
-        if (err) {
-            callback(err);
-        } else {
-            var AddVarArgs = {},index=0;
-            async.eachSeries(VarsToAdd, function (Var, cb) {
-                AddVarArgs.ParentNodeId = deviceNodeId;
-                AddVarArgs.NodeId = nodesId[index];
-                index++;
-                AddVarArgs.TypeDefinitionId = BaseDataVariableType;
-                AddVarArgs.DataType = new opcua.NodeId(opcua.NodeIdType.NUMERIC, 11, 0);
-                AddVarArgs.ValueRank = -1;
-                AddVarArgs.AccessLevel = 15;
-                AddVarArgs.BrowseName = Var.name;
-                AddVarArgs.DisplayName = Var.name;
-                AddVarArgs.Description = Var.description;
-                uaServiceMethod.AddVariable(the_session, AddVarArgs, function (err, result) {
-                    if (err) cb(err);
-                    else {
-                        uaServiceMethod.SetVariableProperty(the_session,AddVarArgs.NodeId,Var.propConf,function(err1,result1){
-                            if(err1) cb(err1);
-                            else cb();
-                        });
-                    }
-                });
-            }, function (err) {
-                if (err) callback(err);
-                else callback(null, "addVar success!");
-            });
-        }});
-}  */
+//添加NodeId为STRING的长点名var;
+function delVars(the_session, VarsToDel, callback) {
+    var NodeId = {};
+    async.eachSeries(VarsToDel, function (VarToDel, cb) {
+     NodeId = new opcua.NodeId(opcua.NodeIdType.STRING, VarToDel.name, 2);
+        uaServiceMethod.DeleteObject(the_session, NodeId, function (err, result) {
+            if (err) cb(err);
+            else cb();
+        });
+    }, function (err) {
+        if (err) callback(err);
+        else callback(null, "delVar success!!!");
+    });
+} 
+
 /* var alarmObjsToAdd = [{type:"OnAlarmType",
                         name:"Alarm1",
                         conf:"<Values></Values>"},
@@ -194,7 +189,7 @@ function addAlarmObj(the_session, alarmObjsToAdd, callback) {
         });
     }, function (err) {
         if (err) callback(err);
-        else callback(null, "addAlarmObj success!");
+        else callback(null, "addAlarmObj success!!!");
     });
 }
 
@@ -211,7 +206,7 @@ function varAlarmConf(the_session, varNodeId, alarmObjs, callback) {
         });
     }, function (err) {
         if (err) callback(err);
-        else callback(null, "addAlarmObj success!");
+        else callback(null, "addAlarmObj success!!!");
     });
 }
 
