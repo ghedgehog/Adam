@@ -7,7 +7,7 @@ var log = require('../log/log4js_config.js').getLogger();
 
 exports.addDriver = function (the_session, the_httpClient, requestArgs, callback) {
     httpClient.getDriverToAdd(the_httpClient, requestArgs, function (err, drivers) {
-        if (err) callback("getDriverToAdd failed: " + err.code);
+        if (err) callback(err);
         else if (drivers.length > 0) {
             uaBuildSpace.addDrivers(the_session, drivers, function (err1, result1) {
                 if (err1) callback(err1);
@@ -23,7 +23,7 @@ exports.addDriver = function (the_session, the_httpClient, requestArgs, callback
 
 exports.delDriver = function (the_session, the_httpClient, requestArgs, callback) {
     httpClient.getDriverToDel(the_httpClient, requestArgs, function (err, drivers) {
-        if (err) callback("getDriverToDel failed: " + err.code);
+        if (err) callback(err);
         else if (drivers.length > 0) {
             uaBuildSpace.delDrivers(the_session, drivers, function (err1, result1) {
                 if (err1) callback(err1);
@@ -47,7 +47,7 @@ exports.addChannel = function (the_session, the_httpClient, requestArgs, callbac
                 requestArgs.parameters = para;
                 httpClient.getChannelToAdd(the_httpClient, requestArgs, function (err1, channels) {
                     if (err1) cb(err1);
-                    else if (channels.length != 0) {
+                    else if (channels.length > 0) {
                         uaBuildSpace.addChannels(the_session, driver, channels, function (err2, result2) {
                             if (err2) cb(err2);
                             else cb();
@@ -168,7 +168,7 @@ exports.addVar = function (the_session, the_httpClient, requestArgs, callback) {
                 httpClient.getVarToAdd(the_httpClient, requestArgs, function (err1, Vars) {
                     if (err1) cb(err1);
                     else if(Vars.length > 0){
-                        uaBuildSpace.delVars(the_session, device, Vars, function (err2, result2) {
+                        uaBuildSpace.addVars(the_session, device, Vars, function (err2, result2) {
                             if (err2) cb(err2);
                             else cb();
                         });
@@ -247,7 +247,7 @@ exports.varAlarmConf = function (the_session, the_httpClient, requestArgs, callb
                             else cb();
                         });
                     } else {
-                        log.info('there is no alarmConf below '+ var1.value + ' !!!');
+                        log.warn('there is no alarmConf below '+ var1.value + ' !!!');
                         cb();
                     }
                 });

@@ -9,7 +9,7 @@ var options = {
         maxRetry: 1,
         initialDelay: 2000,
         maxDelay: 10 * 1000
-    }
+    } 
 }; 
 
 //建立连接并创建会话

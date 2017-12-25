@@ -86,21 +86,21 @@ function call_AddObject() {
         objectId: "ns=2;i=400001511",
         methodId: "ns=2;s=400001511.AddVariable",
         inputArguments: [
-            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: AddVariableArgs.ParentNodeId}),
-            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: AddVariableArgs.NodeId}),
-            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: AddVariableArgs.TypeDefinitionId}),
-            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: AddVariableArgs.DataType}),
-            new opcua.Variant({ dataType: opcua.DataType.Int32,  value: AddVariableArgs.ValueRank}),
-            new opcua.Variant({ dataType: opcua.DataType.Byte,   value: AddVariableArgs.AccessLevel}),
-            new opcua.Variant({ dataType: opcua.DataType.String, value: AddObjectArgs.BrowseName}),
-            new opcua.Variant({ dataType: opcua.DataType.String, value: AddObjectArgs.DisplayName}),
-            new opcua.Variant({ dataType: opcua.DataType.String, value: AddObjectArgs.Description})]
+            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: AddVariableArgs.ParentNodeId }),
+            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: AddVariableArgs.NodeId }),
+            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: AddVariableArgs.TypeDefinitionId }),
+            new opcua.Variant({ dataType: opcua.DataType.NodeId, value: AddVariableArgs.DataType }),
+            new opcua.Variant({ dataType: opcua.DataType.Int32, value: AddVariableArgs.ValueRank }),
+            new opcua.Variant({ dataType: opcua.DataType.Byte, value: AddVariableArgs.AccessLevel }),
+            new opcua.Variant({ dataType: opcua.DataType.String, value: AddObjectArgs.BrowseName }),
+            new opcua.Variant({ dataType: opcua.DataType.String, value: AddObjectArgs.DisplayName }),
+            new opcua.Variant({ dataType: opcua.DataType.String, value: AddObjectArgs.Description })]
     }));
     session.call(methodsToCall, function (err, result) {
         if (err) {
             callback("err:" + err);
         } else {
-            callback(null,result);
+            callback(null, result);
         }
     });
 }
@@ -130,8 +130,8 @@ function Commit() {
         inputArguments: []
     })); */
     methodToCalls.push(new opcua.call_service.CallMethodRequest({
-        objectId: new opcua.NodeId(opcua.NodeIdType.STRING,"ModbusTcpClient",2),
-        methodId: new opcua.NodeId(opcua.NodeIdType.STRING,"ModbusTcpClient.Commit",2),
+        objectId: new opcua.NodeId(opcua.NodeIdType.STRING, "ModbusTcpClient", 2),
+        methodId: new opcua.NodeId(opcua.NodeIdType.STRING, "ModbusTcpClient.Commit", 2),
         inputArguments: []
     }));
     the_session.call(methodToCalls, function (err, result) {
@@ -143,29 +143,42 @@ function Commit() {
     });
 }
 
-function browseDrivers(){
+function browseDrivers() {
     var browseDescription = {
         nodeId: new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400001010, 2),
-        referenceTypeId: new opcua.NodeId(opcua.NodeIdType.NUMERIC, 35, 0), 
+        referenceTypeId: new opcua.NodeId(opcua.NodeIdType.NUMERIC, 35, 0),
         browseDirection: opcua.BrowseDirection.Forward,
         includeSubtypes: true,
         nodeClassMask: 0,
         resultMask: 63
-     }
-    the_session.browse(browseDescription, function(err,browse_result){
-        if(!err) {
-            console.log("browse_result:",JSON.stringify(browse_result));
-            browse_result[0].references.forEach(function(reference) {
-                console.log( reference.browseName.name.toString());
+    }
+    the_session.browse(browseDescription, function (err, browse_result) {
+        if (!err) {
+            console.log("browse_result:", JSON.stringify(browse_result));
+            browse_result[0].references.forEach(function (reference) {
+                console.log(reference.browseName.name.toString());
             });
-        }else{console.log(err);}
+        } else { console.log(err); }
+    });
+}
+
+function read() {
+    var nodesToRead = [
+        {
+            nodeId: "ns=2;s=/Modicon/Modbus/ModbusTcpClient",
+            attributeId: opcua.AttributeIds.Value
+        }];
+    the_session.read(nodesToRead, function (err, nodesToRead, results, diagnosticInfos) {
+        if (!err) {
+            console.log(results[0].value.value);
+        }
     });
 }
 
 createConnection("127.0.0.1", 4841, "admin", "admin", function (err, result) {
     if (result) {
         console.log(result);
-       Commit();
+        read();
     } else {
         console.log(err);
     }

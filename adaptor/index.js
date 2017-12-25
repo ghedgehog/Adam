@@ -13,7 +13,7 @@ var redisClient_set = new Redis(config.redis);
 var the_session = {};                                       //ua会话句柄
 var the_httpClient = {};                                    //datahub链接句柄
 var requestArgs = {
-    path: { "path": config.dataHubPath },                   //区分restful接口
+    path: { 'path': config.dataHubPath },                   //区分restful接口
     parameters: { uaServer: config.uaSever.name },          //序列化到url中的parameters
     headers: { "Content-Type": "application/json" }         //request headers
 };
@@ -62,11 +62,11 @@ function init(cb) {
         //往ua数据库中添加报警对象
         addAlarmObj: ['addVar', function (result, callback) {
             interface.addAlarmObj(the_session, the_httpClient, requestArgs, callback);
-        }],
+        }]  /* ,
         //为ua数据库中变量配置报警
         varAlarmConf: ['addAlarmObj', function (result, callback) {
             interface.varAlarmConf(the_session, the_httpClient, requestArgs, callback);
-        }]
+        }]  */
     }, function (err, results) {
         if (err) {
             log.error(err);
@@ -77,63 +77,86 @@ function init(cb) {
     });
 }
 
-function subDataHubConfig(cb) {
+function subDataHubConfig() {
     redisClient_sub.subscribe(config.subChannel);
     redisClient_sub.on('message', function (channel, message) {
         log.info('subDataHubConfig:', message);
         var para = {};
         switch (message) {
-            case 'Driver_Add': //增加驱动
+            case '\"Driver_Add\"': //增加驱动
+                {
+                    para = {};
+                    para.uaServer = config.uaSever.name;
+                    requestArgs.parameters = para;
+                    interface.addDriver(the_session, the_httpClient, requestArgs, function (err, result) {
+                        if (err) log.error(err);
+                        else log.info(result);
+                    });
+                    break;
+                }
+            case '\"Driver_Del\"': //删除驱动
                 {
                     para = {};
                     para.uaServer = config.uaServer.name;
                     requestArgs.parameters = para;
-                    interface.addDriver(the_session, the_httpClient, requestArgs, cb);
+                    interface.delDriver(the_session, the_httpClient, requestArgs, function (err, result) {
+                        if (err) log.error(err);
+                        else log.info(result);
+                    });
                     break;
                 }
-            case 'Driver_Del': //删除驱动
+            case '\"Channel_Add\"': //增加通道
                 {
-                    para = {};
-                    para.uaServer = config.uaServer.name;
-                    requestArgs.parameters = para;
-                    interface.delDriver(the_session, the_httpClient, requestArgs, cb);
+                    interface.addChannel(the_session, the_httpClient, requestArgs, function (err, result) {
+                        if (err) log.error(err);
+                        else log.info(result);
+                    });
                     break;
                 }
-            case 'Channel_Add': //增加通道
+            case '\"Channel_Del\"': //删除通道
                 {
-                    interface.addChannel(the_session, the_httpClient, requestArgs, cb);
+                    interface.delChannel(the_session, the_httpClient, requestArgs, function (err, result) {
+                        if (err) log.error(err);
+                        else log.info(result);
+                    });
                     break;
                 }
-            case 'Channel_Del': //删除通道
+            case '\"Device_Add\"': //增加设备
                 {
-                    interface.delChannel(the_session, the_httpClient, requestArgs, cb);
+                    interface.addDevice(the_session, the_httpClient, requestArgs, function (err, result) {
+                        if (err) log.error(err);
+                        else log.info(result);
+                    });
                     break;
                 }
-            case 'Device_Add': //增加设备
+            case '\"Device_Del\"': //删除设备
                 {
-                    interface.addDevice(the_session, the_httpClient, requestArgs, cb);
+                    interface.addDevice(the_session, the_httpClient, requestArgs, function (err, result) {
+                        if (err) log.error(err);
+                        else log.info(result);
+                    });
                     break;
                 }
-            case 'Device_Del': //删除设备
+            case '\"Variable_Add\"': //增加变量
                 {
-                    interface.addDevice(the_session, the_httpClient, requestArgs, cb);
+                    interface.addVar(the_session, the_httpClient, requestArgs, function (err, result) {
+                        if (err) log.error(err);
+                        else log.info(result);
+                    });
                     break;
                 }
-            case 'Variable_Add': //增加变量
+            case '\"Variable_Del\"': //删除变量
                 {
-                    interface.addVar(the_session, the_httpClient, requestArgs, cb);
-                    break;
-                }
-            case 'Variable_Del': //删除变量
-                {
-                    interface.delVar(the_session, the_httpClient, requestArgs, cb);
+                    interface.delVar(the_session, the_httpClient, requestArgs, function (err, result) {
+                        if (err) log.error(err);
+                        else log.info(result);
+                    });
                     break;
                 }
             default:
                 break;
         }
     });
-    cb(null, 'subDataHubConfig sucess !!!');
 }
 
 function subUaRealData(cb) {
@@ -176,7 +199,7 @@ async.auto({
         init(cb);
     },
     subDataHubConfig: ['init', function (result, cb) {
-        subDataHubConfig(cb);
+        subDataHubConfig();
     }],
     subUaRealData: ['init', function (result, cb) {
         subUaRealData(cb);

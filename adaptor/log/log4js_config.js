@@ -15,7 +15,7 @@ exports.getLogger = function () {
     categories: {
       default: {
         appenders: ['log','console'],
-        level: 'INFO'
+        level: 'ALL'
       }
     }
   });

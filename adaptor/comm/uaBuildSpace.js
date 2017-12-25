@@ -427,6 +427,7 @@ exports.addChannels = addChannels;
 exports.delChannels = delChannels;
 exports.addDevices = addDevices;
 exports.addVars = addVars;
+exports.delVars = delVars; 
 exports.addAlarmObj = addAlarmObj;
 exports.varAlarmConf = varAlarmConf;
 exports.browseIo = browseIo;

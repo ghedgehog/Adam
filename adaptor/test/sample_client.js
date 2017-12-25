@@ -9,7 +9,6 @@ var endpointUrl = "opc.tcp://" + require("os").hostname() + ":4334/UA/MyLittleSe
 var the_session, the_subscription;
 
 async.series([
-
     // step 1 : connect to
     function(callback)  {
         client.connect(endpointUrl,function (err) {
