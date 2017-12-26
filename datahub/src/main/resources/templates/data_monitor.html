@@ -1,7 +1,7 @@
 
-
+<link rel="stylesheet" href="AdminLTE-2.3.11/bootstrap-daterangepicker/daterangepicker.css"/>
 <section class="content">
-    <div class="col-md-3">
+    <div class="col-md-5">
         <!-- Custom Tabs -->
         <div class="col-md-offset-1">
 
@@ -9,40 +9,17 @@
                 <li class="active"><a href="#tab_1-1" data-toggle="pill">基本信息</a></li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane  fade in active" id="tab_1-1">
+                <div class="tab-pane fade in active" id="tab_1-1">
                     <div class="box box-widget ">
-                        <ul class="nav nav-stacked">
-                            <li>
-                                <a href="javascript:void(0);" >模型概览 </a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);">基本属性 </a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);">监控属性</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);">报警设置</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);">控制操作</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);">模型配件</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);">信息板</a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);" onclick="click_var();">变量</a>
-                            </li>
+                        <ul id="device_list2" class="nav nav-stacked">
+
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-7">
         <ul class="nav nav-pills">
             <li class="active"><a href="#tab_2-1" data-toggle="pill">实时数据</a></li>
             <li><a href="#tab_2-2" data-toggle="pill">历史数据</a></li>
@@ -51,18 +28,9 @@
         <div class="tab-content">
             <div class="tab-pane fade in active" id="tab_2-1">
                 <div class="box box-widget">
-                    <div class="box-header">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default" data-btn-type="add" data-toggle="modal"
-                                    data-target="#myModal">新增
-                            </button>
-                            <button type="button" class="btn btn-default" data-btn-type="edit">编辑</button>
-                            <button type="button" class="btn btn-default" data-btn-type="delete" id="delete" onclick="delete_modal()">删除</button>
-                        </div>
-                    </div>
                     <!--  table-bordered      /.box-header -->
                     <div class="box-body">
-                        <table id="example1" class="table table-striped table-hover display ">
+                        <table id="example3" class="table table-striped table-hover display ">
                             <thead>
                             <tr>
                                 <th>监控属性名称</th>
@@ -75,57 +43,45 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>编号1</td>
-                                <td>Safari 2.0</td>
-                                <td>OSX.4+</td>
-                                <td>419.3</td>
-                                <td>A</td>
-                                <td>419.3</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Webkit</td>
-                                <td>Safari 3.0</td>
-                                <td>OSX.4+</td>
-                                <td>522.1</td>
-                                <td>A</td>
-                                <td>419.3</td>
-                                <td>A</td>
-                            </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
             <div class="tab-pane fade in" id="tab_2-2">
-                <div class="box box-widget ">
-                    <ul class="nav nav-stacked">
-                        <li>
-                            <a href="javascript:void(0);" >模型概览 </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">基本属性 </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">监控属性</a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">报警设置</a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">控制操作</a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">模型配件</a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">信息板</a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);" onclick="click_var();">变量</a>
-                        </li>
-                    </ul>
+                <div class="box box-widget">
+                    <div class="box-header">
+                        <div class="row">
+                            <!--<div  class="col-md-3">-->
+                            <!--<select id="device_monitor" class="form-control" style="width: 100%;">-->
+                                <!--<option selected="selected">请选择监控设备</option>-->
+                            <!--</select>-->
+                            <!--</div>-->
+                                <div class="col-md-6">
+                                <input type="text" class="form-control pull-right" id="reservationtime"></input>
+                            </div>
+                            <div class="col-md-2">
+                        <button type="button" class="btn btn-default" id="query_his" onclick="query_his()">查询</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--  table-bordered      /.box-header -->
+                    <div class="box-body">
+                        <table id="example4" class="table table-striped table-hover display ">
+                            <thead>
+                            <tr>
+                                <th>变量名</th>
+                                <th>值</th>
+                                <th>时间戳</th>
+                                <th>质量戳</th>
+                                <th>Location</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="tab-pane fade in" id="tab_2-3">
@@ -136,7 +92,7 @@
                                     data-target="#myModal">新增
                             </button>
                             <button type="button" class="btn btn-default" data-btn-type="edit">编辑</button>
-                            <button type="button" class="btn btn-default" data-btn-type="delete" id="delete" onclick="delete_modal()">删除</button>
+                            <button type="button" class="btn btn-default" data-btn-type="delete" id="" onclick="delete_modal()">删除</button>
                         </div>
                     </div>
                     <!--  table-bordered      /.box-header -->
@@ -149,30 +105,12 @@
                                 <th>报警主题</th>
                                 <th>严重性</th>
                                 <th>类别</th>
-                                <th>报警值</th>
-                                <th>活跃状态</th>
-                                <th>操作</th>
+                                <!--<th>报警值</th>-->
+                                <!--<th>活跃状态</th>-->
+                                <!--<th>操作</th>-->
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>编号1</td>
-                                <td>Safari 2.0</td>
-                                <td>OSX.4+</td>
-                                <td>419.3</td>
-                                <td>A</td>
-                                <td>419.3</td>
-                                <td>A</td>
-                            </tr>
-                            <tr>
-                                <td>Webkit</td>
-                                <td>Safari 3.0</td>
-                                <td>OSX.4+</td>
-                                <td>522.1</td>
-                                <td>A</td>
-                                <td>419.3</td>
-                                <td>A</td>
-                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -181,40 +119,220 @@
         </div>
     </div>
 </section>
+<script src="AdminLTE-2.3.11/moment/min/moment.min.js"></script>
+<script src="AdminLTE-2.3.11/bootstrap-daterangepicker/daterangepicker.js"></script>
 <script>
     var temp_table = null;
-    $(function () {
-        temp_table = $('#example1').DataTable({
-            "processing": true,
-            "bPaginage": true,
-            "bSort": false,
-            "paginationType": "full_numbers",
-            "oLanguage": {
-                "sLengthMenu": "每页显示 _MENU_ 条",
-                "sZeroRecords": "没有找到符合条件的数据",
-                "sInfo": "当前第 _START_ - _END_ 条　共计 _TOTAL_ 条",
-                "sInfoEmpty": "没有记录",
-                "sInfoFiltered": "(从 _MAX_ 条记录中过滤)",
-                "sSearch": "搜索",
-                "sProcessing": "数据加载中...",
-                "oPaginate": {
-                    "sFirst": "首页",
-                    "sPrevious": "上一页",
-                    "sNext": "下一页",
-                    "sLast": "尾页"
+    var first = null;
+    function InitOverviewDataTable(deviceName)
+    {
+        console.log("init界面的名称："+deviceName)
+        $.get('real/read-obj?device='+deviceName,function(data,status) {
+            //console.log("Init"+status);
+            alert(status);
+            var myArray = new Array();
+            var nameArray = new Array();
+            var valueArray = new Array();
+            /*<![CDATA[*/
+                var data_length =0;
+                for(var name in data){
+                    console.log("属性：" + name + ",值："+ data[name]);
+                    nameArray.push(name);
+                    valueArray.push(data[name]);
+                    data_length++;
                 }
+
+            for(var i=0;i<data_length;i++){
+                myArray[i]=new Array(nameArray[i],nameArray[i],valueArray[i],null,null,null,null);
+                console.log("执行了myArray赋值操作");
+            }
+            /*]]>*/
+            temp_table = $('#example3').DataTable({
+                "processing": true,
+                "bPaginage": false,
+                "bSort": false,
+                "paginationType": "full_numbers",
+                "bStateSave":true,
+                "oLanguage": {
+                    "sLengthMenu": "每页显示 _MENU_ 条",
+                    "sZeroRecords": "没有找到符合条件的数据",
+                    "sInfo": "当前第 _START_ - _END_ 条　共计 _TOTAL_ 条",
+                    "sInfoEmpty": "没有记录",
+                    "sInfoFiltered": "(从 _MAX_ 条记录中过滤)",
+                    "sSearch": "搜索",
+                    "sProcessing": "数据加载中...",
+                    "oPaginate": {
+                        "sFirst": "首页",
+                        "sPrevious": "上一页",
+                        "sNext": "下一页",
+                        "sLast": "尾页"
+                    }
+                },
+                "bAutoWidth":true,
+                "paging": false,
+                "scrollY": "200px",
+                "scrollCollapse": "true",
+                "aaData":myArray
+            });
+        } );
+    }
+
+    function RefreshTable(tableId, urlData)
+    {
+        var ss = new Array();
+        console.log("refresh时的url："+urlData);
+        $.get(urlData,null,function(data,status){
+            //alert("Refresh"+status+data);
+            temp_table = $(tableId).dataTable();
+            var oSettings = temp_table.fnSettings();
+            temp_table.fnClearTable(this);
+            var nameArray = new Array();
+            var valueArray = new Array();
+            var length_data = Object.keys(data).length;
+            /*<![CDATA[*/
+            for(var name in data) {
+                nameArray.push(name);
+                valueArray.push(data[name]);
+            }
+            for(var i=0;i<length_data;i++){
+                ss[i]=new Array(nameArray[i],nameArray[i],valueArray[i],null,null,null,null);
+                temp_table.oApi._fnAddData(oSettings, ss[i]);
+            }
+            /*]]>*/
+            oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+            temp_table.fnDraw(false);
+        });
+    }
+
+    function AutoReload(deviceName)
+    {
+        console.log("AutoReload时传入的设备名"+deviceName);
+        RefreshTable('#example3', 'real/read-obj?device='+deviceName);
+    }
+
+    $(function () {
+        //此ajax仅仅是为了请求所有的设备，并显示至左侧列表
+        $.ajax({
+            type: "get",
+            async: true,
+            url: "device/get",
+            dataType:"json",
+            success: function (data) {
+                //var html="<option>请选择监控设备</option>";
+                //console.log(data);
+                first = data[0]["name"];
+                console.log(first);
+                /*<![CDATA[*/
+                for (var i=0;i<data.length;++i){
+//                    console.log(data[i]);
+                    var obj = data[i];
+                    var name = obj["name"];
+                    //console.log(name);
+                    $('#device_list2').append('<li><a href="javascript:void(0);">'+name+'</a></li>');
+                    //html += "<option>"+name+"</option>";
+                    //$("#device_monitor").html('').append(html);
+                }
+                //$("#device_list li").eq(0).addClass("active");
+                /*]]>*/
+            }, error: function (msg) {
             }
         });
-        $('#example1 tbody').on( 'click', 'tr', function () {
-            if ( $(this).hasClass('selected') ) {
-                $(this).removeClass('selected');
-                console.log("进入了if分支");
-            }
-            else {
-                temp_table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-                console.log("进入了else分支");
-            }
-        } );
+
+        $('#reservationtime').daterangepicker({
+            timePicker: true,
+            timePickerSeconds: true,
+            locale: 'zh-cn',
+            locale: {
+                format: "YYYY-MM-DD HH:mm:ss", //设置显示格式
+                applyLabel: '确定', //确定按钮文本
+                cancelLabel: '取消', //取消按钮文本
+                customRangeLabel: '自定义',
+                daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+                monthNames: ['一月', '二月', '三月', '四月', '五月', '六月',
+                    '七月', '八月', '九月', '十月', '十一月', '十二月'
+                ]}
+        });
+
+        $("#device_list2").delegate('li','click',function() {
+            $("#device_list2 li").removeClass("active");//首先移除全部的active
+            $(this).addClass("active");//选中的添加acrive
+            var text = $(this).text();
+            console.log("执行了点击标签函数init:"+text);
+            InitOverviewDataTable(text);
+            AutoReload(text);
+            //setInterval("AutoReload("+text+")",3000);
+            window.setInterval(function()
+            {
+                AutoReload(text);
+            }, 3000);
+        });
     });
+    function query_his(){
+        var time = $.trim($('#reservationtime').val());
+        var startTime = $.trim(time.substr(0,19));
+        var endTime = $.trim(time.substr(22));
+        var device = $("#device_list2 li.active").text();
+        console.log("选中的设备名称为："+device);
+        $.ajax({
+            type: "post",
+            async: true,
+            contentType : "application/json;charset=utf-8",
+            url: "his/read",
+            dataType:'json',
+            data: JSON.stringify({
+                "device":device,
+                "startTime":startTime,
+                "endTime":endTime
+            }),
+            success: function (data) {
+                console.log(data);
+                var myArray = new Array();
+                /*<![CDATA[*/
+                var column = 0;
+                for (var row=0;row<data.length;++row){
+                    var obj = data[row];
+                    for ( var key in obj )
+                    {
+                        //console.log(key);
+                        //console.log(obj[key]);
+                        myArray[column++]=new Array(key,obj[key],null,null,null);
+                    }
+
+                }
+                /*]]>*/
+               var his_table = $('#example4').DataTable({
+                    "processing": true,
+                    "bPaginage": false,
+                    "bSort": false,
+                    "paginationType": "full_numbers",
+                    "bStateSave":true,
+                    "oLanguage": {
+                        "sLengthMenu": "每页显示 _MENU_ 条",
+                        "sZeroRecords": "没有找到符合条件的数据",
+                        "sInfo": "当前第 _START_ - _END_ 条　共计 _TOTAL_ 条",
+                        "sInfoEmpty": "没有记录",
+                        "sInfoFiltered": "(从 _MAX_ 条记录中过滤)",
+                        "sSearch": "搜索",
+                        "sProcessing": "数据加载中...",
+                        "oPaginate": {
+                            "sFirst": "首页",
+                            "sPrevious": "上一页",
+                            "sNext": "下一页",
+                            "sLast": "尾页"
+                        }
+                    },
+                    "bAutoWidth":true,
+//                "aLengthMenu": [
+//                    20, 30, 50
+//                ],
+                    "paging": false,
+                    "scrollY": "200px",
+                    "scrollCollapse": "true",
+                    "aaData":myArray
+                });
+
+            }, error: function (msg) {
+            }
+        });
+    }
 </script>

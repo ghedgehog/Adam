@@ -7,16 +7,14 @@ import com.sunway.service.IoDeviceService;
 import com.sunway.utils.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "his")
@@ -30,11 +28,14 @@ public class HistoryDataController {
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
-    @RequestMapping(value = "/read", method = RequestMethod.GET)
+    @RequestMapping(value = "/read", method = RequestMethod.POST)
     @ResponseBody
-    public List<Map<String, Object>> readDeviceHistoryDataList(String device,
-                                                               String startTime,
-                                                               String endTime) {
+    public List<Map<String, Object>> readDeviceHistoryDataList(@RequestBody  Map<String, String> temp_map) {
+
+        String device = temp_map.get("device");
+        String startTime = temp_map.get("startTime");
+        String endTime = temp_map.get("endTime");
+        System.out.println("hisData~~~~~~~~~~~~~~~~");
         return historyDataService.readDeviceHistoryDataList(device, startTime, endTime);
     }
 

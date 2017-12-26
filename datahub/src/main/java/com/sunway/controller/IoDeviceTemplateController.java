@@ -67,7 +67,9 @@ public class IoDeviceTemplateController {
 
         String alarm = "";
         String template = varMap.get("ModelName");
-
+        for (Map.Entry<String, String> entry : varMap.entrySet()) {
+            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+        }
         IoVariable var = buildVarMap2Xml(varMap);
         List<IoVariable> variableList = new ArrayList();
         variableList.add(var);
@@ -138,19 +140,19 @@ public class IoDeviceTemplateController {
         Document doc = DocumentHelper.createDocument();
         Element rootEle = doc.addElement("Values");
         Element subRoot = rootEle.addElement("Config");
-        /*subRoot.addElement("ScanRate").setText(varMap.get("ScanRate"));
+        subRoot.addElement("ScanRate").setText(varMap.get("ScanRate"));
         subRoot.addElement("Area").setText(varMap.get("Area"));
         subRoot.addElement("Address").setText(varMap.get("Address"));
-        subRoot.addElement("DataType").setText(varMap.get("DataType"));
+        //subRoot.addElement("DataType").setText(varMap.get("DataType"));
         subRoot.addElement("HL").setText(varMap.get("HL"));
         subRoot.addElement("StringLen").setText(varMap.get("DataLength"));
         subRoot.addElement("ControlBit").setText(varMap.get("Controller"));
         subRoot.addElement("BitOffset").setText(varMap.get("BitOffset"));
-        subRoot.addElement("RawMax").setText(varMap.get("raw_max"));
-        subRoot.addElement("RawMin").setText(varMap.get("raw_min"));
-        subRoot.addElement("RangeMax").setText(varMap.get("range_max"));
-        subRoot.addElement("RangeMin").setText(varMap.get("range_min"));
-        subRoot.addElement("DataChange").setText(varMap.get("data_change"));*/
+        subRoot.addElement("RawMax").setText(varMap.get("RawMax"));
+        subRoot.addElement("RawMin").setText(varMap.get("RawMin"));
+        subRoot.addElement("RangeMax").setText(varMap.get("RangeMax"));
+        subRoot.addElement("RangeMin").setText(varMap.get("RangeMin"));
+        subRoot.addElement("DataChange").setText(varMap.get("DataChange"));
         String propConf = doc.asXML();
 
         IoVariable var = new IoVariable();

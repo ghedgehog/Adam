@@ -9,7 +9,7 @@
     </ol>
 </section>
 <section class="content">
-    <div class="col-md-3">
+    <div class="col-md-5">
         <!-- Custom Tabs -->
         <div class="nav-tabs-custom no-padding">
             <ul class="nav nav-tabs">
@@ -20,10 +20,6 @@
                 <div class="tab-pane active" id="tab_1">
                     <div class="box-body no-padding">
                         <ul id="device_list" class="nav nav-stacked">
-                            <!--<li><a href="#">设备1 <span class="pull-right badge bg-blue">31</span></a></li>-->
-                            <!--<li><a href="#">设备2 <span class="pull-right badge bg-aqua">5</span></a></li>-->
-                            <!--<li><a href="#">设备3<span class="pull-right badge bg-green">12</span></a></li>-->
-                            <!--<li><a href="#">设备4 <span class="pull-right badge bg-red">842</span></a></li>-->
                         </ul>
                     </div>
                 </div>
@@ -34,29 +30,11 @@
             </div>
         </div>
     </div>
-    <div class="col-md-9">
-        <!--<nav class="navbar navbar-default" role="navigation">-->
-        <!--<div class="container-fluid">-->
-        <!--<div class="navbar-header">-->
-        <!--<a class="navbar-brand" href="#">菜鸟教程</a>-->
-        <!--<a class="navbar-text navbar-right active" href="#">菜鸟教程</a>-->
-        <!--<a class="navbar-text navbar-right" href="#">菜鸟教程</a>-->
-        <!--<form class="navbar-form navbar-right" role="search">-->
-        <!--<button type="submit" class="btn btn-default">-->
-        <!--向右对齐-提交按钮-->
-        <!--</button>-->
-        <!--</form>-->
-        <!--</div>-->
-        <!--<div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</nav>-->
+    <div class="col-md-7">
 
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs pull-right">
-                <li><a href="#tab_3-2" data-toggle="tab">设备日志</a></li>
-                <li><a href="#tab_2-2" data-toggle="tab">信息板</a></li>
-                <li><a href="#tab_2-1" data-toggle="tab">连接管理</a></li>
+                <li><a href="#tab_2-1" data-toggle="tab">tab1</a></li>
                 <li class="active"><a href="#tab_1-1" data-toggle="tab">设备概况</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -104,15 +82,6 @@
                 <div class="tab-pane" id="tab_2-1">
                  连接管理
                 </div>
-                <div class="tab-pane" id="tab_2-2">
-                    The European languages are members of the same family. Their separate existence is a myth.
-                    For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ
-                </div>
-                <!-- /.tab-pane -->
-                <div class="tab-pane" id="tab_3-2">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                </div>
             </div>
         </div>
     </div>
@@ -126,7 +95,7 @@
             url: "device/get",
             dataType:"json",
             success: function (data) {
-
+                console.log(data);
                 /*<![CDATA[*/
                 for (var i=0;i<data.length;++i){
 //                    console.log(data[i]);
