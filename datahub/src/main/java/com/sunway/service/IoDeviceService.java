@@ -7,6 +7,7 @@ import com.sunway.mapper.IIoHisDataMapper;
 import com.sunway.mapper.IIoTableName;
 import com.sunway.model.IoAlarmConfig;
 import com.sunway.model.IoBaseEntity;
+import com.sunway.model.IoDevice;
 import com.sunway.model.IoVariable;
 import com.sunway.utils.HisData;
 import com.sunway.utils.Mark;
@@ -43,7 +44,7 @@ public class IoDeviceService {
         updateDeviceToRealHub();
     }
 
-    public void addIoDevices(String channelName, String templateName, List<IoBaseEntity> entityList) throws BusinessException {
+    public void addIoDevices(String channelName, String templateName, List<IoDevice> entityList) throws BusinessException {
 
         try{
             baseMapper.addIoDevices(deviceTable, channelTable, tempTable, channelName, templateName, entityList);
@@ -52,7 +53,7 @@ public class IoDeviceService {
         }
 
         //创建历史表
-        for (IoBaseEntity entity : entityList){
+        for (IoDevice entity : entityList){
             createHistroyTable(templateName, entity.getName());
         }
         //更新设备至实时库
@@ -71,8 +72,12 @@ public class IoDeviceService {
         return  nameList;
     }
 
-    public List<IoBaseEntity> queryIoDevices(String channelName, int mark){
+    /*public List<IoBaseEntity> queryIoDevices(String channelName, int mark){
         return  baseMapper.queryIoBaseList(deviceTable,channelTable, channelName, mark);
+    }*/
+
+    public List<IoDevice> queryIoDevices(String channelName, int mark){
+        return  baseMapper.queryIoDevices(deviceTable,channelTable, channelName, mark);
     }
 
     public void setMark(String channelName, List<IoBaseEntity> entityList, int mark){

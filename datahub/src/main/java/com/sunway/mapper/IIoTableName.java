@@ -28,5 +28,7 @@ public interface IIoTableName {
 
     public static String IoEvent = "io_events";
 
+    public static String IoUpdate = "io_update";
+
     //public static String IoChannel = "sys_users";
 }

@@ -88,14 +88,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!--Device-->
 	<insert id="addIoDevices" parameterType="java.util.List">
-		INSERT INTO ${table} (name, pid, template_id, mark) VALUES
+		INSERT INTO ${table} (name, pid, template_id, description, prop_conf, mark) VALUES
 		<foreach collection="list" item="item" index="index" separator=",">
 			(#{item.name},
 			(SELECT id FROM ${ptable} WHERE name = #{parent}),
 			(SELECT id FROM ${tempTable} WHERE name = #{tempName}),
+			#{item.description},
+			XML'${item.propConf}',
 			1)
 		</foreach>
 	</insert>
+
+	<select id="queryIoDevices" resultMap="deviceMap">
+		SELECT (name, description, prop_conf) FROM ${table}
+		WHERE
+		pid = (SELECT id FROM ${ptable} WHERE name = #{parent})
+		<if test="mark != -1">
+			AND mark = ${mark}
+		</if>
+	</select>
 
 	<!--Variables-->
 	<select id="queryVarsFromDevice" resultMap="ioVarMap">
@@ -121,6 +132,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select name, alarm_type, alarm_conf from ${alarmTable}
 		where mark = ${mark}
 	</select>
+
+	<!--DeviceMap-->
+	<resultMap id="deviceMap" type="com.sunway.model.IoDevice">
+		<id property="name" column="name" />
+		<result property="description" column="description"/>
+		<result property="propConf" column="prop_conf"/>
+	</resultMap>
 
 	<!--AlarmConfigType-->
 	<resultMap id="alarmConfigMap" type="com.sunway.model.IoAlarmConfig">
@@ -165,4 +183,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			1)
 		</foreach>
 	</insert>
+
+	<select id="queryUpdateMaxValue" resultType="java.lang.Integer">
+		SELECT MAX(version) AS  max_ver FROM ${updateTable}
+	</select>
+
+	<select id="queryUpdateTablesByVersion" resultType="java.util.List">
+		SELECT table_name from ${updateTable} WHERE  version > ${version}
+	</select>
 </mapper>

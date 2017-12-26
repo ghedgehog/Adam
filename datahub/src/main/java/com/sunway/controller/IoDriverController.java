@@ -36,24 +36,4 @@ public class IoDriverController {
         //TRUE TODO
         dataService.NoticeDriverDeleted();
     }
-
-    /*//GTEST
-    @RequestMapping(value="/add-test")
-    public String addIoDriversTest(){
-        List<IoBaseEntity> drivers = new ArrayList();
-        drivers.add(new IoBaseEntity("IEC104TCP"));
-        drivers.add(new IoBaseEntity("ModbusUdpServer"));
-        addIoDrivers("ioserver", drivers);
-        return "menu";
-    }
-
-    //GTEST
-    @RequestMapping(value="/del-test")
-    public String deleteIoDriversTest(){
-        List<IoBaseEntity> drivers = new ArrayList();
-        drivers.add(new IoBaseEntity("IEC104TCP"));
-        drivers.add(new IoBaseEntity("ModbusUdpServer"));
-        deleteIoDrivers("ioserver", drivers);
-        return "menu";
-    }*/
 }

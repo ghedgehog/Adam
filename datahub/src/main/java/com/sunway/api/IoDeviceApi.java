@@ -2,6 +2,7 @@ package com.sunway.api;
 
 import com.sunway.model.IoAlarmConfig;
 import com.sunway.model.IoBaseEntity;
+import com.sunway.model.IoDevice;
 import com.sunway.model.IoVariable;
 import com.sunway.service.IoDeviceService;
 import com.sunway.utils.Mark;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,18 +23,22 @@ public class IoDeviceApi {
 
     //查询新增驱动
     @RequestMapping(value="/add", method = RequestMethod.GET)
-    List<IoBaseEntity> queryAddedIoDevices(String channelName){
-        List<IoBaseEntity> devices = deviceService.queryIoDevices(channelName, Mark.INSERT);
+    List<IoDevice> queryAddedIoDevices(String channelName){
+        List<IoDevice> devices = deviceService.queryIoDevices(channelName, Mark.INSERT);
         if(devices==null || devices.isEmpty()) return null;
-        deviceService.setMark(channelName, devices, Mark.DONE);
+
+        List<IoBaseEntity> baseEntities = deviceTransfer2Base(devices);
+        deviceService.setMark(channelName, baseEntities, Mark.DONE);
         return devices;
     }
 
     //查询删除驱动
     @RequestMapping(value="/del", method = RequestMethod.GET)
-    public List<IoBaseEntity> queryDeletedDrivers(String channelName){
-        List<IoBaseEntity> devices = deviceService.queryIoDevices(channelName, Mark.DELETE);
-        deviceService.deleteIoDevices(channelName, devices);
+    public List<IoDevice> queryDeletedDrivers(String channelName){
+        List<IoDevice> devices = deviceService.queryIoDevices(channelName, Mark.DELETE);
+
+        List<IoBaseEntity> baseEntities = deviceTransfer2Base(devices);
+        deviceService.deleteIoDevices(channelName, baseEntities);
         return devices;
     }
 
@@ -54,27 +60,13 @@ public class IoDeviceApi {
         return deviceService.queryAlarmConfig(Mark.INSERT);
     }
 
-    /*//GTEST
-    @RequestMapping(value="/alm-conf-var-test")
-    public List<IoAlarmConfig> queryAlarmConfigByVarTest(){
-        return queryAlarmConfigByVar("pressure");
+    private List<IoBaseEntity> deviceTransfer2Base(List<IoDevice> devices){
+        if(devices==null || devices.isEmpty()) return null;
+        List<IoBaseEntity> baseEntities = new ArrayList<IoBaseEntity>();
+        for (IoDevice device : devices){
+            IoBaseEntity baseEntity = new IoBaseEntity(device.getName());
+            baseEntities.add(baseEntity);
+        }
+        return baseEntities;
     }
-
-    //GTEST
-    @RequestMapping(value="/getvars-test")
-    public List<IoVariable> queryVarsFromDeviceTest(){
-        return queryVarsFromDevice("ModbusTcpClient.channel1.Blower");
-    }
-
-    //GTEST
-    @RequestMapping(value="/add-test")
-    public List<IoBaseEntity> queryIoDevices(){
-        return queryAddedIoDevices("ModbusTcpClient.channel1");
-    }
-
-    @RequestMapping(value="/del-test")
-    public List<IoBaseEntity> queryDeletedDriversTest(){
-        return queryDeletedDrivers("ModbusTcpClient.channel1");
-    }
-*/
 }

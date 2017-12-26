@@ -12,6 +12,8 @@ public class IoBaseEntity {
 
     public Date modifyTime;
 
+    public String propConf;
+
     public IoBaseEntity(String name) {
         this.name = name;
     }
@@ -46,5 +48,13 @@ public class IoBaseEntity {
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public String getPropConf() {
+        return propConf;
+    }
+
+    public void setPropConf(String propConf) {
+        this.propConf = propConf;
     }
 }

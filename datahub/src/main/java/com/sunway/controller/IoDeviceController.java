@@ -3,11 +3,15 @@ package com.sunway.controller;
 import com.sunway.exception.BusinessException;
 import com.sunway.model.IoBaseEntity;
 import com.sunway.model.IoChannel;
+import com.sunway.model.IoDevice;
 import com.sunway.service.IoChannelService;
 import com.sunway.service.IoDeviceService;
 import com.sunway.service.IoDriverService;
 import com.sunway.service.RealDataService;
 import com.sunway.utils.Mark;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,23 +42,26 @@ public class IoDeviceController {
     @Autowired
     private IoDriverService driverService;
 
+    //IoBaseEntity设备模板需单独定义model，为演示暂时先在IoBaseEntity中增加propConf属性 TODO
     @RequestMapping(value="/add", method = RequestMethod.POST)
     @ResponseBody
-    public  String addIoDevices(@RequestBody Map<String, String> tempMap) throws BusinessException {
+    public  String addIoDevices(@RequestBody Map<String, String> deviceMap) throws BusinessException {
         System.out.println("addIoDevices()");
 
-        String deviceName = tempMap.get("device_name");
-        String channelName = tempMap.get("channel_name");
-        String driverType = tempMap.get("driver_type");
-        String deviceModel = tempMap.get("device_model");
-
+        String deviceName = deviceMap.get("device_name");
+        String channelName = deviceMap.get("channel_name");
+        String driverType = deviceMap.get("driver_type");
+        String deviceModel = deviceMap.get("device_model");
+        String propConf = getPropConf(deviceMap);
         //非空校验 TODO
         String channelLongName = driverType.concat(".").concat(channelName);
         String deviceLongName = channelLongName.concat(".").concat(deviceName);
 
         if(!addDriver(driverType) || !addChannel(driverType, channelLongName)) return null;
-        List<IoBaseEntity> entities = new ArrayList();
-        IoBaseEntity entity = new IoBaseEntity(deviceLongName);
+        List<IoDevice> entities = new ArrayList();
+        IoDevice entity = new IoDevice(deviceLongName);
+        entity.setPropConf(propConf);
+        entity.setDescription(deviceLongName);
         entities.add(entity);
 
         deviceService.addIoDevices(channelLongName, deviceModel, entities);
@@ -79,25 +86,22 @@ public class IoDeviceController {
         return deviceService.queryAllIoDevices();
     }
 
-    /*//GTest
-    @RequestMapping(value="/del-test")
-    public String deleteIoDevicesTest(){
-        *//*List<IoBaseEntity> entities = new ArrayList();
-        IoBaseEntity entity = new IoBaseEntity("ModbusTcpClient.channel1.device1");
-        entities.add(entity);
-        deleteIoDevices("ModbusTcpClient.channel1", entities);*//*
-        return "menu";
-    }*/
+    //IOCHANNEL  IoBaseEntity 定义模板 TODO
+    private boolean isExistsChannelName(List<IoChannel> channels, String name){
+        for(IoBaseEntity entity : channels){
+            if (entity.getName().equals(name)) return true;
+        }
+        return false;
+    }
 
     private boolean addChannel(String driver_type, String channel_long_name) throws BusinessException {
         if(channel_long_name==null) return false;
 
         List<IoChannel> channels = channelService.queryIoChannelsByMark(driver_type, -1);
+
+        if(!channels.isEmpty() && isExistsChannelName(channels, channel_long_name)) return true;
+
         IoChannel channel = new IoChannel(channel_long_name);
-
-        //if(channels.contains(channel)) return true;
-        if(!channels.isEmpty() && ((IoBaseEntity)channels.get(0)).getName().equals(channel_long_name)) return true;
-
         channels.clear();
         channels.add(channel);
 
@@ -110,16 +114,22 @@ public class IoDeviceController {
         return false;
     }
 
+    private boolean isExistsDriverName(List<IoBaseEntity> baseEntities, String name){
+        for(IoBaseEntity entity : baseEntities){
+            if (entity.getName().equals(name)) return true;
+        }
+        return false;
+    }
+
     private boolean addDriver(String driver_type) throws BusinessException {
         if(driver_type==null) return false;
         String uaServer = "ioserver";
 
-        IoBaseEntity entity = new IoBaseEntity(driver_type);
         List<IoBaseEntity> entities = driverService.queryIoDrivers(uaServer, -1);
 
-        //if(entities.contains(entity)) return true;
-        if(!entities.isEmpty() && entities.get(0).getName().equals(driver_type)) return true;
+        if(!entities.isEmpty() && isExistsDriverName(entities, driver_type)){ return true; }
 
+        IoBaseEntity entity = new IoBaseEntity(driver_type);
         entities.clear();
         entities.add(entity);
         int ret = driverService.addIoDrivers(uaServer, entities);
@@ -129,5 +139,14 @@ public class IoDeviceController {
             return true;
         }
         return false;
+    }
+
+    private String getPropConf(Map<String, String> deviceMap){
+        Document doc = DocumentHelper.createDocument();
+        Element rootEle = doc.addElement("Values");
+        Element subRoot = rootEle.addElement("Config");
+        // TODO
+        String propConf = doc.asXML();
+        return propConf;
     }
 }

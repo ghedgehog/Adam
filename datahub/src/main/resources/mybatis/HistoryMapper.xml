@@ -31,6 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM ${table}
 		WHERE
 		<![CDATA[ time >= '${startTime}' AND time < '${endTime}'  AND device_name='${device}' ]]>
+		 limit 1000
 	</select>
 
 	<!--插入单条历史数据-->
