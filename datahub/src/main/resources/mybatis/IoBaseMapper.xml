@@ -100,7 +100,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 
 	<select id="queryIoDevices" resultMap="deviceMap">
-		SELECT (name, description, prop_conf) FROM ${table}
+		SELECT name, description, prop_conf FROM ${table}
 		WHERE
 		pid = (SELECT id FROM ${ptable} WHERE name = #{parent})
 		<if test="mark != -1">

@@ -5,10 +5,10 @@ public class IoDevice {
     private String description;
     private String propConf; //  XML, -- tag采集配置信息
 
-    public IoDevice(String name) {
+    /*public IoDevice(String name) {
         this.name = name;
         this.description = "";
-    }
+    }*/
 
     public String getName() {
         return name;

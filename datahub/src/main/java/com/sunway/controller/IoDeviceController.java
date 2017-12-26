@@ -45,9 +45,11 @@ public class IoDeviceController {
     //IoBaseEntity设备模板需单独定义model，为演示暂时先在IoBaseEntity中增加propConf属性 TODO
     @RequestMapping(value="/add", method = RequestMethod.POST)
     @ResponseBody
-    public  String addIoDevices(@RequestBody Map<String, String> deviceMap) throws BusinessException {
+    public  String addIoDevices(@RequestBody Map<String, String> deviceMap) throws BusinessException, InterruptedException {
         System.out.println("addIoDevices()");
-
+        for (Map.Entry<String, String> entry : deviceMap.entrySet()) {
+            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+        }
         String deviceName = deviceMap.get("device_name");
         String channelName = deviceMap.get("channel_name");
         String driverType = deviceMap.get("driver_type");
@@ -59,7 +61,8 @@ public class IoDeviceController {
 
         if(!addDriver(driverType) || !addChannel(driverType, channelLongName)) return null;
         List<IoDevice> entities = new ArrayList();
-        IoDevice entity = new IoDevice(deviceLongName);
+        IoDevice entity = new IoDevice();
+        entity.setName(deviceLongName);
         entity.setPropConf(propConf);
         entity.setDescription(deviceLongName);
         entities.add(entity);
@@ -67,6 +70,7 @@ public class IoDeviceController {
         deviceService.addIoDevices(channelLongName, deviceModel, entities);
         //TRUE TODO
         dataService.NoticeDeviceAdded();
+        Thread.sleep(3000);
         dataService.NoticeVariableAdded();
 
         return "Ok";
@@ -78,6 +82,13 @@ public class IoDeviceController {
         deviceService.setMark(channels, entityList, Mark.DELETE);
         //TRUE TODO
         dataService.NoticeDeviceDeleted();
+    }
+
+    private String getDeviceValueString(String deviceStr){
+        if(deviceStr == null || deviceStr.isEmpty())
+            return "";
+        else
+            return deviceStr;
     }
 
     @RequestMapping(value="/get", method = RequestMethod.GET)
@@ -144,7 +155,27 @@ public class IoDeviceController {
     private String getPropConf(Map<String, String> deviceMap){
         Document doc = DocumentHelper.createDocument();
         Element rootEle = doc.addElement("Values");
+
+
         Element subRoot = rootEle.addElement("Config");
+        Element thirdRoot = subRoot.addElement("Values");
+
+        thirdRoot.addElement("Address").setText(getDeviceValueString(deviceMap.get("Address")));
+        thirdRoot.addElement("Port").setText( getDeviceValueString(deviceMap.get("Port")));
+        thirdRoot.addElement("BackupAddress").setText( getDeviceValueString(deviceMap.get("BackupAddress")));
+        thirdRoot.addElement("BackupPort").setText(getDeviceValueString(deviceMap.get("BackupPort")));
+        thirdRoot.addElement("ProtocolType").setText( getDeviceValueString(deviceMap.get("ProtocolType")));
+        thirdRoot.addElement("DeviceAddress").setText( getDeviceValueString(deviceMap.get("DeviceAddress")));
+        thirdRoot.addElement("MaxPackageLen").setText( getDeviceValueString(deviceMap.get("MaxPackageLen")));
+        thirdRoot.addElement("PackageSpace").setText(getDeviceValueString(deviceMap.get("PackageSpace")));
+        thirdRoot.addElement("LongType").setText( getDeviceValueString(deviceMap.get("LongType")));
+        thirdRoot.addElement("FloatType").setText( getDeviceValueString(deviceMap.get("FloatType")));
+        thirdRoot.addElement("AddrOrder").setText( getDeviceValueString(deviceMap.get("AddrOrder")));
+        thirdRoot.addElement("CountOrder").setText(getDeviceValueString( deviceMap.get("CountOrder")));
+        thirdRoot.addElement("DataOrder").setText( getDeviceValueString(deviceMap.get("DataOrder")));
+        thirdRoot.addElement("DoubleOrder").setText( getDeviceValueString(deviceMap.get("DoubleOrder")));
+        thirdRoot.addElement("CheckOrder").setText( getDeviceValueString(deviceMap.get("CheckOrder")));
+
         // TODO
         String propConf = doc.asXML();
         return propConf;

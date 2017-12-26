@@ -76,8 +76,12 @@ public class IoDeviceService {
         return  baseMapper.queryIoBaseList(deviceTable,channelTable, channelName, mark);
     }*/
 
-    public List<IoDevice> queryIoDevices(String channelName, int mark){
-        return  baseMapper.queryIoDevices(deviceTable,channelTable, channelName, mark);
+    public List<IoDevice> queryIoDevices(String channelName, int mark) throws BusinessException {
+        try{
+            return  baseMapper.queryIoDevices(deviceTable,channelTable, channelName, mark);
+        }catch (Exception e){
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     public void setMark(String channelName, List<IoBaseEntity> entityList, int mark){

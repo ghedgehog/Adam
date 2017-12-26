@@ -79,9 +79,9 @@
                             <label for="Area" class="col-sm-3 control-label">区域：</label>
                             <div class="col-sm-8">
                                 <select class="form-control" id="Area" style="width: 100%;">
-                                    <option selected="selected">CO区---线圈状态区</option>
+                                    <option>CO区---线圈状态区</option>
                                     <option>DI区---输入状态区</option>
-                                    <option>HR区---保持寄存器区</option>
+                                    <option  selected="selected">HR区---保持寄存器区</option>
                                     <option>AI区---输入寄存器区</option>
                                 </select>
                             </div>
@@ -90,7 +90,7 @@
                         <div class="form-group">
                             <label for="Address" class="col-sm-3 control-label">偏移地址：</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="Address"></input>
+                                <input type="number" class="form-control" id="Address" value="1"></input>
                             </div>
                         </div>
 
@@ -123,34 +123,30 @@
                             <label for="DataType" class="col-sm-3 control-label">数据类型：</label>
                             <div class="col-sm-8">
                                 <select class="form-control" id="DataType" style="width: 100%;">
-                                    <option selected="selected">bool--0-1开关量</option>
                                     <option>char--8位有符号整数</option>
                                     <option>byte--8位有符号整数</option>
-                                    <option>short--16位有符号整数</option>
+                                    <option selected="selected">short--16位有符号整数</option>
                                     <option>word--16位无符号整数</option>
                                     <option>int32--32位有符号整数</option>
                                     <option>dword--32位无符号整数</option>
                                     <option>float--32单精度浮点数</option>
                                     <option>BCD码--无符号BCD码</option>
-                                    <option>int64--64位有符号整数</option>
-                                    <option>uint64--64位无符号整数</option>
                                     <option>double--64位双精度浮点数</option>
                                     <option>string--ascii码字符串</option>
-                                    <option>buffer--字节数组</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="VarType" class="col-sm-3 control-label">变量类型：</label>
-                            <div class="col-sm-8">
-                                <select class="form-control" id="VarType" style="width: 100%;">
-                                    <option selected="selected">开关量</option>
-                                    <option>模拟量</option>
-                                    <option>字符串</option>
-                                </select>
-                            </div>
-                        </div>
+                        <!--<div class="form-group">-->
+                            <!--<label for="VarType" class="col-sm-3 control-label">变量类型：</label>-->
+                            <!--<div class="col-sm-8">-->
+                                <!--<select class="form-control" id="VarType" style="width: 100%;">-->
+                                    <!--<option selected="selected">开关量</option>-->
+                                    <!--<option>模拟量</option>-->
+                                    <!--<option>字符串</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                        <!--</div>-->
 
                         <div class="form-group">
                             <label for="read_write" class="col-sm-3 control-label">读写方式：</label>
@@ -166,35 +162,35 @@
                         <div class="form-group">
                             <label for="RawMax" class="col-sm-3 control-label">裸数据上限：</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="RawMax"></input>
+                                <input type="number" class="form-control" id="RawMax" value="0"></input>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="RawMin" class="col-sm-3 control-label">裸数据下限：</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="RawMin"></input>
+                                <input type="number" class="form-control" id="RawMin" value="0"></input>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="RangeMax" class="col-sm-3 control-label">量程上限：</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="RangeMax"></input>
+                                <input type="number" class="form-control" id="RangeMax" value="0"></input>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="RangeMin" class="col-sm-3 control-label">量程下限：</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control" id="RangeMin"></input>
+                                <input type="number" class="form-control" id="RangeMin" value="0"></input>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="DataChange" class="col-sm-3 control-label">量程变换：</label>
                             <div class="col-sm-8">
-                                <select class="form-control" id="DataChange" style="width: 100%;">
+                                <select class="form-control" id="DataChange" value="0" style="width: 100%;">
                                     <option selected="selected">否</option>
                                     <option>是</option>
                                 </select>
@@ -319,7 +315,7 @@
         var Area = $.trim($('#Area').val());
         var Address = $.trim($('#Address').val());
         var DataType = $.trim($('#DataType').val());
-        var VarType = $.trim($('#VarType').val());
+        //var VarType = $.trim($('#VarType').val());
         var ControlBit = $.trim($('#ControlBit').val());
         var BitOffset =  $.trim($('#BitOffset').val());
         var DataLength = $.trim($('#dataLength').val());
@@ -347,17 +343,17 @@
         if (Area==="CO区---线圈状态区"){
             Area = "Coil";
         }else if(Area==="DI区---输入状态区") {
-            Area = "DL";
+            Area = "DI";
         }else if(Area==="HR区---保持寄存器区") {
             Area = "HR";
-        }else if(Area==="AI区---输入寄存器区") {
-            Area = "AI";
+        }else if(Area==="AR区---输入寄存器区") {
+            Area = "AR";
         }
 
         if (ControlBit==="是"){
-            ControlBit = true;
+            ControlBit = "Yes";
         }else if (ControlBit==="否"){
-            ControlBit = false;
+            ControlBit = "No";
         }
 
         if (DataChange==="是"){
@@ -371,7 +367,7 @@
         console.log(Area);
         console.log(Address);
         console.log(DataType);
-        console.log(VarType);
+        //console.log(VarType);
         console.log(ControlBit);
         console.log(BitOffset);
         console.log(DataLength);
@@ -385,44 +381,35 @@
 
         switch(DataType)
         {
-            case 'char--8位有符号整数':
-                DataType = 1;
+            case "char--8位有符号整数":
+                DataType = "Char";
                 break;
-            case 'byte--8位有符号整数':
-                DataType = 2;
+            case "byte--8位有符号整数":
+                DataType = "Byte";
                 break;
-            case 'short--16位有符号整数':
-                DataType = 3;
+            case "short--16位有符号整数":
+                DataType = "Short";
                 break;
-            case 'word--16位无符号整数':
-                DataType = 4;
+            case "word--16位无符号整数":
+                DataType = "Word";
                 break;
-            case 'int32--32位有符号整数':
-                DataType = 5;
+            case "int32--32位有符号整数":
+                DataType = "Int";
                 break;
-            case 'dword--32位无符号整数':
-                DataType = 6;
+            case "dword--32位无符号整数":
+                DataType = "Dword";
                 break;
-            case 'float--32单精度浮点数':
-                DataType = 7;
+            case "float--32单精度浮点数":
+                DataType = "Float";
                 break;
-            case 'BCD码--无符号BCD码':
-                DataType = 8;
+            case "BCD码--无符号BCD码":
+                DataType = "BCD";
                 break;
-            case 'int64--64位有符号整数':
-                DataType = 9;
+            case "double--64位双精度浮点数":
+                DataType = "Double";
                 break;
-            case 'uint64--64位无符号整数':
-                DataType = 10;
-                break;
-            case 'double--64位双精度浮点数':
-                DataType = 11;
-                break;
-            case 'string--ascii码字符串':
-                DataType = 12;
-                break;
-            case 'buffer--字节数组':
-                DataType = 13;
+            case "string--ascii码字符串":
+                DataType = "String";
                 break;
         }
         temp_table.row.add([

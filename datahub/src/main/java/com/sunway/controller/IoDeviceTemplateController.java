@@ -131,6 +131,13 @@ public class IoDeviceTemplateController {
         return "menu";
     }*/
 
+    private String getVarValueString(String varStr){
+        if(varStr == null || varStr.isEmpty())
+            return "";
+        else
+            return varStr;
+    }
+
     private IoVariable buildVarMap2Xml(Map<String, String> varMap) {
 
         String varName = varMap.get("VarName");
@@ -140,19 +147,21 @@ public class IoDeviceTemplateController {
         Document doc = DocumentHelper.createDocument();
         Element rootEle = doc.addElement("Values");
         Element subRoot = rootEle.addElement("Config");
-        subRoot.addElement("ScanRate").setText(varMap.get("ScanRate"));
-        subRoot.addElement("Area").setText(varMap.get("Area"));
-        subRoot.addElement("Address").setText(varMap.get("Address"));
-        //subRoot.addElement("DataType").setText(varMap.get("DataType"));
-        subRoot.addElement("HL").setText(varMap.get("HL"));
-        subRoot.addElement("StringLen").setText(varMap.get("DataLength"));
-        subRoot.addElement("ControlBit").setText(varMap.get("Controller"));
-        subRoot.addElement("BitOffset").setText(varMap.get("BitOffset"));
-        subRoot.addElement("RawMax").setText(varMap.get("RawMax"));
-        subRoot.addElement("RawMin").setText(varMap.get("RawMin"));
-        subRoot.addElement("RangeMax").setText(varMap.get("RangeMax"));
-        subRoot.addElement("RangeMin").setText(varMap.get("RangeMin"));
-        subRoot.addElement("DataChange").setText(varMap.get("DataChange"));
+        Element third = subRoot.addElement("Values");
+        third.addElement("ScanRate").setText(getVarValueString(varMap.get("ScanRate")));
+        third.addElement("Area").setText( getVarValueString(varMap.get("Area")));
+        third.addElement("Address").setText( getVarValueString( varMap.get("Address")));
+        third.addElement("DataType").setText(varMap.get("DataType"));
+        third.addElement("HL").setText( getVarValueString( varMap.get("HL")));
+        third.addElement("StringLen").setText( getVarValueString(varMap.get("StringLen")));
+        third.addElement("ControlBit").setText( getVarValueString(varMap.get("ControlBit")));
+        third.addElement("BitOffset").setText( getVarValueString(varMap.get("BitOffset")));
+
+        rootEle.addElement("RawMax").setText( getVarValueString(varMap.get("RawMax")));
+        rootEle.addElement("RawMin").setText( getVarValueString(varMap.get("RawMin")));
+        rootEle.addElement("RangeMax").setText( getVarValueString(varMap.get("RangeMax")));
+        rootEle.addElement("RangeMin").setText( getVarValueString(varMap.get("RangeMin")));
+        rootEle.addElement("DataChange").setText( getVarValueString(varMap.get("DataChange")));
         String propConf = doc.asXML();
 
         IoVariable var = new IoVariable();

@@ -11,11 +11,11 @@
 <section class="content">
     <form class="form-horizontal" role="form" method = "post" action = 'starter' onsubmit="submitInfo()">
         <div class="box-body">
-            <div class="form-group"><label for="device_name" class="col-sm-3 control-label">设备名称：</label>
-                <div class="col-sm-5"><input type="text" class="form-control" id="device_name"></input></div>
+            <div class="form-group"><label for="device_name" class="col-sm-2 control-label">设备名称：</label>
+                <div class="col-sm-4"><input type="text" class="form-control" id="device_name"></input></div>
             </div>
-            <div class="form-group"><label for="driver_type" class="col-sm-3 control-label">驱动类型：</label>
-                <div class="col-sm-5">
+            <div class="form-group"><label for="driver_type" class="col-sm-2 control-label">驱动类型：</label>
+                <div class="col-sm-4">
                 <!--<select class="form-control" id="driver_type"  style="width: 100%;">-->
                    <!--<option  th:each="list:${list222}" th:text="${list}"></option>-->
                 <!--</select></div>-->
@@ -26,80 +26,89 @@
                 </select>
                 </div>
             </div>
-            <div class="form-group"><label for="channel_name" class="col-sm-3 control-label">通道名：</label>
-                <div class="col-sm-5"><input type="text" class="form-control" id="channel_name"></input>
+            <div class="form-group"><label for="channel_name" class="col-sm-2 control-label">通道名：</label>
+                <div class="col-sm-4"><input type="text" class="form-control" id="channel_name"></input>
                 </div>
             </div>
-            <div class="form-group"><label for="device_model" class="col-sm-3 control-label">设备模型：</label>
-                <div class="col-sm-5"><select class="form-control" id="device_model" style="width: 100%;">
+            <div class="form-group"><label for="device_model" class="col-sm-2 control-label">设备模型：</label>
+                <div class="col-sm-4"><select class="form-control" id="device_model" style="width: 100%;">
                     <option selected="selected">请选择设备模型</option>
                 </select>
                 </div>
             </div>
             <div class="form-group">
-                <label for="brand" class="col-sm-3 control-label">品牌：</label>
-                <div class="col-sm-5">
+                <label for="brand" class="col-sm-2 control-label">品牌：</label>
+                <div class="col-sm-4">
                     <input type="text" class="form-control" id="brand"></input>
                 </div>
             </div>
             <div class="form-group">
-                <label for="model_number" class="col-sm-3 control-label">型号：</label>
-                <div class="col-sm-5">
+                <label for="model_number" class="col-sm-2 control-label">型号：</label>
+                <div class="col-sm-4">
                     <input type="text" class="form-control" id="model_number"></input>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="Address" class="col-sm-3 control-label">IP地址：</label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control" id="Address"></input>
+                <label for="Address" class="col-sm-2 control-label">IP地址：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="Address" value="127.0.0.1"></input>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="Port" class="col-sm-3 control-label">端口号：</label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control" id="Port"></input>
+                <label for="Port" class="col-sm-2 control-label">端口号：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="Port" value="502"></input>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="BackupAddress" class="col-sm-3 control-label">Backup IP：</label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control" id="BackupAddress"></input>
+                <label for="BackupAddress" class="col-sm-2 control-label">Backup IP：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="BackupAddress" value="127.0.0.1"></input>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="BackupPort" class="col-sm-3 control-label">BackupPort：</label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control" id="BackupPort"></input>
+                <label for="BackupPort" class="col-sm-2 control-label">BackupPort：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="BackupPort" value="503"></input>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="DeviceAddress" class="col-sm-3 control-label">设备地址：</label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control" id="DeviceAddress"></input>
+                <label for="DeviceAddress" class="col-sm-2 control-label">设备地址：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="DeviceAddress" value="1"></input>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="MaxPackageLen" class="col-sm-3 control-label">最大包长：</label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control" id="MaxPackageLen"></input>
+                <label for="MaxPackageLen" class="col-sm-2 control-label">最大包长：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="MaxPackageLen" value="20"></input>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="PackageSpace" class="col-sm-3 control-label">最大包间隔：</label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control" id="PackageSpace"></input>
+                <label for="PackageSpace" class="col-sm-2 control-label">最大包间隔：</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="PackageSpace" value="10"></input>
                 </div>
             </div>
 
-            <div class="form-group"><label for="LongType" class="col-sm-3 control-label">32位整形字节顺序：</label>
-                <div class="col-sm-5"><select class="form-control" id="LongType" style="width: 100%;">
+            <div class="form-group"><label for="ProtocolType" class="col-sm-2 control-label">协议类型：</label>
+                <div class="col-sm-4"><select class="form-control" id="ProtocolType" style="width: 100%;">
+                    <option selected="selected">TCP</option>
+                    <option >RTU</option>
+                    <option>ASCII</option>
+                </select>
+                </div>
+            </div>
+
+            <div class="form-group"><label for="LongType" class="col-sm-2 control-label">32位整形字节顺序：</label>
+                <div class="col-sm-4"><select class="form-control" id="LongType" style="width: 100%;">
                     <option selected="selected">FFH4321</option>
                     <option >FFH3421</option>
                     <option>FFH1234</option>
@@ -109,8 +118,8 @@
             </div>
 
 
-            <div class="form-group"><label for="FloatType" class="col-sm-3 control-label">32位浮点数字节顺序：</label>
-                <div class="col-sm-5"><select class="form-control" id="FloatType" style="width: 100%;">
+            <div class="form-group"><label for="FloatType" class="col-sm-2 control-label">32位浮点数字节顺序：</label>
+                <div class="col-sm-4"><select class="form-control" id="FloatType" style="width: 100%;">
                     <option selected="selected">FFH4321</option>
                     <option >FFH3421</option>
                     <option>FFH1234</option>
@@ -120,47 +129,55 @@
             </div>
 
 
-            <div class="form-group"><label for="AddrOrder" class="col-sm-3 control-label">寄存器地址顺序：</label>
-                <div class="col-sm-5"><select class="form-control" id="AddrOrder" style="width: 100%;">
+            <div class="form-group"><label for="AddrOrder" class="col-sm-2 control-label">寄存器地址顺序：</label>
+                <div class="col-sm-4"><select class="form-control" id="AddrOrder" style="width: 100%;">
                     <option selected="selected">HighBefore---高字节在前</option>
                     <option >LowBefore---低字节在前</option>
                 </select>
                 </div>
             </div>
 
-            <div class="form-group"><label for="CountOrder" class="col-sm-3 control-label">寄存器个数顺序：</label>
-                <div class="col-sm-5"><select class="form-control" id="CountOrder" style="width: 100%;">
+            <div class="form-group"><label for="CountOrder" class="col-sm-2 control-label">寄存器个数顺序：</label>
+                <div class="col-sm-4"><select class="form-control" id="CountOrder" style="width: 100%;">
                     <option selected="selected">HighBefore---高字节在前</option>
                     <option >LowBefore---低字节在前</option>
                 </select>
                 </div>
             </div>
 
-            <div class="form-group"><label for="DataOrder" class="col-sm-3 control-label">寄存器数据顺序：</label>
-                <div class="col-sm-5"><select class="form-control" id="DataOrder" style="width: 100%;">
+            <div class="form-group"><label for="DataOrder" class="col-sm-2 control-label">寄存器数据顺序：</label>
+                <div class="col-sm-4"><select class="form-control" id="DataOrder" style="width: 100%;">
                     <option selected="selected">HighBefore---高字节在前</option>
                     <option >LowBefore---低字节在前</option>
                 </select>
                 </div>
             </div>
 
-            <div class="form-group"><label for="DoubleOrder" class="col-sm-3 control-label">double解析顺序：</label>
-                <div class="col-sm-5"><select class="form-control" id="DoubleOrder" style="width: 100%;">
+            <div class="form-group"><label for="DoubleOrder" class="col-sm-2 control-label">double解析顺序：</label>
+                <div class="col-sm-4"><select class="form-control" id="DoubleOrder" style="width: 100%;">
                     <option selected="selected">HL---正序</option>
                     <option >LH---反序</option>
                 </select>
                 </div>
             </div>
 
+            <div class="form-group"><label for="CheckOrder" class="col-sm-2 control-label">校验码顺序：</label>
+                <div class="col-sm-4"><select class="form-control" id="CheckOrder" style="width: 100%;">
+                    <option selected="selected">CHECK_HILO</option>
+                    <option >CHECK_LOHI</option>
+                </select>
+                </div>
+            </div>
+
             <div class="form-group">
-                <label for="description" class="col-sm-3 control-label">描述：</label>
-                <div class="col-sm-5">
+                <label for="description" class="col-sm-2 control-label">描述：</label>
+                <div class="col-sm-4">
                     <textarea class="form-control" rows="3" id="description"></textarea>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label"></label>
-                <div class="col-sm-5">
+                <label class="col-sm-2 control-label"></label>
+                <div class="col-sm-4">
                     <button type="submit" class="btn btn-info ">添加设备</button>
                 </div>
             </div>
@@ -217,6 +234,7 @@
         var Port = $.trim($('#Port').val());
         var BackupAddress = $.trim($('#BackupAddress').val());
         var BackupPort = $.trim($('#BackupPort').val());
+        var ProtocolType = $.trim($('#ProtocolType').val());
         var DeviceAddress = $.trim($('#DeviceAddress').val());
         var MaxPackageLen = $.trim($('#MaxPackageLen').val());
         var PackageSpace = $.trim($('#PackageSpace').val());
@@ -226,6 +244,7 @@
         var CountOrder = $.trim($('#CountOrder').val());
         var DataOrder = $.trim($('#DataOrder').val());
         var DoubleOrder = $.trim($('#DoubleOrder').val());
+        var CheckOrder = $.trim($('#CheckOrder').val());
         if (AddrOrder==="HighBefore---高字节在前"){
             AddrOrder = "HighBefore";
         }else if(AddrOrder==="LowBefore---低字节在前") {
@@ -246,11 +265,9 @@
         }else if(DoubleOrder==="LH---反序") {
             DoubleOrder = "LH";
         }
-
-
-//        console.log(device_name+driver_type+channel_name+device_model+brand+model_number+description);
-//        alert(Address+Port+BackupAddress+BackupPort+DeviceAddress+MaxPackageLen+PackageSpace);
-//        alert(LongType+FloatType+AddrOrder+CountOrder+DataOrder+DoubleOrder);
+//        alert(device_name+driver_type+channel_name+device_model+brand+model_number+description);
+//        alert(Address+Port+BackupAddress+BackupPort+ProtocolType+DeviceAddress+MaxPackageLen+PackageSpace);
+//        alert(LongType+FloatType+AddrOrder+CountOrder+DataOrder+DoubleOrder+CheckOrder);
         $.ajax({
             type : "post",
             async : true,
@@ -269,6 +286,7 @@
                 "Port":Port,
                 "BackupAddress":BackupAddress,
                 "BackupPort":BackupPort,
+                "ProtocolType":ProtocolType,
                 "DeviceAddress":DeviceAddress,
                 "MaxPackageLen":MaxPackageLen,
                 "PackageSpace":PackageSpace,
@@ -277,14 +295,15 @@
                 "AddrOrder":AddrOrder,
                 "CountOrder":CountOrder,
                 "DataOrder":DataOrder,
-                "DoubleOrder":DoubleOrder
+                "DoubleOrder":DoubleOrder,
+                "CheckOrder":CheckOrder
             }),
             success : function (data) {
                 //alert("添加通道成功");
                 //alert(data.msg);
             },error : function(data){
                 //alert("失败");
-                alert(data.responseText);
+                //alert(data.responseText);
             }
         });
 

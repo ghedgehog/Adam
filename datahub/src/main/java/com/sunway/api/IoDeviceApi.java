@@ -1,5 +1,6 @@
 package com.sunway.api;
 
+import com.sunway.exception.BusinessException;
 import com.sunway.model.IoAlarmConfig;
 import com.sunway.model.IoBaseEntity;
 import com.sunway.model.IoDevice;
@@ -23,7 +24,7 @@ public class IoDeviceApi {
 
     //查询新增驱动
     @RequestMapping(value="/add", method = RequestMethod.GET)
-    List<IoDevice> queryAddedIoDevices(String channelName){
+    List<IoDevice> queryAddedIoDevices(String channelName) throws BusinessException {
         List<IoDevice> devices = deviceService.queryIoDevices(channelName, Mark.INSERT);
         if(devices==null || devices.isEmpty()) return null;
 
@@ -34,7 +35,7 @@ public class IoDeviceApi {
 
     //查询删除驱动
     @RequestMapping(value="/del", method = RequestMethod.GET)
-    public List<IoDevice> queryDeletedDrivers(String channelName){
+    public List<IoDevice> queryDeletedDrivers(String channelName) throws BusinessException {
         List<IoDevice> devices = deviceService.queryIoDevices(channelName, Mark.DELETE);
 
         List<IoBaseEntity> baseEntities = deviceTransfer2Base(devices);

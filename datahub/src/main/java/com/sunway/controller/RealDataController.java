@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping(value="real")
+@RequestMapping(value = "real")
 public class RealDataController {
 
     @Autowired
@@ -21,10 +21,11 @@ public class RealDataController {
 
     @RequestMapping(value = "/read-obj", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> readDeviceRealData(@RequestParam("device") String device){
-        System.out.println("传入进来的设备名称："+device);
-         Map<String, Object> temp = realDataService.queryRealDataByDevice(device);
-       for (Map.Entry<String, Object> entry : temp.entrySet()) {
+    public Map<String, Object> readDeviceRealData(@RequestParam("device") String device) {
+        System.out.println("传入进来的设备名称：" + device);
+        Map<String, Object> temp = realDataService.queryRealDataByDevice(device);
+        if (temp == null) return null;
+        for (Map.Entry<String, Object> entry : temp.entrySet()) {
             System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
         }
         return temp;
@@ -32,7 +33,7 @@ public class RealDataController {
 
     @RequestMapping(value = "/read-var", method = RequestMethod.GET)
     @ResponseBody
-    public Object readVarRealData(String varName){
+    public Object readVarRealData(String varName) {
         return realDataService.queryRealDataByVar(varName);
     }
 
