@@ -56,23 +56,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="Independent_subcontract" class="col-sm-3 control-label">独立分包：</label>
-                            <div class="col-sm-8">
-                                <select class="form-control" id="Independent_subcontract" style="width: 100%;">
-                                    <option selected="selected">否</option>
-                                    <option>是</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
                             <label for="ScanRate" class="col-sm-3 control-label">轮询方式：</label>
                             <div class="col-sm-8">
                                 <select class="form-control" id="ScanRate" style="width: 100%;">
                                     <option selected="selected">慢速周期</option>
                                     <option>中速周期</option>
                                     <option>快速周期</option>
-                                    <option>不轮询</option>
                                 </select>
                             </div>
                         </div>
@@ -153,12 +142,61 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="VarType" class="col-sm-3 control-label">变量类型：</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="VarType" style="width: 100%;">
+                                    <option selected="selected">开关量</option>
+                                    <option>模拟量</option>
+                                    <option>字符串</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label for="read_write" class="col-sm-3 control-label">读写方式：</label>
                             <div class="col-sm-8">
                                 <select class="form-control" id="read_write" style="width: 100%;">
                                     <option selected="selected">readwrite</option>
                                     <option>read-only</option>
                                     <option>write-only</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="RawMax" class="col-sm-3 control-label">裸数据上限：</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="RawMax"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="RawMin" class="col-sm-3 control-label">裸数据下限：</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="RawMin"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="RangeMax" class="col-sm-3 control-label">量程上限：</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="RangeMax"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="RangeMin" class="col-sm-3 control-label">量程下限：</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="RangeMin"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="DataChange" class="col-sm-3 control-label">量程变换：</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" id="DataChange" style="width: 100%;">
+                                    <option selected="selected">否</option>
+                                    <option>是</option>
                                 </select>
                             </div>
                         </div>
@@ -274,21 +312,76 @@
         model_name= [[${model_name}]];
         console.log("点击新增变量了---"+model_name);
         /*]]>*/
-        var var_name = $.trim($('#var_name').val());
-        var Independent_subcontract = $.trim($('#Independent_subcontract').val());
+        var VarName = $.trim($('#var_name').val());
+        //var IndependentSubcontract = $.trim($('#Independent_subcontract').val());
         var ScanRate = $.trim($('#ScanRate').val());
         var HL = $.trim($('#HL').val());
-        var controller = $.trim($('#controller').val());
         var Area = $.trim($('#Area').val());
         var Address = $.trim($('#Address').val());
         var DataType = $.trim($('#DataType').val());
+        var VarType = $.trim($('#VarType').val());
         var ControlBit = $.trim($('#ControlBit').val());
         var BitOffset =  $.trim($('#BitOffset').val());
-        var dataLength = $.trim($('#dataLength').val());
-        var read_write = $.trim($('#read_write').val());
-        var description = $.trim($('#description').val());
-        //alert(var_name+"\t"+Independent_subcontract+"\t"+polling+"\t"+controller+"\t"+region+"\t"+data_type+"\t"+read_write+description);
-        console.log("before");
+        var DataLength = $.trim($('#dataLength').val());
+        var ReadWrite = $.trim($('#read_write').val());
+        var Description = $.trim($('#description').val());
+
+        var RawMax = $.trim($('#RawMax').val());
+        var RawMin = $.trim($('#RawMin').val());
+        var RangeMax = $.trim($('#RangeMax').val());
+        var RangeMin = $.trim($('#RangeMin').val());
+        var DataChange = $.trim($('#DataChange').val());
+
+        if (ScanRate==="慢速周期"){
+            ScanRate = "Slow";
+        }else if(ScanRate==="中速周期"){
+            ScanRate = "Normal";
+        }else if(ScanRate==="快速周期") {
+            ScanRate = "Fast";
+        }
+        if (HL==="H--高字节"){
+            HL = "H";
+        }else if(HL==="L--低字节") {
+            HL = "L";
+        }
+        if (Area==="CO区---线圈状态区"){
+            Area = "Coil";
+        }else if(Area==="DI区---输入状态区") {
+            Area = "DL";
+        }else if(Area==="HR区---保持寄存器区") {
+            Area = "HR";
+        }else if(Area==="AI区---输入寄存器区") {
+            Area = "AI";
+        }
+
+        if (ControlBit==="是"){
+            ControlBit = true;
+        }else if (ControlBit==="否"){
+            ControlBit = false;
+        }
+
+        if (DataChange==="是"){
+            DataChange = true;
+        }else if (DataChange==="否"){
+            DataChange = false;
+        }
+        console.log(VarName);
+        console.log(ScanRate);
+        console.log(HL);
+        console.log(Area);
+        console.log(Address);
+        console.log(DataType);
+        console.log(VarType);
+        console.log(ControlBit);
+        console.log(BitOffset);
+        console.log(DataLength);
+        console.log(ReadWrite);
+        console.log(Description);
+        console.log(RawMax);
+        console.log(RawMin);
+        console.log(RangeMax);
+        console.log(RangeMin);
+        console.log(DataChange);
 
         switch(DataType)
         {
@@ -333,11 +426,11 @@
                 break;
         }
         temp_table.row.add([
-            var_name,
-            controller,
+            VarName,
+            VarName,
             ScanRate,
-            Independent_subcontract,
-            description,
+            ScanRate,
+            Description,
             '编辑',
             '删除'
         ]).draw();
@@ -351,19 +444,22 @@
             url: "dev-template/add-var",
             data: JSON.stringify({
                 "ModelName":model_name,
-                "VarName": var_name,
-                "IndependentSubcontract": Independent_subcontract,
+                "VarName": VarName,
                 "ScanRate": ScanRate,
                 "HL": HL,
-                 "Controller": controller,
                 "Area": Area,
                 "Address":Address,
                 "ControlBit":ControlBit,
                 "BitOffset":BitOffset,
-                "DataLength":dataLength,
+                "StringLen":DataLength,
                 "DataType": DataType,
-                "ReadWrite": read_write,
-                "Description":description
+                "ReadWrite": ReadWrite,
+                "Description":Description,
+                "RawMax": RawMax,
+                "RawMin": RawMin,
+                "RangeMax": RangeMax,
+                "RangeMin": RangeMin,
+                "DataChange": DataChange
             }),
             success: function (msg) {
                 //alert(msg + "添加设备模板成功");

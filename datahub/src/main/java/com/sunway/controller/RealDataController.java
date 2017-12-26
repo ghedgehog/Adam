@@ -5,12 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -22,8 +21,13 @@ public class RealDataController {
 
     @RequestMapping(value = "/read-obj", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> readDeviceRealData(String dviceName){
-        return realDataService.queryRealDataByDevice(dviceName);
+    public Map<String, Object> readDeviceRealData(@RequestParam("device") String device){
+        System.out.println("传入进来的设备名称："+device);
+         Map<String, Object> temp = realDataService.queryRealDataByDevice(device);
+       for (Map.Entry<String, Object> entry : temp.entrySet()) {
+            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+        }
+        return temp;
     }
 
     @RequestMapping(value = "/read-var", method = RequestMethod.GET)
