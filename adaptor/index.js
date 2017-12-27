@@ -84,91 +84,98 @@ function init(cb) {
     });
 }
 
+var mesBuffer = [];
 function subDataHubConfig() {
     redisClient_sub.subscribe(config.subChannel);
     redisClient_sub.on('message', function (channel, message) {
         log.info('subDataHubConfig:', message);
-        var para = {};
-        switch (message) {
-            case '\"Driver_Add\"': //增加驱动
-                {
-                    para = {};
-                    para.uaServer = config.uaSever.name;
-                    requestArgs.parameters = para;
-                    interface.addDriver(the_session, the_httpClient, requestArgs, function (err, result) {
-                        if (err) log.error(err);
-                        else log.info(result);
-                    });
-                    break;
-                }
-            case '\"Driver_Del\"': //删除驱动
-                {
-                    para = {};
-                    para.uaServer = config.uaServer.name;
-                    requestArgs.parameters = para;
-                    interface.delDriver(the_session, the_httpClient, requestArgs, function (err, result) {
-                        if (err) log.error(err);
-                        else log.info(result);
-                    });
-                    break;
-                }
-            case '\"Channel_Add\"': //增加通道
-                {
-                    interface.addChannel(the_session, the_httpClient, requestArgs, function (err, result) {
-                        if (err) log.error(err);
-                        else log.info(result);
-                    });
-                    break;
-                }
-            case '\"Channel_Del\"': //删除通道
-                {
-                    interface.delChannel(the_session, the_httpClient, requestArgs, function (err, result) {
-                        if (err) log.error(err);
-                        else log.info(result);
-                    });
-                    break;
-                }
-            case '\"Device_Add\"': //增加设备
-                {
-                    interface.addDevice(the_session, the_httpClient, requestArgs, function (err, result) {
-                        if (err) log.error(err);
-                        else log.info(result);
-                    });
-                    break;
-                }
-            case '\"Device_Del\"': //删除设备
-                {
-                    interface.addDevice(the_session, the_httpClient, requestArgs, function (err, result) {
-                        if (err) log.error(err);
-                        else log.info(result);
-                    });
-                    break;
-                }
-            case '\"Variable_Add\"': //增加变量
-                {
-                    interface.addVar(the_session, the_httpClient, requestArgs, function (err, result) {
-                        if (err) log.error(err);
-                        else {
-                            subUaRealData(function(err,result){
-                                if(err) log.error(err);
-                                else  log.info(result);
-                            });
-                        }
-                    });
-                    break;
-                }
-            case '\"Variable_Del\"': //删除变量
-                {
-                    interface.delVar(the_session, the_httpClient, requestArgs, function (err, result) {
-                        if (err) log.error(err);
-                        else log.info(result);
-                    });
-                    break;
-                }
-            default:
-                break;
-        }
+        mesBuffer.push(message);
+        dealSubMes();    
     });
+}
+
+function dealSubMes(){
+    var para = {};
+    var message = mesBuffer.shift();
+    switch (message) {
+        case '\"Driver_Add\"': //增加驱动
+            {
+                para = {};
+                para.uaServer = config.uaSever.name;
+                requestArgs.parameters = para;
+                interface.addDriver(the_session, the_httpClient, requestArgs, function (err, result) {
+                    if (err) log.error(err);
+                    else log.info(result);
+                });
+                break;
+            }
+        case '\"Driver_Del\"': //删除驱动
+            {
+                para = {};
+                para.uaServer = config.uaServer.name;
+                requestArgs.parameters = para;
+                interface.delDriver(the_session, the_httpClient, requestArgs, function (err, result) {
+                    if (err) log.error(err);
+                    else log.info(result);
+                });
+                break;
+            }
+        case '\"Channel_Add\"': //增加通道
+            {
+                interface.addChannel(the_session, the_httpClient, requestArgs, function (err, result) {
+                    if (err) log.error(err);
+                    else log.info(result);
+                });
+                break;
+            }
+        case '\"Channel_Del\"': //删除通道
+            {
+                interface.delChannel(the_session, the_httpClient, requestArgs, function (err, result) {
+                    if (err) log.error(err);
+                    else log.info(result);
+                });
+                break;
+            }
+        case '\"Device_Add\"': //增加设备
+            {
+                interface.addDevice(the_session, the_httpClient, requestArgs, function (err, result) {
+                    if (err) log.error(err);
+                    else log.info(result);
+                });
+                break;
+            }
+        case '\"Device_Del\"': //删除设备
+            {
+                interface.addDevice(the_session, the_httpClient, requestArgs, function (err, result) {
+                    if (err) log.error(err);
+                    else log.info(result);
+                });
+                break;
+            }
+        case '\"Variable_Add\"': //增加变量
+            {
+                interface.addVar(the_session, the_httpClient, requestArgs, function (err, result) {
+                    if (err) log.error(err);
+                    else {
+                        subUaRealData(function(err,result){
+                            if(err) log.error(err);
+                            else  log.info(result);
+                        });
+                    }
+                });
+                break;
+            }
+        case '\"Variable_Del\"': //删除变量
+            {
+                interface.delVar(the_session, the_httpClient, requestArgs, function (err, result) {
+                    if (err) log.error(err);
+                    else log.info(result);
+                });
+                break;
+            }
+        default:
+            break;
+    }
 }
 
 function subUaRealData(cb) {

@@ -154,7 +154,7 @@ function addVars(the_session, deviceNodeId, VarsToAdd, callback) {
     var driversHasConfig = [];//用于存储配置有修改的驱动名称
     var AddVarArgs = {};
     async.eachSeries(VarsToAdd, function (Var, cb) {
-        driversHasConfig.push(Var.name.split('.')[0]);
+        driversHasConfig.push(deviceNodeId.value.split('.')[0]);
         AddVarArgs.ParentNodeId = deviceNodeId;
         AddVarArgs.NodeId = new opcua.NodeId(opcua.NodeIdType.STRING, deviceNodeId.value + '.' + Var.name, 2);
         AddVarArgs.TypeDefinitionId = ioProxyVariableType;
