@@ -58,11 +58,11 @@
                             <!--</select>-->
                             <!--</div>-->
                                 <div class="col-md-6">
-                                <input type="text" class="form-control pull-right" id="reservationtime"></input>
-                            </div>
-                            <div class="col-md-2">
-                        <button type="button" class="btn btn-default" id="query_his" onclick="query_his()">查询</button>
-                            </div>
+                                    <input type="text" class="form-control pull-right" id="reservationtime"></input>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-default" id="query_his" onclick="query_his()">查询</button>
+                                </div>
                         </div>
                     </div>
 
@@ -70,11 +70,12 @@
                     <div class="box-body">
                         <table id="example4" class="table table-striped table-hover display ">
                             <thead>
-                            <tr>
-                                <th>时间戳</th>
-                                <th>Location</th>
+                            <tr id="myth">
+                                <!--<th>时间戳</th>-->
+                                <!--<th>Location</th>-->
                             </tr>
                             </thead>
+
                             <tbody>
                             </tbody>
                         </table>
@@ -313,31 +314,63 @@
                 "endTime":endTime
             }),
             success: function (data) {
-
+                console.log("请求历史数据成功，此时还未显示");
                 var myArray = new Array();
                 var nameArray1 = new Array();
                 var valueArray1 = new Array();
                 var nameArray2 = new Array();
                 var valueArray2 = new Array();
+                var columnList =[];
+                columnList.push("time");
+                columnList.push("Location");
                 /*<![CDATA[*/
                 var column = 0;
                 for (var row=0;row<data.length;++row){
-                    var obj = data[row];
-
+                    var obj = data[row];//obj代表一行数据
                     for ( var key in obj )
                     {
                         if(key==="time"){
                             nameArray2.push(key);
                             valueArray2.push(obj[key]);
                         }else{
-                            nameArray1.push(key);
+                            nameArray1.push(key);//此数组代表有几个变量的名字
                             valueArray1.push(obj[key]);
                         }
                     }
                     var time = new Date(valueArray2[row]);
-                    myArray[column++]=new Array(nameArray1[row],valueArray1[row],formatDate(time),null,null);
+                    var varCount = valueArray1.length;
+                    var rowArray = new Array();//时间 location 变量1 变量2 变量3......
+                    console.log("请求历史数据成功，表格内for循环");
+
+                    for(var j=0;j<varCount+2;++j){
+                        if(j==0){
+                            rowArray[j] = formatDate(time);
+                        }else if(j==1){
+                            rowArray[j] = "POINT(116.39 39.9)";
+                        }else{
+                            rowArray[j] = valueArray1[j-2];
+                        }
+                    }
+                    myArray[column++] = rowArray;
+                }
+
+                    console.log("表格中的所有数据："+myArray);
+                    var title = data[0];//obj代表一行数据
+                    for(var titleName in title )
+                    {
+                        if(titleName==="time"){
+                        }else{
+                            columnList.push(titleName);
+                        }
+                    }
+
+                console.log("列长"+columnList.length);
+                for(var test =0;test<columnList.length;++test){
+                    //console.log(columnList[test]);
+                    $('#myth').append("<th>"+columnList[test]+"</th>");
                 }
                 /*]]>*/
+                console.log("请求历史数据成功，初始化表格之前！！！");
                var his_table = $('#example4').DataTable({
                     "processing": true,
                     "bPaginage": false,
@@ -368,7 +401,6 @@
                     "scrollCollapse": "true",
                     "aaData":myArray
                 });
-
             }, error: function (msg) {
             }
         });
