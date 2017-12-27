@@ -1,36 +1,6 @@
 ﻿var opcua = require('node-opcua');
 var async = require("async");
 
-var options = {
-    securityMode: opcua.MessageSecurityMode.SIGNANDENCRYPT,
-    securityPolicy: opcua.SecurityPolicy.Basic128Rsa15,
-    requestedSessionTimeout:1000,
-    connectionStrategy: {
-        maxRetry: 1,
-        initialDelay: 2000,
-        maxDelay: 10 * 1000
-    } 
-}; 
-
-//建立连接并创建会话
-exports.createConnection = (ip, port,user,password,callback) => {
-    var endpointUrl = "opc.tcp://" + ip + ":" + port;//服务器地址
-    var client = new opcua.OPCUAClient(options);
-    client.connect(endpointUrl, function (err) {
-        if (err) {
-            callback("connect to " + endpointUrl + "err:" + err);
-        } else {
-            client.createSession({ userName: user, password: password }, function (err, session) {
-                if (err) {
-                    callback("create session failed:" + err);
-                } else {
-                    callback(null, session);
-                }
-            });
-        }
-    });
-};
-
 /* var AddObjectArgs = {
     ParentNodeId: new opcua.NodeId(opcua.NodeIdType.NUMERIC,400001010,2),
     NodeId: new opcua.NodeId(opcua.NodeIdType.STRING,"IEC104TCP",2)
