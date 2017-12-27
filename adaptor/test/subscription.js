@@ -1,6 +1,6 @@
-/*global require,console,setTimeout */
-var opcua = require("node-opcua");
-var subscription_service = require("node-opcua").subscription_service;
+var opcua = require('node-opcua');
+var assert = require("node-opcua-assert");
+var subscription = require('node-opcua-service-subscription');
 var async = require("async");
 var options = {
     securityMode: opcua.MessageSecurityMode.SIGNANDENCRYPT,
@@ -16,27 +16,19 @@ var endpointUrl = "opc.tcp://127.0.0.1:4841";
 var the_session, the_subscription;
 
 async.series([
-    // step 1 : connect to
-    function (callback) {
+    function (callback) {//连接uaServer
         client.connect(endpointUrl, function (err) {
-            if (err) {
-                console.log(" cannot connect to endpoint :", endpointUrl);
-            } else {
-                console.log("connected !");
-            }
+            if (err) console.log(" cannot connect to endpoint :", endpointUrl);
+            else console.log("connected !");
             callback(err);
         });
     },
-    // step 2 : createSession
-    function (callback) {
+    function (callback) {//创建会话层
         client.createSession({ userName: 'admin', password: 'admin' }, function (err, session) {
-            if (!err) {
-                the_session = session;
-            }
+            if (!err) the_session = session;
             callback(err);
         });
     },
-    // step 3: install a subscription and install a monitored item for 10 seconds
     function (callback) {
         the_subscription = new opcua.ClientSubscription(the_session, {
             requestedPublishingInterval: 1000,
@@ -47,69 +39,37 @@ async.series([
             priority: 10
         });
 
-        the_subscription.on("started", function () {
-            console.log("subscription started for 2 seconds - subscriptionId=", the_subscription.subscriptionId);
-        }).on("keepalive", function () {
-            console.log("keepalive");
-        }).on("terminated", function () {
-            callback();
+        var filter =  new subscription.EventFilter({
+            selectClauses: [{ typeId: new opcua.NodeId(opcua.NodeIdType.STRING,'ExclusiveLevelAlarmType',2), 
+                             browsePath: [ {name: 'ActiveState'}, {name: 'id'},{namespaceIndex:2,name:'ExclusiveLevelAlarmType'} ]},
+                     { browsePath: [ {name: 'ConditionName'}               ]}
+            ],     whereClause: [] });
+          the_subscription.monitor(
+             {
+               nodeId: "ns=2;i=ModbusTcpClient.channel1.Blower",
+               attributeId: AttributeIds.EventNotifier,
+               indexRange: null,
+               dataEncoding: { namespaceIndex: 0, name: null }
+             },
+             {
+                samplingInterval: 100,
+                discardOldest: true,
+                queueSize: 10
+             },
+             TimestampToReturn.sourceTimestamp
+           ).on('ExclusiveLevelAlarmType', function (dataValue) {
+            console.log( dataValue);
         });
-
-        // install monitored item
-        /* var monitoredItem1 = the_subscription.monitor({
-            nodeId: new opcua.NodeId(opcua.NodeIdType.NUMERIC, 151, 2),
-            attributeId: opcua.AttributeIds.Value
-        },
-        {
-            samplingInterval: 100,
-            discardOldest: false,
-            queueSize: 10
-        },
-        opcua.read_service.TimestampsToReturn.Both
-        );
-        monitoredItem1.on("changed", function (dataValue) {
-            console.log(monitoredItem1.itemToMonitor.nodeId.value+":"+dataValue.value.value);
-        });
-
-        var test = opcua.itemToMonitor(the_subscription,{
-            nodeId: new opcua.NodeId(opcua.NodeIdType.NUMERIC, 151, 2),
-            attributeId: opcua.AttributeIds.Value
-        },{
-            samplingInterval: 100,
-            discardOldest: false,
-            queueSize: 10
-        },
-        opcua.read_service.TimestampsToReturn.Both);
-
-         setTimeout(function () {
-            console.log("aaaaaaaaaaaa");
-            test.terminate();
-        }, 20000); */
-
-    the_session.deleteMonitoredItems(new subscription_service.DeleteMonitoredItemsRequest(), 
-    function (err, response) {
-        err.message.should.match(/BadSubscriptionIdInvalid/);
-        done();
-    });
-    
-    
     },
-    // close session
     function (callback) {
         the_session.close(function (err) {
-            if (err) {
-                console.log("session closed failed ?");
-            }
+            if (err) console.log("session closed failed ?");
             callback();
         });
-    }
-],
+    }],
     function (err) {
-        if (err) {
-            console.log(" failure ", err);
-        } else {
-            console.log("done!");
-        }
+        if (err) console.log(" failure ", err);
+        else console.log("done!");
         client.disconnect(function () { });
     });
 

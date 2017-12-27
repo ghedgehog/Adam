@@ -10,12 +10,18 @@ var Redis = require('ioredis');
 var redisClient_sub = new Redis(config.redis);
 var redisClient_set = new Redis(config.redis);
 
-var the_session = {};                                       //ua会话句柄
-var the_httpClient = {};                                    //datahub链接句柄
+var the_session = {}; //ua会话句柄
+var the_httpClient = {}; //datahub链接句柄
 var requestArgs = {
-    path: { 'path': config.dataHubPath },                   //区分restful接口
-    parameters: { uaServer: config.uaSever.name },          //序列化到url中的parameters
-    headers: { "Content-Type": "application/json" }         //request headers
+    path: {
+        'path': config.dataHubPath
+    }, //区分restful接口
+    parameters: {
+        uaServer: config.uaSever.name
+    }, //序列化到url中的parameters
+    headers: {
+        "Content-Type": "application/json"
+    } //request headers
 };
 
 function init(cb) {
@@ -62,11 +68,12 @@ function init(cb) {
         //往ua数据库中添加报警对象
         addAlarmObj: ['addVar', function (result, callback) {
             interface.addAlarmObj(the_session, the_httpClient, requestArgs, callback);
-        }]  /* ,
-        //为ua数据库中变量配置报警
-        varAlarmConf: ['addAlarmObj', function (result, callback) {
-            interface.varAlarmConf(the_session, the_httpClient, requestArgs, callback);
-        }]  */
+        }]
+        /* ,
+              //为ua数据库中变量配置报警
+              varAlarmConf: ['addAlarmObj', function (result, callback) {
+                  interface.varAlarmConf(the_session, the_httpClient, requestArgs, callback);
+              }]  */
     }, function (err, results) {
         if (err) {
             log.error(err);
@@ -177,13 +184,20 @@ function subUaRealData(cb) {
         nodeId: {},
         attributeId: opcua.AttributeIds.Value
     };
+    var resData = {};
     uaBuildSpace.browseAllDevices(the_session, function (err, varsNodeId) {
         varsNodeId.forEach(function (varNodeId) {
             itemToMonitor.nodeId = varNodeId;
-            the_subscription.monitor(itemToMonitor, requestedParameters, opcua.read_service.TimestampsToReturn.Neither)
-                .on("changed", function (dataValue) {
-                    console.log(varNodeId.value, dataValue.value.value);
+            the_subscription.monitor(itemToMonitor, requestedParameters, opcua.read_service.TimestampsToReturn.Source)
+                .on('changed', function (dataValue) {
+                    resData.value = dataValue.value.value;//实时值
+                    resData.sourceTimestamp = new Date(dataValue.sourceTimestamp);//时间戳
+                    resData.statusCode = dataValue.statusCode.name;//质量戳
+                    log.trace(varNodeId.value, resData);
                     redisClient_set.set(varNodeId.value, dataValue.value.value);
+                })
+                .on('error', function () {
+                    log.error('subUaRealData error');
                 });
         });
         cb(null, 'subUaRealData sucess !!!');

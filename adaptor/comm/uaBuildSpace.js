@@ -97,7 +97,12 @@ function addDevices(the_session, channelNodeId, devicesToAdd, callback) {
         AddObjectArgs.Description = device.name;
         uaServiceMethod.AddObject(the_session, AddObjectArgs, function (err, result) {
             if (err) cb(err);
-            else cb();
+            else {
+                uaServiceMethod.SetObjectProperty(the_session, AddObjectArgs.NodeId, device.propConf, function (err1, result1) {
+                    if (err1) cb(err1);
+                    else cb();
+                });
+            };
         });
     }, function (err) {
         if (err) callback(err);
