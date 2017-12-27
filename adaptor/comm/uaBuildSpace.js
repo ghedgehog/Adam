@@ -20,6 +20,18 @@ var alarmType = {
     NonExclusiveDeviationAlarm: new opcua.NodeId(opcua.NodeIdType.NUMERIC, 400000706, 2)     /*非单一偏差报警*/
 };
 
+//去除数组中的重复元素
+function unique(arr) {
+    var result = [], hash = {};
+    for (var i = 0, elem; (elem = arr[i]) != null; i++) {
+        if (!hash[elem]) {
+            result.push(elem);
+            hash[elem] = true;
+        }
+    }
+    return result;
+}
+
 function addDrivers(the_session, driversToAdd, callback) {
     var AddObjectArgs = {};
     async.eachSeries(driversToAdd, function (driver, cb) {
@@ -87,8 +99,10 @@ function delChannels(the_session, channelsToDel, callback) {
 }
 
 function addDevices(the_session, channelNodeId, devicesToAdd, callback) {
+    var driversHasConfig = [];//用于存储配置有修改的驱动名称
     var AddObjectArgs = {};
     async.eachSeries(devicesToAdd, function (device, cb) {
+        driversHasConfig.push(device.name.split('.')[0]);
         AddObjectArgs.ParentNodeId = channelNodeId;
         AddObjectArgs.NodeId = new opcua.NodeId(opcua.NodeIdType.STRING, device.name, 2);
         AddObjectArgs.TypeDefinitionId = ioDeviceTYpe;
@@ -102,11 +116,22 @@ function addDevices(the_session, channelNodeId, devicesToAdd, callback) {
                     if (err1) cb(err1);
                     else cb();
                 });
-            };
+            }
         });
     }, function (err) {
         if (err) callback(err);
-        else callback(null, "addChannel success!!!");
+        else {
+            //添加设备成功后需要调用驱动下面的commit方法进行提交
+            async.eachSeries(unique(driversHasConfig),function(driver,cb1){
+                uaServiceMethod.Commit(the_session,driver,function(err,result){
+                    if (err) cb1(err);
+                    else cb1();
+                });
+            },function(err){
+                if(err) callback(err);
+                else callback(null, "addChannel success!!!");
+            });  
+        }
     });
 }
 
@@ -126,8 +151,10 @@ function delDevices(the_session, devicesToDel, callback) {
 
 //添加NodeId为STRING的长点名var;
 function addVars(the_session, deviceNodeId, VarsToAdd, callback) {
+    var driversHasConfig = [];//用于存储配置有修改的驱动名称
     var AddVarArgs = {};
     async.eachSeries(VarsToAdd, function (Var, cb) {
+        driversHasConfig.push(Var.name.split('.')[0]);
         AddVarArgs.ParentNodeId = deviceNodeId;
         AddVarArgs.NodeId = new opcua.NodeId(opcua.NodeIdType.STRING, deviceNodeId.value + '.' + Var.name, 2);
         AddVarArgs.TypeDefinitionId = ioProxyVariableType;
@@ -148,7 +175,18 @@ function addVars(the_session, deviceNodeId, VarsToAdd, callback) {
         });
     }, function (err) {
         if (err) callback(err);
-        else callback(null, "addVar success!!!");
+        else {
+            //添加设备成功后需要调用驱动下面的commit方法进行提交
+            async.eachSeries(unique(driversHasConfig),function(driver,cb1){
+                uaServiceMethod.Commit(the_session,driver,function(err,result){
+                    if (err) cb1(err);
+                    else cb1();
+                });
+            },function(err){
+                if(err) callback(err);
+                else  callback(null, "addVar success!!!");
+            });  
+        }
     });
 } 
 
@@ -430,7 +468,8 @@ exports.addDrivers = addDrivers;
 exports.delDrivers = delDrivers;
 exports.addChannels = addChannels;
 exports.delChannels = delChannels;
-exports.addDevices = addDevices;
+exports.addDevices = addDevices; 
+exports.delDevices = delDevices;
 exports.addVars = addVars;
 exports.delVars = delVars; 
 exports.addAlarmObj = addAlarmObj;

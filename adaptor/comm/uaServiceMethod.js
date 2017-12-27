@@ -231,18 +231,17 @@ exports.GetFreeNodeIds = (session,GetFreeNodeIdsArgs,callback)=>{
     });
 }
 
-//获取服务端未被占用的NodeId
-exports.Commit = (session,CommitArgs,callback)=>{
+exports.Commit = (session,driverName,callback)=>{
     var methodsToCall = [];
     methodsToCall.push(new opcua.call_service.CallMethodRequest({
-        objectId: CommitArgs.objectId,
-        methodId: CommitArgs.methodId
+        objectId: new opcua.NodeId(opcua.NodeIdType.STRING, driverName,2),
+        methodId: new opcua.NodeId(opcua.NodeIdType.STRING, driverName+'.Commit',2)
     }));
     session.call(methodsToCall, function (err, result) {
         if (err) {
             callback("err:" + err);
         } else {
-            callback(null,result[0].outputArguments[0].value);
+            callback(null,result);
         }
     });
-}
+};

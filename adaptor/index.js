@@ -148,7 +148,12 @@ function subDataHubConfig() {
                 {
                     interface.addVar(the_session, the_httpClient, requestArgs, function (err, result) {
                         if (err) log.error(err);
-                        else log.info(result);
+                        else {
+                            subUaRealData(function(err,result){
+                                if(err) log.error(err);
+                                else  log.info(result);
+                            });
+                        }
                     });
                     break;
                 }
