@@ -9,7 +9,7 @@
     </ol>
 </section>
 <section class="content">
-    <div class="col-md-5">
+    <div class="col-md-4">
         <!-- Custom Tabs -->
         <div class="nav-tabs-custom no-padding">
             <ul class="nav nav-tabs">
@@ -17,7 +17,7 @@
                 <li><a href="#tab_2" data-toggle="tab">我的关注</a></li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane active" id="tab_1">
+                <div class="tab-pane active" id="tab_1" style="overflow:auto">
                     <div class="box-body no-padding">
                         <ul id="device_list" class="nav nav-stacked">
                         </ul>
@@ -30,56 +30,127 @@
             </div>
         </div>
     </div>
-    <div class="col-md-7">
+    <div class="col-md-8">
 
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs pull-right">
-                <li><a href="#tab_2-1" data-toggle="tab">tab1</a></li>
+                <!--<li><a href="#tab_2-1" data-toggle="tab">tab1</a></li>-->
                 <li class="active"><a href="#tab_1-1" data-toggle="tab">设备概况</a></li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        Dropdown <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
-                        <li role="presentation" class="divider"></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
-                    </ul>
-                </li>
+                <!--<li class="dropdown">-->
+                    <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#">-->
+                        <!--Dropdown <span class="caret"></span>-->
+                    <!--</a>-->
+                    <!--<ul class="dropdown-menu">-->
+                        <!--<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>-->
+                        <!--<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>-->
+                        <!--<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>-->
+                        <!--<li role="presentation" class="divider"></li>-->
+                        <!--<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
                 <li class="pull-left header"><i class="fa fa-th"></i> 设备</li>
             </ul>
             <div class="tab-content">
-                <div class="tab-pane active" id="tab_1-1">
+                <div class="tab-pane active" id="tab_1-1" style="overflow:auto">
                     <div class="box box-widget">
+                        <div class="form-group">
+                            <label for="Address" class="col-sm-2 control-label">IP地址：</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="Address" disabled="disabled"></input>
+                            </div>
+                        </div>
 
-                    <!--<div class="box box-widget ">-->
-                        <!--<ul class="nav nav-stacked">-->
-                            <!--<li>-->
-                                <!--<a href="#">模型概览 </a>-->
-                            <!--</li>-->
-                            <!--<li>-->
-                                <!--<a href="#">基本属性 </a>-->
-                            <!--</li>-->
-                            <!--<li>-->
-                                <!--<a href="#">监控属性</a>-->
-                            <!--</li>-->
-                            <!--<li>-->
-                                <!--<a href="#">报警设置</a>-->
-                            <!--</li>-->
-                            <!--<li>-->
-                                <!--<a href="#">控制操作</a>-->
-                            <!--</li>-->
-                            <!--<li>-->
-                                <!--<a href="#">模型配件</a>-->
-                            <!--</li>-->
-                            <!--<li>-->
-                                <!--<a href="#">信息板</a>-->
-                            <!--</li>-->
-                        <!--</ul>-->
-                    <!--</div>-->
-                </div>
+                        <div class="form-group">
+                            <label for="Port" class="col-sm-2 control-label">端口号：</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="Port" disabled="disabled"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="BackupAddress" class="col-sm-2 control-label">Backup IP：</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="BackupAddress" disabled="disabled"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="BackupPort" class="col-sm-2 control-label">BackupPort：</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="BackupPort" disabled="disabled"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="DeviceAddress" class="col-sm-2 control-label">设备地址：</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="DeviceAddress" disabled="disabled"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="MaxPackageLen" class="col-sm-2 control-label">最大包长：</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="MaxPackageLen" disabled="disabled"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="PackageSpace" class="col-sm-2 control-label">最大包间隔：</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="PackageSpace" disabled="disabled"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group"><label for="ProtocolType" class="col-sm-2 control-label">协议类型：</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="ProtocolType" disabled="disabled"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group"><label for="LongType" class="col-sm-2 control-label">32位整形字节顺序：</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="LongType" disabled="disabled"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group"><label for="FloatType" class="col-sm-2 control-label">32位浮点数字节顺序：</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="FloatType" disabled="disabled"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group"><label for="AddrOrder" class="col-sm-2 control-label">寄存器地址顺序：</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="AddrOrder" disabled="disabled"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group"><label for="CountOrder" class="col-sm-2 control-label">寄存器个数顺序：</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="CountOrder" disabled="disabled"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group"><label for="DataOrder" class="col-sm-2 control-label">寄存器数据顺序：</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="DataOrder" disabled="disabled"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group"><label for="DoubleOrder"
+                                                       class="col-sm-2 control-label">double解析顺序：</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="DoubleOrder" disabled="disabled"></input>
+                            </div>
+                        </div>
+
+                        <div class="form-group"><label for="CheckOrder" class="col-sm-2 control-label">校验码顺序：</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="CheckOrder" disabled="disabled"></input>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- /.tab-pane -->
                 <div class="tab-pane" id="tab_2-1">
@@ -106,20 +177,73 @@
                     var name = obj["name"];
                     var description = obj["description"];
                     var propConf = obj["propConf"];
-                    console.log("名称："+name);
-                    console.log("描述："+description);
-                    console.log("配置信息："+propConf);
-                    $('#device_list').append('<li><a href='+showDeviceInfo()+'>'+name+'</a></li>');
+//                    console.log("名称："+name);
+//                    console.log("描述："+description);
+//                    console.log("配置信息："+propConf);
+                    $('#device_list').append('<li><a href="javascript:void(0);">'+name+'</a></li>');
                 }
                 /*]]>*/
             }, error: function (msg) {
                 alert(msg.responseText);
             }
         });
+
+        $("#device_list").delegate('li','click',function() {
+            $("#device_list li").removeClass("active");//首先移除全部的active
+            $(this).addClass("active");//选中的添加acrive
+            var text = $(this).text();
+            console.log("执行了点击标签函数init:"+text);
+            $.ajax({
+                type: "get",
+                async: true,
+                url: "device/get",
+                dataType:"json",
+                success: function (data) {
+                    //console.log(data);
+                    /*<![CDATA[*/
+                    for (var i=0;i<data.length;++i){
+//                    console.log(data[i]);
+                        var obj = data[i];
+                        var name = obj["name"];
+                        var description = obj["description"];
+                        var propConf = obj["propConf"];
+                        if(name===text){
+                            console.log("点击以后的操作名称："+name);
+                            console.log("描述："+description);
+                            //console.log("配置信息："+propConf);
+                            var tmp = '\<xml\>'+propConf+'\</xml\>';
+                            console.log(tmp);
+                            //$('#ProtocolType').attr("disabled","disabled");
+
+                            var a = $.parseXML(tmp);
+                            $(a).find('Values Config Values').each(function () {
+                                $('#Address').val($(this).children('Address').text());
+                                $('#Port').val($(this).children('Port').text());
+                                $('#BackupAddress').val($(this).children('BackupAddress').text());
+                                $('#BackupPort').val($(this).children('BackupPort').text());
+                                $('#ProtocolType').val($(this).children('ProtocolType').text());
+                                $('#DeviceAddress').val($(this).children('DeviceAddress').text());
+                                $('#MaxPackageLen').val($(this).children('MaxPackageLen').text());
+                                $('#PackageSpace').val($(this).children('PackageSpace').text());
+                                $('#LongType').val($(this).children('LongType').text());
+                                $('#FloatType').val($(this).children('FloatType').text());
+                                $('#AddrOrder').val($(this).children('AddrOrder').text());
+                                $('#CountOrder').val($(this).children('CountOrder').text());
+                                $('#DataOrder').val($(this).children('DataOrder').text());
+                                $('#DoubleOrder').val($(this).children('DoubleOrder').text());
+                                $('#CheckOrder').val($(this).children('CheckOrder').text());
+                            });
+                            break;
+                        }
+                    }
+                    /*]]>*/
+                }, error: function (msg) {
+                    alert(msg.responseText);
+                }
+            });
+        });
     });
 
-    function showDeviceInfo(){
 
-    }
 
 </script>

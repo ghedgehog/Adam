@@ -1,5 +1,6 @@
 package com.sunway.api;
 
+import com.sunway.exception.BusinessException;
 import com.sunway.model.IoChannel;
 import com.sunway.service.IoChannelService;
 import com.sunway.utils.Mark;
@@ -18,18 +19,18 @@ public class IoChannelApi {
 
     //查询新增通道
     @RequestMapping(value="/add")
-    public List<IoChannel> queryAddedChannels(String driver){
+    public List<IoChannel> queryAddedChannels(String driver) throws BusinessException {
         List<IoChannel> channels = ioChannelService.queryIoChannelsByMark(driver, Mark.INSERT);
         if(channels == null || channels.isEmpty()) return null;
-        //ioChannelService.setMark(driver, channels, Mark.DONE);
+        ioChannelService.setMark(driver, channels, Mark.DONE);
         return channels;
     }
 
     //查询删除通道
     @RequestMapping(value="/del")
-    public List<IoChannel> queryDeletedChannels(String driver){
+    public List<IoChannel> queryDeletedChannels(String driver) throws BusinessException {
         List<IoChannel> channels = ioChannelService.queryIoChannelsByMark(driver, Mark.DELETE);
-        //ioChannelService.deleteIoChannels(driver, channels);
+        ioChannelService.deleteIoChannels(driver, channels);
         return channels;
     }
 }

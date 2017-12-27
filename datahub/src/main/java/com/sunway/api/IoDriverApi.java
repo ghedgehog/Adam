@@ -1,5 +1,6 @@
 package com.sunway.api;
 
+import com.sunway.exception.BusinessException;
 import com.sunway.model.IoBaseEntity;
 import com.sunway.service.IoDriverService;
 import com.sunway.utils.Mark;
@@ -19,29 +20,19 @@ public class IoDriverApi {
 
     //查询新增驱动
     @RequestMapping(value="/add", method = RequestMethod.GET)
-    public List<IoBaseEntity> queryAddedDrivers(String uaServer){
+    public List<IoBaseEntity> queryAddedDrivers(String uaServer) throws BusinessException {
         List<IoBaseEntity> drivers = driverService.queryIoDrivers(uaServer, Mark.INSERT);
         if(drivers == null || drivers.isEmpty()) return null;
-        //driverService.setMark(uaServer, drivers, Mark.DONE);
+        driverService.setMark(uaServer, drivers, Mark.DONE);
         return drivers;
     }
 
     //查询删除驱动
     @RequestMapping(value="/del", method = RequestMethod.GET)
-    public List<IoBaseEntity> queryDeletedDrivers(String uaServer){
+    public List<IoBaseEntity> queryDeletedDrivers(String uaServer) throws BusinessException {
         List<IoBaseEntity> drivers = driverService.queryIoDrivers(uaServer, Mark.DELETE);
-        //driverService.deleteIoDrivers(uaServer, drivers);
+        driverService.deleteIoDrivers(uaServer, drivers);
         return drivers;
     }
 
-    /*//GTEST
-    @RequestMapping(value="/add-test")
-    public List<IoBaseEntity> queryAddedDriversTest(){
-        return queryAddedDrivers("ioserver");
-    }
-
-    @RequestMapping(value="/del-test")
-    public List<IoBaseEntity> queryDeletedDrivers(){
-        return queryDeletedDrivers("ioserver");
-    }*/
 }

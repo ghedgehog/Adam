@@ -27,15 +27,4 @@ public class IoAlarmApi {
         ioAlarmService.addAlarm(alarmList);
     }
 
-    /*//TODO
-    @RequestMapping(value="/add-test", method = RequestMethod.POST)
-    public void addAlarmsTest(){
-        List<IoAlarm> alarms = new ArrayList();
-        alarms.add(new IoAlarm("",
-                (java.sql.Date.valueOf("2017-12-12")),
-                (java.sql.Date.valueOf("2017-12-12")),
-                1, 1, "device1",
-                "", "", 1));
-        addAlarms(alarms);
-    }*/
 }

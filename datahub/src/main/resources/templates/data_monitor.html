@@ -71,10 +71,7 @@
                         <table id="example4" class="table table-striped table-hover display ">
                             <thead>
                             <tr>
-                                <th>变量名</th>
-                                <th>值</th>
                                 <th>时间戳</th>
-                                <th>质量戳</th>
                                 <th>Location</th>
                             </tr>
                             </thead>
@@ -192,6 +189,7 @@
         //console.log("refresh时的url："+urlData);
         $.get(urlData,null,function(data,status){
             //alert("Refresh"+status+data);
+//            console.log("刷新界面时从后台获取到的数据:"+data);
             temp_table = $(tableId).dataTable();
             var oSettings = temp_table.fnSettings();
             temp_table.fnClearTable(this);
@@ -202,6 +200,7 @@
             var length_data = Object.keys(data).length;
             /*<![CDATA[*/
             for(var name in data) {
+                console.log("后台传过来的:"+name);
                 if(name==="time"){
                     nameArray2.push(name);
                     valueArray2.push(data[name]);
@@ -210,11 +209,10 @@
                     valueArray1.push(data[name]);
                 }
             }
-            var rows = nameArray2.length;
+            var rows = nameArray1.length;
+            var d = new Date(valueArray2[0]);
             for(var i=0;i<rows;i++){
-                var d = new Date(valueArray2[i]);
                 ss[i]=new Array(nameArray1[i],nameArray1[i],valueArray1[i],null,formatDate(d),null,null);
-                console.log(formatDate(d));
                 temp_table.oApi._fnAddData(oSettings, ss[i]);
             }
             /*]]>*/
@@ -294,7 +292,7 @@
             window.setInterval(function()
             {
                 AutoReload(text);
-            }, 3000);
+            }, 1000);
         });
     });
     function query_his(){
