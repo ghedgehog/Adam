@@ -53,7 +53,7 @@ public interface IIoBaseMapper<T extends IoBaseEntity> {
                            @Param("mark") int mark);
 
     public void addIoDevices(@Param("table") String tableName,
-                             @Param("ptable") String ptableName,
+                             @Param("ptable") String ptable,
                              @Param("tempTable") String tempTable,
                              @Param("parent") String parent,
                              @Param("tempName") String tempName,

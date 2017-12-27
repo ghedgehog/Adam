@@ -93,8 +93,8 @@ public class IoDeviceController {
 
     @RequestMapping(value="/get", method = RequestMethod.GET)
     @ResponseBody
-    public List<IoBaseEntity> queryAllIoDevices(){
-        return deviceService.queryAllIoDevices();
+    public List<IoDevice> queryAllIoDevices() throws BusinessException {
+        return deviceService.queryIoDevices("", -1);
     }
 
     //IOCHANNEL  IoBaseEntity 定义模板 TODO

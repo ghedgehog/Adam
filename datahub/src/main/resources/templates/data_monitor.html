@@ -129,22 +129,27 @@
         console.log("init界面的名称："+deviceName)
         $.get('real/read-obj?device='+deviceName,function(data,status) {
             //console.log("Init"+status);
-            alert(status);
+            //alert(status);
             var myArray = new Array();
             var nameArray = new Array();
             var valueArray = new Array();
             /*<![CDATA[*/
                 var data_length =0;
                 for(var name in data){
-                    console.log("属性：" + name + ",值："+ data[name]);
+                    //console.log("属性：" + name + ",值："+ data[name]);
                     nameArray.push(name);
                     valueArray.push(data[name]);
                     data_length++;
                 }
 
             for(var i=0;i<data_length;i++){
-                myArray[i]=new Array(nameArray[i],nameArray[i],valueArray[i],null,null,null,null);
-                console.log("执行了myArray赋值操作");
+                if (nameArray[i]==="time"){
+
+                }else{
+                    myArray[i]=new Array(nameArray[i],nameArray[i],valueArray[i],null,null,null,null);
+                }
+
+                //console.log("执行了myArray赋值操作");
             }
             /*]]>*/
             temp_table = $('#example3').DataTable({
@@ -177,25 +182,39 @@
         } );
     }
 
+    function getLocalTime(nS) {
+        return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
+    }
+
     function RefreshTable(tableId, urlData)
     {
         var ss = new Array();
-        console.log("refresh时的url："+urlData);
+        //console.log("refresh时的url："+urlData);
         $.get(urlData,null,function(data,status){
             //alert("Refresh"+status+data);
             temp_table = $(tableId).dataTable();
             var oSettings = temp_table.fnSettings();
             temp_table.fnClearTable(this);
-            var nameArray = new Array();
-            var valueArray = new Array();
+            var nameArray1 = new Array();
+            var valueArray1 = new Array();
+            var nameArray2 = new Array();
+            var valueArray2 = new Array();
             var length_data = Object.keys(data).length;
             /*<![CDATA[*/
             for(var name in data) {
-                nameArray.push(name);
-                valueArray.push(data[name]);
+                if(name==="time"){
+                    nameArray2.push(name);
+                    valueArray2.push(data[name]);
+                }else{
+                    nameArray1.push(name);
+                    valueArray1.push(data[name]);
+                }
             }
-            for(var i=0;i<length_data;i++){
-                ss[i]=new Array(nameArray[i],nameArray[i],valueArray[i],null,null,null,null);
+            var rows = nameArray2.length;
+            for(var i=0;i<rows;i++){
+                var d = new Date(valueArray2[i]);
+                ss[i]=new Array(nameArray1[i],nameArray1[i],valueArray1[i],null,formatDate(d),null,null);
+                console.log(formatDate(d));
                 temp_table.oApi._fnAddData(oSettings, ss[i]);
             }
             /*]]>*/
@@ -206,8 +225,19 @@
 
     function AutoReload(deviceName)
     {
-        console.log("AutoReload时传入的设备名"+deviceName);
+        //console.log("AutoReload时传入的设备名"+deviceName);
         RefreshTable('#example3', 'real/read-obj?device='+deviceName);
+    }
+
+    function   formatDate(now)   {
+        var   year=now.getFullYear();
+        //console.log("年份:"+year);
+        var   month=now.getMonth()+1;
+        var   date=now.getDate();
+        var   hour=now.getHours();
+        var   minute=now.getMinutes();
+        var   second=now.getSeconds();
+        return   year+"-"+month+"-"+date+"   "+hour+":"+minute+":"+second;
     }
 
     $(function () {
@@ -285,19 +315,29 @@
                 "endTime":endTime
             }),
             success: function (data) {
-                console.log(data);
+
                 var myArray = new Array();
+                var nameArray1 = new Array();
+                var valueArray1 = new Array();
+                var nameArray2 = new Array();
+                var valueArray2 = new Array();
                 /*<![CDATA[*/
                 var column = 0;
                 for (var row=0;row<data.length;++row){
                     var obj = data[row];
+
                     for ( var key in obj )
                     {
-                        //console.log(key);
-                        //console.log(obj[key]);
-                        myArray[column++]=new Array(key,obj[key],null,null,null);
+                        if(key==="time"){
+                            nameArray2.push(key);
+                            valueArray2.push(obj[key]);
+                        }else{
+                            nameArray1.push(key);
+                            valueArray1.push(obj[key]);
+                        }
                     }
-
+                    var time = new Date(valueArray2[row]);
+                    myArray[column++]=new Array(nameArray1[row],valueArray1[row],formatDate(time),null,null);
                 }
                 /*]]>*/
                var his_table = $('#example4').DataTable({

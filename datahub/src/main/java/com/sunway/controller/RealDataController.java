@@ -22,7 +22,7 @@ public class RealDataController {
     @RequestMapping(value = "/read-obj", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> readDeviceRealData(@RequestParam("device") String device) {
-        System.out.println("传入进来的设备名称：" + device);
+        System.out.println("浼犲叆杩涙潵鐨勮澶囧悕绉帮細" + device);
         Map<String, Object> temp = realDataService.queryRealDataByDevice(device);
         if (temp == null) return null;
         for (Map.Entry<String, Object> entry : temp.entrySet()) {
