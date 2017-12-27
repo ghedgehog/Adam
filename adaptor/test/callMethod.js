@@ -22,6 +22,9 @@ function createConnection(ipAddress, port, user, password, callback) {
             client.createSession({ userName: user, password: password }, function (err, session) {
                 if (!err) {
                     the_session = session;
+                    client.on('close',function(){
+                        createConnection(ipAddress, port, user, password, callback);
+                    });
                     callback(null, "create session success");
                 } else {
                     callback("create session failed:", null);
@@ -178,7 +181,7 @@ function read() {
 createConnection("127.0.0.1", 4841, "admin", "admin", function (err, result) {
     if (result) {
         console.log(result);
-        read();
+        call_GetFreeNodeIds();
     } else {
         console.log(err);
     }

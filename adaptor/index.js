@@ -10,31 +10,44 @@ var Redis = require('ioredis');
 var redisClient_sub = new Redis(config.redis);
 var redisClient_set = new Redis(config.redis);
 
-var the_session = {}; //ua会话句柄
+var the_session = {};    //ua会话句柄
 var the_httpClient = {}; //datahub链接句柄
 var requestArgs = {
-    path: {
-        'path': config.dataHubPath
-    }, //区分restful接口
-    parameters: {
-        uaServer: config.uaSever.name
-    }, //序列化到url中的parameters
-    headers: {
-        "Content-Type": "application/json"
-    } //request headers
+    path: { 'path': config.dataHubPath  },          //区分restful接口
+    parameters: { uaServer: config.uaSever.name },  //序列化到url中的parameters
+    headers: {"Content-Type": "application/json"}   //request headers
+};
+var options = {
+    securityMode: opcua.MessageSecurityMode.SIGNANDENCRYPT,
+    securityPolicy: opcua.SecurityPolicy.Basic128Rsa15,
+    requestedSessionTimeout: 1000,
+    connectionStrategy: { maxRetry: 1, initialDelay: 2000, maxDelay: 10 * 1000 }
 };
 
 function init(cb) {
     async.auto({
-        //链接ua数据库并创建会话句柄
-        uaConnect: function (callback) {
+        uaConnect: function (callback) { //链接ua数据库并创建会话句柄
             var uaInfo = config.uaSever;
-            uaServiceMethod.createConnection(uaInfo.ip, uaInfo.port, uaInfo.user, uaInfo.password, function (err, session) {
-                if (err) {
-                    callback(err);
-                } else {
-                    the_session = session;
-                    callback(null, "create session success!");
+            var endpointUrl = "opc.tcp://" + uaInfo.ip + ":" + uaInfo.port;//服务器地址
+            var client = new opcua.OPCUAClient(options);
+            client.connect(endpointUrl, function (err) {
+                if (err) callback("connect to " + endpointUrl + "err:" + err);
+                else {
+                    client.on('close', function () { 
+                        log.warn('connection closed!!!');
+                        main(); 
+                    });
+                    client.createSession({ userName: uaInfo.user, password: uaInfo.password }, function (err, session) {
+                        if (err) callback("create session failed:" + err);
+                        else {
+                            the_session = session;
+                            the_session.on('session_closed',function(){
+                                log.warn('session closed!!!');
+                                main();
+                            });
+                            callback(null, "create session success!");
+                        }
+                    });
                 }
             });
         },
@@ -68,12 +81,11 @@ function init(cb) {
         //往ua数据库中添加报警对象
         addAlarmObj: ['addVar', function (result, callback) {
             interface.addAlarmObj(the_session, the_httpClient, requestArgs, callback);
-        }]
-        /* ,
-              //为ua数据库中变量配置报警
-              varAlarmConf: ['addAlarmObj', function (result, callback) {
-                  interface.varAlarmConf(the_session, the_httpClient, requestArgs, callback);
-              }]  */
+        }]/*,
+        //为ua数据库中变量配置报警
+        varAlarmConf: ['addAlarmObj', function (result, callback) {
+            interface.varAlarmConf(the_session, the_httpClient, requestArgs, callback);
+        }] */
     }, function (err, results) {
         if (err) {
             log.error(err);
@@ -90,11 +102,11 @@ function subDataHubConfig() {
     redisClient_sub.on('message', function (channel, message) {
         log.info('subDataHubConfig:', message);
         mesBuffer.push(message);
-        dealSubMes();    
+        dealSubMes();
     });
 }
 
-function dealSubMes(){
+function dealSubMes() {
     var para = {};
     var message = mesBuffer.shift();
     switch (message) {
@@ -157,9 +169,9 @@ function dealSubMes(){
                 interface.addVar(the_session, the_httpClient, requestArgs, function (err, result) {
                     if (err) log.error(err);
                     else {
-                        subUaRealData(function(err,result){
-                            if(err) log.error(err);
-                            else  log.info(result);
+                        subUaRealData(function (err, result) {
+                            if (err) log.error(err);
+                            else log.info(result);
                         });
                     }
                 });
@@ -220,23 +232,27 @@ function subUaRealAlarm(cb) {
     cb();
 }
 
-async.auto({
-    init: function (cb) {
-        init(cb);
-    },
-    subDataHubConfig: ['init', function (result, cb) {
-        subDataHubConfig();
-    }],
-    subUaRealData: ['init', function (result, cb) {
-        subUaRealData(cb);
-    }],
-    subUaRealAlarm: ['init', function (result, cb) {
-        subUaRealAlarm(cb);
-    }]
-}, function (err, result) {
-    if (err) {
-        log.error(err);
-    } else {
-        log.info(result);
-    }
-});
+function main() {
+    async.auto({
+        init: function (cb) {
+            init(cb);
+        },
+        subDataHubConfig: ['init', function (result, cb) {
+            subDataHubConfig();
+        }],
+        subUaRealData: ['init', function (result, cb) {
+            subUaRealData(cb);
+        }],
+        subUaRealAlarm: ['init', function (result, cb) {
+            subUaRealAlarm(cb);
+        }]
+    }, function (err, result) {
+        if (err) {
+            log.error(err);
+        } else {
+            log.info(result);
+        }
+    });
+}
+
+main();
