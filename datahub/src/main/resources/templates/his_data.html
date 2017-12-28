@@ -1,25 +1,25 @@
 
 <link rel="stylesheet" href="AdminLTE-2.3.11/bootstrap-daterangepicker/daterangepicker.css"/>
 <section class="content">
-    <div class="col-md-3">
-        <!-- Custom Tabs -->
-        <div class="col-md-offset-1">
+    <!--<div class="col-md-3">-->
+        <!--&lt;!&ndash; Custom Tabs &ndash;&gt;-->
+        <!--<div class="col-md-offset-1">-->
 
-            <ul class="nav nav-pills">
-                <li class="active"><a href="#tab_1-1" data-toggle="pill">基本信息</a></li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane fade in active" id="tab_1-1">
-                    <div class="box box-widget ">
-                        <ul id="device_list2" class="nav nav-stacked">
+            <!--<ul class="nav nav-pills">-->
+                <!--<li class="active"><a href="#tab_1-1" data-toggle="pill">基本信息</a></li>-->
+            <!--</ul>-->
+            <!--<div class="tab-content">-->
+                <!--<div class="tab-pane fade in active" id="tab_1-1">-->
+                    <!--<div class="box box-widget ">-->
+                        <!--<ul id="device_list2" class="nav nav-stacked">-->
 
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-8">
+                        <!--</ul>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <div class="col-md-12">
         <ul class="nav nav-pills">
             <!--<li class="active"><a href="#tab_2-1" data-toggle="pill">历史数据</a></li>-->
             <li class="active"><a href="#tab_2-2" data-toggle="pill">历史数据</a></li>
@@ -52,11 +52,11 @@
                 <div class="box box-widget">
                     <div class="box-header">
                         <div class="row">
-                            <!--<div  class="col-md-3">-->
-                            <!--<select id="device_monitor" class="form-control" style="width: 100%;">-->
-                                <!--<option selected="selected">请选择监控设备</option>-->
-                            <!--</select>-->
-                            <!--</div>-->
+                            <div  class="col-md-3">
+                            <select id="device_monitor" class="form-control" style="width: 100%;">
+                                <option selected="selected">请选择监控设备</option>
+                            </select>
+                            </div>
                                 <div class="col-md-6">
                                     <input type="text" class="form-control pull-right" id="reservationtime"></input>
                                 </div>
@@ -144,7 +144,7 @@
             url: "device/get",
             dataType:"json",
             success: function (data) {
-                //var html="<option>请选择监控设备</option>";
+                var html="<option>请选择监控设备</option>";
                 //console.log(data);
                 first = data[0]["name"];
                 console.log(first);
@@ -154,9 +154,9 @@
                     var obj = data[i];
                     var name = obj["name"];
                     //console.log(name);
-                    $('#device_list2').append('<li><a href="javascript:void(0);">'+name+'</a></li>');
-                    //html += "<option>"+name+"</option>";
-                    //$("#device_monitor").html('').append(html);
+//                    $('#device_list2').append('<li><a href="javascript:void(0);">'+name+'</a></li>');
+                    html += "<option>"+name+"</option>";
+                    $("#device_monitor").html('').append(html);
                 }
                 //$("#device_list li").eq(0).addClass("active");
                 /*]]>*/
@@ -179,19 +179,19 @@
                 ]}
         });
 
-        $("#device_list2").delegate('li','click',function() {
-            $("#device_list2 li").removeClass("active");//首先移除全部的active
-            $(this).addClass("active");//选中的添加acrive
-            var text = $(this).text();
-            console.log("执行了点击标签函数init:"+text);
-        });
+//        $("#device_list2").delegate('li','click',function() {
+//            $("#device_list2 li").removeClass("active");//首先移除全部的active
+//            $(this).addClass("active");//选中的添加acrive
+//            var text = $(this).text();
+//            console.log("执行了点击标签函数init:"+text);
+//        });
     });
     var his_table = null;
     function query_his(){
         var time = $.trim($('#reservationtime').val());
         var startTime = $.trim(time.substr(0,19));
         var endTime = $.trim(time.substr(22));
-        var device = $("#device_list2 li.active").text();
+        var device = $("#device_monitor").val();
         console.log("选中的设备名称为："+device);
         $.ajax({
             type: "post",
@@ -291,7 +291,7 @@
 //                    20, 30, 50
 //                ],
                     "paging": false,
-                    "scrollY": "200px",
+                    "scrollY": "400px",
                     "scrollCollapse": "true",
                     "aaData":myArray
                 });
