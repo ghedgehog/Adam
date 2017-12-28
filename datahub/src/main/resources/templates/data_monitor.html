@@ -322,7 +322,7 @@
                 var valueArray2 = new Array();
                 var columnList =[];
                 columnList.push("time");
-                columnList.push("Location");
+                //columnList.push("Location");
                 /*<![CDATA[*/
                 var column = 0;
                 for (var row=0;row<data.length;++row){
@@ -345,10 +345,8 @@
                     for(var j=0;j<varCount+2;++j){
                         if(j==0){
                             rowArray[j] = formatDate(time);
-                        }else if(j==1){
-                            rowArray[j] = "POINT(116.39 39.9)";
                         }else{
-                            rowArray[j] = valueArray1[j-2];
+                            rowArray[j] = valueArray1[j-1];
                         }
                     }
                     myArray[column++] = rowArray;

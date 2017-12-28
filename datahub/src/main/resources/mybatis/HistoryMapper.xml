@@ -24,39 +24,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!--查询设备历史数据-->
 	<select id="readDeviceHistoryData" resultType="java.util.HashMap" statementType="STATEMENT">
-		SELECT time, ST_AsEwkt(location),
+		SELECT time, ST_AsEwkt(location) AS location,
 		<foreach collection="list" index="index" item="item" open="" separator="," close="">
 			${item}
 		</foreach>
 		FROM ${table}
 		WHERE
 		<![CDATA[ time >= '${startTime}' AND time < '${endTime}'  AND device_name='${device}' ]]>
-		limit 1000
+		order by time desc limit 1000
 	</select>
 
 	<!--插入单条历史数据-->
-	<insert id="writeDeviceHistoryData" parameterType="java.util.Map" >
+	<insert id="writeDeviceHistoryData" parameterType="java.util.Map" statementType="STATEMENT">
 		INSERT INTO ${table}
 		<foreach collection="params.keys" item="key" open="(" close=")" separator="," >
 			${key}
 		</foreach>
 		VALUES
 		<foreach collection="params.keys"  item="key" open="(" close=")" separator=",">
-			<!--<if test=' #{key}=="location"'>
-				<![CDATA[ ST_GeomFromText(#{params[${key}]},4326) ]]>
-			</if>
-			<if test=' #{key}=="location"'>
-				#{params[${key}]}
-			</if>-->
-			<!--<choose>
-				<when test=' #{key}=="location"'>
-					<![CDATA[ ST_GeomFromText(#{params[${key}]},4326) ]]>
+			<choose>
+				<when test=' key =="location"'>
+					ST_GeomFromText('${params[key]}',4326)
 				</when>
 				<otherwise>
-					#{params[${key}]}
+					'${params[key]}'
 				</otherwise>
-			</choose>-->
-			#{params[${key}]}
+			</choose>
 		</foreach>
 	</insert>
 </mapper>

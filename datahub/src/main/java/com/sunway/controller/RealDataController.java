@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,13 +23,8 @@ public class RealDataController {
     @RequestMapping(value = "/read-obj", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> readDeviceRealData(@RequestParam("device") String device) {
-        System.out.println("传入进来的设备名称：" + device);
-        Map<String, Object> temp = realDataService.queryRealDataByDevice(device);
-        if (temp == null) return null;
-        for (Map.Entry<String, Object> entry : temp.entrySet()) {
-            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
-        }
-        return temp;
+        //System.out.println("传入进来的设备名称：" + device);
+        return realDataService.queryRealDataByDevice(device);
     }
 
     @RequestMapping(value = "/read-var", method = RequestMethod.GET)

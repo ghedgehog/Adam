@@ -102,6 +102,7 @@ public class RealDataService {
 
 
     public void NoticeDeviceAdded(){
+        System.out.println(new Date() + "=> Publish Adam " + Notice.DEVICEADD);
         redisTemplate.convertAndSend(Notice.TOPIC , Notice.DEVICEADD);
     }
 
@@ -114,6 +115,7 @@ public class RealDataService {
     }
 
     public void NoticeDriverAdded(){
+        System.out.println(new Date() + "=> Publish Adam " + Notice.DRIVERADD);
         redisTemplate.convertAndSend(Notice.TOPIC , Notice.DRIVERADD);
     }
 
@@ -126,6 +128,7 @@ public class RealDataService {
     }
 
     public void NoticeChannelAdded(){
+        System.out.println(new Date() + "=> Publish Adam " + Notice.CHANNELADD);
         redisTemplate.convertAndSend(Notice.TOPIC , Notice.CHANNELADD);
     }
 
@@ -138,6 +141,7 @@ public class RealDataService {
     }
 
     public void NoticeVariableAdded(){
+        System.out.println(new Date() + "=> Publish Adam " + Notice.VARIABLEADD);
         redisTemplate.convertAndSend(Notice.TOPIC , Notice.VARIABLEADD);
     }
 

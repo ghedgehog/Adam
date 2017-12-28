@@ -46,10 +46,10 @@ public class IoDeviceController {
     @RequestMapping(value="/add", method = RequestMethod.POST)
     @ResponseBody
     public  String addIoDevices(@RequestBody Map<String, String> deviceMap) throws BusinessException, InterruptedException {
-        System.out.println("addIoDevices()");
+        /*System.out.println("addIoDevices()");
         for (Map.Entry<String, String> entry : deviceMap.entrySet()) {
             System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
-        }
+        }*/
         String deviceName = deviceMap.get("device_name");
         String channelName = deviceMap.get("channel_name");
         String driverType = deviceMap.get("driver_type");
@@ -117,6 +117,7 @@ public class IoDeviceController {
         channels.add(channel);
 
         int ret = channelService.addIoChannels(driver_type, channels);
+        System.out.println("Add channel " + channel_long_name+ ", ret=" + ret);
 
         if (ret!=0){
             dataService.NoticeChannelAdded();

@@ -45,6 +45,8 @@ public class HistoryDataService {
 
     public List<Map<String, Object>> readDeviceHistoryDataList(String device, String startTime, String endTime) {
 
+        if(device == null || device.isEmpty()) return null;
+
         List<IoVariable> varList = deviceService.queryVarsFromDevice(device);
         List<String> list = new ArrayList();
 
