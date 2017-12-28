@@ -70,7 +70,7 @@ public class IoDeviceController {
         deviceService.addIoDevices(channelLongName, deviceModel, entities);
         //TRUE TODO
         dataService.NoticeDeviceAdded();
-        Thread.sleep(3000);
+        Thread.sleep(1000);
         dataService.NoticeVariableAdded();
 
         return "Ok";
@@ -105,7 +105,7 @@ public class IoDeviceController {
         return false;
     }
 
-    private boolean addChannel(String driver_type, String channel_long_name) throws BusinessException {
+    private boolean addChannel(String driver_type, String channel_long_name) throws BusinessException, InterruptedException {
         if(channel_long_name==null) return false;
 
         List<IoChannel> channels = channelService.queryIoChannelsByMark(driver_type, -1);
@@ -117,6 +117,7 @@ public class IoDeviceController {
         channels.add(channel);
 
         int ret = channelService.addIoChannels(driver_type, channels);
+        Thread.sleep(1000);
         System.out.println("Add channel " + channel_long_name+ ", ret=" + ret);
 
         if (ret!=0){
@@ -133,7 +134,7 @@ public class IoDeviceController {
         return false;
     }
 
-    private boolean addDriver(String driver_type) throws BusinessException {
+    private boolean addDriver(String driver_type) throws BusinessException, InterruptedException {
         if(driver_type==null) return false;
         String uaServer = "ioserver";
 
@@ -145,7 +146,7 @@ public class IoDeviceController {
         entities.clear();
         entities.add(entity);
         int ret = driverService.addIoDrivers(uaServer, entities);
-
+        Thread.sleep(1000);
         if (ret!=0){
             dataService.NoticeDriverAdded();
             return true;

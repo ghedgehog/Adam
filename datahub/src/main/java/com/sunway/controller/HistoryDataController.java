@@ -35,7 +35,6 @@ public class HistoryDataController {
         String device = temp_map.get("device");
         String startTime = temp_map.get("startTime");
         String endTime = temp_map.get("endTime");
-        System.out.println("hisData~~~~~~~~~~~~~~~~");
         return historyDataService.readDeviceHistoryDataList(device, startTime, endTime);
     }
 

@@ -62,14 +62,13 @@ public class IoDeviceTemplateController {
     @RequestMapping(value = "/add-var")
     @ResponseBody
     public void addDeviceTempalteVar(@RequestBody Map<String, String> varMap) throws BusinessException {
-        System.out.println("进入了add-var方法");
         if(varMap.isEmpty()) return;
 
         String alarm = "";
         String template = varMap.get("ModelName");
-        for (Map.Entry<String, String> entry : varMap.entrySet()) {
+        /*for (Map.Entry<String, String> entry : varMap.entrySet()) {
             System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
-        }
+        }*/
         IoVariable var = buildVarMap2Xml(varMap);
         List<IoVariable> variableList = new ArrayList();
         variableList.add(var);
@@ -91,45 +90,6 @@ public class IoDeviceTemplateController {
         return deviceTemplateService.queryVarsByTemplate(template);
 
     }
-
-    /*@RequestMapping(value = "/add-var-test")
-    public String addVarTest(@RequestBody Map<String, String> temp_map) {
-        *//*for (Map.Entry<String, String> entry : temp_map.entrySet()) {
-            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
-        }
-        //创建变量
-        List<IoVariable> varlist = new ArrayList();
-        String model_name = temp_map.get("model_name");
-        String var_name = temp_map.get("var_name");
-        varlist.add(new IoVariable());
-        addDeviceTempalteVar(model_name, "",  varlist);*//*
-        return "menu";
-    }
-
-    @RequestMapping(value = "/add-test")
-    public String addDeviceTempalteTest() {
-        //创建模板
-        List<IoBaseEntity> entities = new ArrayList();
-        IoBaseEntity entity = new IoBaseEntity("mytemplate");
-        entities.add(entity);
-        //addDeviceTempalte(entities);
-        //创建变量
-        List<IoBaseEntity> varlist = new ArrayList();
-        varlist.add(new IoBaseEntity("pressure"));
-        varlist.add(new IoBaseEntity("temperature"));
-        varlist.add(new IoBaseEntity("water_volume"));
-        addDeviceTempalteVar("mytemplate", varlist);*//*
-        return "menu";
-    }
-
-    @RequestMapping(value = "/del-test")
-    public String delDeviceTempalteTest() {
-        List<IoBaseEntity> entities = new ArrayList();
-        IoBaseEntity entity = new IoBaseEntity("mytemplate");
-        entities.add(entity);
-        deleteDeviceTempalte(entities);
-        return "menu";
-    }*/
 
     private String getVarValueString(String varStr){
         if(varStr == null || varStr.isEmpty())
