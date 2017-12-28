@@ -1,7 +1,7 @@
 
 <link rel="stylesheet" href="AdminLTE-2.3.11/bootstrap-daterangepicker/daterangepicker.css"/>
 <section class="content">
-    <div class="col-md-5">
+    <div class="col-md-3">
         <!-- Custom Tabs -->
         <div class="col-md-offset-1">
 
@@ -19,11 +19,11 @@
             </div>
         </div>
     </div>
-    <div class="col-md-7">
+    <div class="col-md-8">
         <ul class="nav nav-pills">
             <li class="active"><a href="#tab_2-1" data-toggle="pill">实时数据</a></li>
-            <li><a href="#tab_2-2" data-toggle="pill">历史数据</a></li>
-            <li><a href="#tab_2-3" data-toggle="pill">报警监控</a></li>
+            <!--<li><a href="#tab_2-2" data-toggle="pill">历史数据</a></li>-->
+            <!--<li><a href="#tab_2-3" data-toggle="pill">报警监控</a></li>-->
         </ul>
         <div class="tab-content">
             <div class="tab-pane fade in active" id="tab_2-1">
@@ -38,7 +38,6 @@
                                 <th>值</th>
                                 <th>单位</th>
                                 <th>时间戳</th>
-                                <th>控制</th>
                                 <th>查看历史</th>
                             </tr>
                             </thead>
@@ -48,72 +47,72 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade in" id="tab_2-2">
-                <div class="box box-widget">
-                    <div class="box-header">
-                        <div class="row">
-                            <!--<div  class="col-md-3">-->
-                            <!--<select id="device_monitor" class="form-control" style="width: 100%;">-->
-                                <!--<option selected="selected">请选择监控设备</option>-->
-                            <!--</select>-->
-                            <!--</div>-->
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control pull-right" id="reservationtime"></input>
-                                </div>
-                                <div class="col-md-2">
-                                    <button type="button" class="btn btn-default" id="query_his" onclick="query_his()">查询</button>
-                                </div>
-                        </div>
-                    </div>
+            <!--<div class="tab-pane fade in" id="tab_2-2">-->
+                <!--<div class="box box-widget">-->
+                    <!--<div class="box-header">-->
+                        <!--<div class="row">-->
+                            <!--&lt;!&ndash;<div  class="col-md-3">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<select id="device_monitor" class="form-control" style="width: 100%;">&ndash;&gt;-->
+                                <!--&lt;!&ndash;<option selected="selected">请选择监控设备</option>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</select>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                <!--<div class="col-md-6">-->
+                                    <!--<input type="text" class="form-control pull-right" id="reservationtime"></input>-->
+                                <!--</div>-->
+                                <!--<div class="col-md-2">-->
+                                    <!--<button type="button" class="btn btn-default" id="query_his" onclick="query_his()">查询</button>-->
+                                <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
 
-                    <!--  table-bordered      /.box-header -->
-                    <div class="box-body">
-                        <table id="example4" class="table table-striped table-hover display ">
-                            <thead>
-                            <tr id="myth">
-                                <!--<th>时间戳</th>-->
-                                <!--<th>Location</th>-->
-                            </tr>
-                            </thead>
+                    <!--&lt;!&ndash;  table-bordered      /.box-header &ndash;&gt;-->
+                    <!--<div class="box-body">-->
+                        <!--<table id="example4" class="table table-striped table-hover display ">-->
+                            <!--<thead>-->
+                            <!--<tr id="myth">-->
+                                <!--&lt;!&ndash;<th>时间戳</th>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<th>Location</th>&ndash;&gt;-->
+                            <!--</tr>-->
+                            <!--</thead>-->
 
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane fade in" id="tab_2-3">
-                <div class="box box-widget">
-                    <div class="box-header">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default" data-btn-type="add" data-toggle="modal"
-                                    data-target="#myModal">新增
-                            </button>
-                            <button type="button" class="btn btn-default" data-btn-type="edit">编辑</button>
-                            <button type="button" class="btn btn-default" data-btn-type="delete" id="" onclick="delete_modal()">删除</button>
-                        </div>
-                    </div>
-                    <!--  table-bordered      /.box-header -->
-                    <div class="box-body">
-                        <table id="example2" class="table table-striped table-hover display ">
-                            <thead>
-                            <tr>
-                                <th>报警ID</th>
-                                <th>报警时间</th>
-                                <th>报警主题</th>
-                                <th>严重性</th>
-                                <th>类别</th>
-                                <!--<th>报警值</th>-->
-                                <!--<th>活跃状态</th>-->
-                                <!--<th>操作</th>-->
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+                            <!--<tbody>-->
+                            <!--</tbody>-->
+                        <!--</table>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="tab-pane fade in" id="tab_2-3">-->
+                <!--<div class="box box-widget">-->
+                    <!--<div class="box-header">-->
+                        <!--<div class="btn-group">-->
+                            <!--<button type="button" class="btn btn-default" data-btn-type="add" data-toggle="modal"-->
+                                    <!--data-target="#myModal">新增-->
+                            <!--</button>-->
+                            <!--<button type="button" class="btn btn-default" data-btn-type="edit">编辑</button>-->
+                            <!--<button type="button" class="btn btn-default" data-btn-type="delete" id="" onclick="delete_modal()">删除</button>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash;  table-bordered      /.box-header &ndash;&gt;-->
+                    <!--<div class="box-body">-->
+                        <!--<table id="example2" class="table table-striped table-hover display ">-->
+                            <!--<thead>-->
+                            <!--<tr>-->
+                                <!--<th>报警ID</th>-->
+                                <!--<th>报警时间</th>-->
+                                <!--<th>报警主题</th>-->
+                                <!--<th>严重性</th>-->
+                                <!--<th>类别</th>-->
+                                <!--&lt;!&ndash;<th>报警值</th>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<th>活跃状态</th>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<th>操作</th>&ndash;&gt;-->
+                            <!--</tr>-->
+                            <!--</thead>-->
+                            <!--<tbody>-->
+                            <!--</tbody>-->
+                        <!--</table>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
     </div>
 </section>
@@ -144,7 +143,7 @@
                 if (nameArray[i]==="time"){
 
                 }else{
-                    myArray[i]=new Array(nameArray[i],nameArray[i],valueArray[i],null,null,null,null);
+                    myArray[i]=new Array(nameArray[i],nameArray[i],valueArray[i],null,null,null);
                 }
 
                 //console.log("执行了myArray赋值操作");
@@ -213,7 +212,7 @@
             var rows = nameArray1.length;
             var d = new Date(valueArray2[0]);
             for(var i=0;i<rows;i++){
-                ss[i]=new Array(nameArray1[i],nameArray1[i],valueArray1[i],null,formatDate(d),null,null);
+                ss[i]=new Array(nameArray1[i],nameArray1[i],valueArray1[i],null,formatDate(d),null);
                 temp_table.oApi._fnAddData(oSettings, ss[i]);
             }
             /*]]>*/
@@ -296,111 +295,111 @@
             }, 1000);
         });
     });
-    function query_his(){
-        var time = $.trim($('#reservationtime').val());
-        var startTime = $.trim(time.substr(0,19));
-        var endTime = $.trim(time.substr(22));
-        var device = $("#device_list2 li.active").text();
-        console.log("选中的设备名称为："+device);
-        $.ajax({
-            type: "post",
-            async: true,
-            contentType : "application/json;charset=utf-8",
-            url: "his/read",
-            dataType:'json',
-            data: JSON.stringify({
-                "device":device,
-                "startTime":startTime,
-                "endTime":endTime
-            }),
-            success: function (data) {
-                console.log("请求历史数据成功，此时还未显示");
-                var myArray = new Array();
-                var nameArray1 = new Array();
-                var valueArray1 = new Array();
-                var nameArray2 = new Array();
-                var valueArray2 = new Array();
-                var columnList =[];
-                columnList.push("time");
-                //columnList.push("Location");
-                /*<![CDATA[*/
-                var column = 0;
-                for (var row=0;row<data.length;++row){
-                    var obj = data[row];//obj代表一行数据
-                    for ( var key in obj )
-                    {
-                        if(key==="time"){
-                            nameArray2.push(key);
-                            valueArray2.push(obj[key]);
-                        }else{
-                            nameArray1.push(key);//此数组代表有几个变量的名字
-                            valueArray1.push(obj[key]);
-                        }
-                    }
-                    var time = new Date(valueArray2[row]);
-                    var varCount = valueArray1.length;
-                    var rowArray = new Array();//时间 location 变量1 变量2 变量3......
-                    console.log("请求历史数据成功，表格内for循环");
-
-                    for(var j=0;j<varCount+2;++j){
-                        if(j==0){
-                            rowArray[j] = formatDate(time);
-                        }else{
-                            rowArray[j] = valueArray1[j-1];
-                        }
-                    }
-                    myArray[column++] = rowArray;
-                }
-
-                    console.log("表格中的所有数据："+myArray);
-                    var title = data[0];//obj代表一行数据
-                    for(var titleName in title )
-                    {
-                        if(titleName==="time"){
-                        }else{
-                            columnList.push(titleName);
-                        }
-                    }
-
-                console.log("列长"+columnList.length);
-                for(var test =0;test<columnList.length;++test){
-                    //console.log(columnList[test]);
-                    $('#myth').append("<th>"+columnList[test]+"</th>");
-                }
-                /*]]>*/
-                console.log("请求历史数据成功，初始化表格之前！！！");
-               var his_table = $('#example4').DataTable({
-                    "processing": true,
-                    "bPaginage": false,
-                    "bSort": false,
-                    "paginationType": "full_numbers",
-                    "bStateSave":true,
-                    "oLanguage": {
-                        "sLengthMenu": "每页显示 _MENU_ 条",
-                        "sZeroRecords": "没有找到符合条件的数据",
-                        "sInfo": "当前第 _START_ - _END_ 条　共计 _TOTAL_ 条",
-                        "sInfoEmpty": "没有记录",
-                        "sInfoFiltered": "(从 _MAX_ 条记录中过滤)",
-                        "sSearch": "搜索",
-                        "sProcessing": "数据加载中...",
-                        "oPaginate": {
-                            "sFirst": "首页",
-                            "sPrevious": "上一页",
-                            "sNext": "下一页",
-                            "sLast": "尾页"
-                        }
-                    },
-                    "bAutoWidth":true,
-//                "aLengthMenu": [
-//                    20, 30, 50
-//                ],
-                    "paging": false,
-                    "scrollY": "200px",
-                    "scrollCollapse": "true",
-                    "aaData":myArray
-                });
-            }, error: function (msg) {
-            }
-        });
-    }
+//    function query_his(){
+//        var time = $.trim($('#reservationtime').val());
+//        var startTime = $.trim(time.substr(0,19));
+//        var endTime = $.trim(time.substr(22));
+//        var device = $("#device_list2 li.active").text();
+//        console.log("选中的设备名称为："+device);
+//        $.ajax({
+//            type: "post",
+//            async: true,
+//            contentType : "application/json;charset=utf-8",
+//            url: "his/read",
+//            dataType:'json',
+//            data: JSON.stringify({
+//                "device":device,
+//                "startTime":startTime,
+//                "endTime":endTime
+//            }),
+//            success: function (data) {
+//                console.log("请求历史数据成功，此时还未显示");
+//                var myArray = new Array();
+//                var nameArray1 = new Array();
+//                var valueArray1 = new Array();
+//                var nameArray2 = new Array();
+//                var valueArray2 = new Array();
+//                var columnList =[];
+//                columnList.push("time");
+//                //columnList.push("Location");
+//                /*<![CDATA[*/
+//                var column = 0;
+//                for (var row=0;row<data.length;++row){
+//                    var obj = data[row];//obj代表一行数据
+//                    for ( var key in obj )
+//                    {
+//                        if(key==="time"){
+//                            nameArray2.push(key);
+//                            valueArray2.push(obj[key]);
+//                        }else{
+//                            nameArray1.push(key);//此数组代表有几个变量的名字
+//                            valueArray1.push(obj[key]);
+//                        }
+//                    }
+//                    var time = new Date(valueArray2[row]);
+//                    var varCount = valueArray1.length;
+//                    var rowArray = new Array();//时间 location 变量1 变量2 变量3......
+//                    console.log("请求历史数据成功，表格内for循环");
+//
+//                    for(var j=0;j<varCount+2;++j){
+//                        if(j==0){
+//                            rowArray[j] = formatDate(time);
+//                        }else{
+//                            rowArray[j] = valueArray1[j-1];
+//                        }
+//                    }
+//                    myArray[column++] = rowArray;
+//                }
+//
+//                    console.log("表格中的所有数据："+myArray);
+//                    var title = data[0];//obj代表一行数据
+//                    for(var titleName in title )
+//                    {
+//                        if(titleName==="time"){
+//                        }else{
+//                            columnList.push(titleName);
+//                        }
+//                    }
+//
+//                console.log("列长"+columnList.length);
+//                for(var test =0;test<columnList.length;++test){
+//                    //console.log(columnList[test]);
+//                    $('#myth').append("<th>"+columnList[test]+"</th>");
+//                }
+//                /*]]>*/
+//                console.log("请求历史数据成功，初始化表格之前！！！");
+//               var his_table = $('#example4').DataTable({
+//                    "processing": true,
+//                    "bPaginage": false,
+//                    "bSort": false,
+//                    "paginationType": "full_numbers",
+//                    "bStateSave":true,
+//                    "oLanguage": {
+//                        "sLengthMenu": "每页显示 _MENU_ 条",
+//                        "sZeroRecords": "没有找到符合条件的数据",
+//                        "sInfo": "当前第 _START_ - _END_ 条　共计 _TOTAL_ 条",
+//                        "sInfoEmpty": "没有记录",
+//                        "sInfoFiltered": "(从 _MAX_ 条记录中过滤)",
+//                        "sSearch": "搜索",
+//                        "sProcessing": "数据加载中...",
+//                        "oPaginate": {
+//                            "sFirst": "首页",
+//                            "sPrevious": "上一页",
+//                            "sNext": "下一页",
+//                            "sLast": "尾页"
+//                        }
+//                    },
+//                    "bAutoWidth":true,
+////                "aLengthMenu": [
+////                    20, 30, 50
+////                ],
+//                    "paging": false,
+//                    "scrollY": "200px",
+//                    "scrollCollapse": "true",
+//                    "aaData":myArray
+//                });
+//            }, error: function (msg) {
+//            }
+//        });
+//    }
 </script>

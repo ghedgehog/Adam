@@ -140,7 +140,8 @@
               </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="javascript:void(0);" id="data_monitor" onclick="data_monitor()">数据监控</a></li>
+                        <li><a href="javascript:void(0);" id="real_data" onclick="data_monitor()">实时数据</a></li>
+                        <li><a href="javascript:void(0);" id="his_data" onclick="his_data()">历史数据</a></li>
                     </ul>
                 </li>
                 <li class="treeview">
@@ -280,7 +281,21 @@
                 alert(data.responseText);
             }
         });
-        $("#data_monitor").parents('li').addClass('active').siblings('li').removeClass('active');
+        $("#real_data").parents('li').addClass('active').siblings('li').removeClass('active');
+    }
+
+    function his_data(){
+        $.ajax({
+            type: "GET",
+            async: true,
+            url: "his_data",
+            success: function (data) {
+                $("#mainDiv").html(data);
+            }, error: function (data) {
+                alert(data.responseText);
+            }
+        });
+        $("#his_data").parents('li').addClass('active').siblings('li').removeClass('active');
     }
     //   $(function(){
     //

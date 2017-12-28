@@ -117,5 +117,11 @@ public class LoginController {
         System.out.println("data_monitor...");
         return "data_monitor";
     }
+
+    @RequestMapping(value="/his_data")
+    public String his_data(){
+        System.out.println("his_data...");
+        return "his_data";
+    }
 }
 

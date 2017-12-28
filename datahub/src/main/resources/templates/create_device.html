@@ -1,3 +1,14 @@
+<style type="text/css">
+.form-group span.required {
+color: red;
+font-size: 200%;
+}
+/*.form-group label:after {*/
+    /*content: ' *';*/
+    /*color: red;*/
+    /*font-size: 150%;*/
+/*}*/
+</style>
 <section class="content-header" >
     <h1>
         连接管理
@@ -11,10 +22,10 @@
 <section class="content">
     <form class="form-horizontal" role="form" method = "post" action = 'starter' onsubmit="submitInfo()">
         <div class="box-body">
-            <div class="form-group"><label for="device_name" class="col-sm-2 control-label">设备名称：</label>
+            <div class="form-group"><label for="device_name" class="col-sm-2 control-label">设备名称：</label><span class="required">*</span>
                 <div class="col-sm-4"><input type="text" class="form-control" id="device_name"></input></div>
             </div>
-            <div class="form-group"><label for="driver_type" class="col-sm-2 control-label">驱动类型：</label>
+            <div class="form-group"><label for="driver_type" class="col-sm-2 control-label">驱动类型：</label><span class="required">*</span>
                 <div class="col-sm-4">
                 <!--<select class="form-control" id="driver_type"  style="width: 100%;">-->
                    <!--<option  th:each="list:${list222}" th:text="${list}"></option>-->
@@ -22,15 +33,15 @@
                 <select class="form-control" id="driver_type" >
                     <!--<option th:each="li:${lists}" th:value="${li}" th:each="areaInfo:${list222}" th:value="${areaInfo}" th:text="${areaInfo}"></option>-->
                     <!--<option  th:each="lists:${list_attr}" th:text="${lists}">aaa</option>-->
-                    <!--<option  th:text="${list_name}">bbb</option>-->
+                    <!--<option  th:text="${list_name}">bbb</option><span class="required">*</span>-->
                 </select>
                 </div>
             </div>
-            <div class="form-group"><label for="channel_name" class="col-sm-2 control-label">通道名：</label>
+            <div class="form-group"><label for="channel_name" class="col-sm-2 control-label">通道名：</label><span class="required">*</span>
                 <div class="col-sm-4"><input type="text" class="form-control" id="channel_name"></input>
                 </div>
             </div>
-            <div class="form-group"><label for="device_model" class="col-sm-2 control-label">设备模型：</label>
+            <div class="form-group"><label for="device_model" class="col-sm-2 control-label">设备模型：</label><span class="required">*</span>
                 <div class="col-sm-4"><select class="form-control" id="device_model" style="width: 100%;">
                     <option selected="selected">请选择设备模型</option>
                 </select>
